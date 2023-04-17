@@ -7,6 +7,8 @@ import br.unitins.ecommerce.dto.game.PlataformaResponseDTO;
 
 public interface PlataformaService {
     
+    // Metodos basicos
+    
     List<PlataformaResponseDTO> getAll();
 
     PlataformaResponseDTO findById(Long id);
@@ -17,8 +19,10 @@ public interface PlataformaService {
 
     void delete(Long id);
 
-    List<PlataformaResponseDTO> findByNome(String nome);
-
     long count();
+
+    // Metodos extras
+
+    List<PlataformaResponseDTO> findByNome(String nome);
 
 }
