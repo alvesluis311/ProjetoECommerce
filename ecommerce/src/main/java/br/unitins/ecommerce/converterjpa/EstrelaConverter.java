@@ -1,9 +1,9 @@
-package topicos1.unitins.projeto.converterjpa;
+package br.unitins.ecommerce.converterjpa;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import topicos1.unitins.projeto.model.produto.Estrela;
+import br.unitins.ecommerce.model.produto.avaliacao.Estrela;
 
 @Converter(autoApply = true)
 public class EstrelaConverter implements AttributeConverter<Estrela, Integer>{

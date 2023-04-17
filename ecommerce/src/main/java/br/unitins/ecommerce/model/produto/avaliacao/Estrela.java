@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.model.produto;
+package br.unitins.ecommerce.model.produto.avaliacao;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

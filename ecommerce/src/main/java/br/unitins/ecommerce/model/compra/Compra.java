@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.model.compra;
+package br.unitins.ecommerce.model.compra;
 
 import java.util.Date;
 import java.util.List;
@@ -10,16 +10,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import topicos1.unitins.projeto.model.DefaultEntity;
-import topicos1.unitins.projeto.model.endereco.Endereco;
-import topicos1.unitins.projeto.model.pagamento.Pagamento;
-import topicos1.unitins.projeto.model.usuario.Usuario;
+import br.unitins.ecommerce.model.DefaultEntity;
+import br.unitins.ecommerce.model.endereco.Endereco;
+import br.unitins.ecommerce.model.pagamento.Pagamento;
+import br.unitins.ecommerce.model.usuario.Usuario;
 
 @Entity
 public class Compra extends DefaultEntity {
 
     @Column(nullable = false)
-    private Date dataDaCompra;
+    private Date dataCompra;
 
     @Column(nullable = false)
     private Double totalCompra;
@@ -41,11 +41,11 @@ public class Compra extends DefaultEntity {
     private List<ItemCompra> itemCompra;
 
     public Date getDataDaCompra() {
-        return dataDaCompra;
+        return dataCompra;
     }
 
     public void setDataDaCompra(Date dataDaCompra) {
-        this.dataDaCompra = dataDaCompra;
+        this.dataCompra = dataDaCompra;
     }
 
     public Double getTotalCompra() {

@@ -1,9 +1,9 @@
-package topicos1.unitins.projeto.service;
+package br.unitins.ecommerce.service;
 
 import java.util.List;
 
-import topicos1.unitins.projeto.dto.GameDTO;
-import topicos1.unitins.projeto.dto.GameResponseDTO;
+import br.unitins.ecommerce.dto.game.GameDTO;
+import br.unitins.ecommerce.dto.game.GameResponseDTO;
 
 public interface GameService {
     

@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.model.produto.game;
+package br.unitins.ecommerce.model.produto.game;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

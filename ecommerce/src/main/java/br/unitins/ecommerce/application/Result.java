@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.application;
+package br.unitins.ecommerce.application;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,11 +11,13 @@ public class Result {
     private boolean success;
 
     public Result(String message) {
+       
         this.success = true;
         this.message = message;
     }
 
     public Result(Set<? extends ConstraintViolation<?>> violations) {
+       
         this.success = false;
         this.message = violations.stream()
              .map(cv -> cv.getMessage())

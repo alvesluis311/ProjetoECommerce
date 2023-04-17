@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.resource;
+package br.unitins.ecommerce.resource;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import topicos1.unitins.projeto.application.Result;
-import topicos1.unitins.projeto.dto.PlataformaDTO;
-import topicos1.unitins.projeto.dto.PlataformaResponseDTO;
-import topicos1.unitins.projeto.service.PlataformaService;
+import br.unitins.ecommerce.application.Result;
+import br.unitins.ecommerce.dto.game.PlataformaDTO;
+import br.unitins.ecommerce.dto.game.PlataformaResponseDTO;
+import br.unitins.ecommerce.service.PlataformaService;
 
 @Path("/plataformas")
 @Consumes(MediaType.APPLICATION_JSON)

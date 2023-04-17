@@ -1,9 +1,9 @@
-package topicos1.unitins.projeto.converterjpa;
+package br.unitins.ecommerce.converterjpa;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import topicos1.unitins.projeto.model.pagamento.BandeiraCartao;
+import br.unitins.ecommerce.model.pagamento.BandeiraCartao;
 
 @Converter(autoApply = true)
 public class BandeiraCartaoConverter implements AttributeConverter<BandeiraCartao, Integer>{

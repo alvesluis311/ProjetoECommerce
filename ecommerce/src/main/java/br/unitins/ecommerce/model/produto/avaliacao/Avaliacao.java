@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.model.produto;
+package br.unitins.ecommerce.model.produto.avaliacao;
 
 import java.util.Date;
 
@@ -8,8 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import topicos1.unitins.projeto.model.DefaultEntity;
-import topicos1.unitins.projeto.model.usuario.Usuario;
+import br.unitins.ecommerce.model.DefaultEntity;
+import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.usuario.Usuario;
 
 @Entity
 public class Avaliacao extends DefaultEntity {

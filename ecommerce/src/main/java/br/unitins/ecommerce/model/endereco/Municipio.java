@@ -1,11 +1,11 @@
-package topicos1.unitins.projeto.model.endereco;
+package br.unitins.ecommerce.model.endereco;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import topicos1.unitins.projeto.model.DefaultEntity;
+import br.unitins.ecommerce.model.DefaultEntity;
 
 @Entity
 public class Municipio extends DefaultEntity {
@@ -34,5 +34,3 @@ public class Municipio extends DefaultEntity {
     }
 
 }
-
-

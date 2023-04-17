@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.service;
+package br.unitins.ecommerce.service;
 
 import java.util.List;
 import java.util.Set;
@@ -9,17 +9,15 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-// import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.ws.rs.NotFoundException;
 
-import topicos1.unitins.projeto.dto.GameDTO;
-import topicos1.unitins.projeto.dto.GameResponseDTO;
-import topicos1.unitins.projeto.model.produto.game.Developer;
-import topicos1.unitins.projeto.model.produto.game.Game;
-// import br.unitins.topicos1.repository.PlataformaRepository;
-import topicos1.unitins.projeto.repository.GameRepository;
-import topicos1.unitins.projeto.repository.PlataformaRepository;
+import br.unitins.ecommerce.dto.game.GameDTO;
+import br.unitins.ecommerce.dto.game.GameResponseDTO;
+import br.unitins.ecommerce.model.produto.game.Developer;
+import br.unitins.ecommerce.model.produto.game.Game;
+import br.unitins.ecommerce.repository.GameRepository;
+import br.unitins.ecommerce.repository.PlataformaRepository;
 
 @ApplicationScoped
 public class GameServiceImpl implements GameService {
@@ -53,14 +51,14 @@ public class GameServiceImpl implements GameService {
         validar(gameDTO);
 
         Game entity = new Game();
-        entity.setNome(gameDTO.getNome());
-        entity.setDescricao(gameDTO.getDescricao());
-        entity.setPreco(gameDTO.getPreco());
-        entity.setEstoque(gameDTO.getEstoque());
-        entity.setDiretor(gameDTO.getDiretor());
-        entity.setAnoLancamento(gameDTO.getEstoque());
-        entity.setDeveloper(Developer.valueOf(gameDTO.getDeveloper()));
-        entity.setPlataforma(plataformaRepository.findByNome(gameDTO.getIdPlataforma()));
+        entity.setNome(gameDTO.nome());
+        entity.setDescricao(gameDTO.descricao());
+        entity.setPreco(gameDTO.preco());
+        entity.setEstoque(gameDTO.estoque());
+        entity.setDiretor(gameDTO.diretor());
+        entity.setAnoLancamento(gameDTO.estoque());
+        entity.setDeveloper(Developer.valueOf(gameDTO.developer()));
+        entity.setPlataforma(plataformaRepository.findByNome(gameDTO.idPlataforma()));
 
         gameRepository.persist(entity);
 
@@ -73,14 +71,14 @@ public class GameServiceImpl implements GameService {
         validar(gameDTO);
    
         Game entity = gameRepository.findById(id);
-        entity.setNome(gameDTO.getNome());
-        entity.setDescricao(gameDTO.getDescricao());
-        entity.setPreco(gameDTO.getPreco());
-        entity.setEstoque(gameDTO.getEstoque());
-        entity.setDiretor(gameDTO.getDiretor());
-        entity.setAnoLancamento(gameDTO.getEstoque());
-        entity.setDeveloper(Developer.valueOf(gameDTO.getDeveloper()));
-        entity.setPlataforma(plataformaRepository.findByNome(gameDTO.getIdPlataforma()));
+        entity.setNome(gameDTO.nome());
+        entity.setDescricao(gameDTO.descricao());
+        entity.setPreco(gameDTO.preco());
+        entity.setEstoque(gameDTO.estoque());
+        entity.setDiretor(gameDTO.diretor());
+        entity.setAnoLancamento(gameDTO.estoque());
+        entity.setDeveloper(Developer.valueOf(gameDTO.developer()));
+        entity.setPlataforma(plataformaRepository.findByNome(gameDTO.idPlataforma()));
 
         return new GameResponseDTO(entity);
     }

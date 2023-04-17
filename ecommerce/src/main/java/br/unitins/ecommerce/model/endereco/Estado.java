@@ -1,9 +1,9 @@
-package topicos1.unitins.projeto.model.endereco;
+package br.unitins.ecommerce.model.endereco;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import topicos1.unitins.projeto.model.DefaultEntity;
+import br.unitins.ecommerce.model.DefaultEntity;
 
 @Entity
 public class Estado extends DefaultEntity {
@@ -31,4 +31,3 @@ public class Estado extends DefaultEntity {
     }
 
 }
-

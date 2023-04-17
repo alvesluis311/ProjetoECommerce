@@ -1,5 +1,4 @@
-package topicos1.unitins.projeto.model.pagamento;
-
+package br.unitins.ecommerce.model.pagamento;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,12 +30,12 @@ public class CartaoCredito extends Pagamento {
         this.valor = valor;
     }
 
-    public String getNumeroCartao() {
+    public String getNumeroDoCartao() {
         return numeroCartao;
     }
 
-    public void setNumeroCartao(String numeroCartao) {
-        this.numeroCartao = numeroCartao;
+    public void setNumeroDoCartao(String numeroDoCartao) {
+        this.numeroCartao = numeroDoCartao;
     }
 
     public String getNomeImpressoCartao() {
@@ -47,12 +46,12 @@ public class CartaoCredito extends Pagamento {
         this.nomeImpressoCartao = nomeImpressoCartao;
     }
 
-    public String getCpfTitular() {
+    public String getCpfDoTitular() {
         return cpfTitular;
     }
 
-    public void setCpfTitular(String cpfTitular) {
-        this.cpfTitular = cpfTitular;
+    public void setCpfDoTitular(String cpfDoTitular) {
+        this.cpfTitular = cpfDoTitular;
     }
 
     public BandeiraCartao getBandeiraCartao() {
@@ -62,4 +61,5 @@ public class CartaoCredito extends Pagamento {
     public void setBandeiraCartao(BandeiraCartao bandeiraCartao) {
         this.bandeiraCartao = bandeiraCartao;
     }
+
 }

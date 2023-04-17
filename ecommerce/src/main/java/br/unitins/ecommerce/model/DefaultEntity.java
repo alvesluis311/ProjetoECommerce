@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.model;
+package br.unitins.ecommerce.model;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +11,7 @@ import javax.persistence.PreUpdate;
 
 @MappedSuperclass
 public abstract class DefaultEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,4 +44,3 @@ public abstract class DefaultEntity {
         return dataUpdate;
     }
 }
-

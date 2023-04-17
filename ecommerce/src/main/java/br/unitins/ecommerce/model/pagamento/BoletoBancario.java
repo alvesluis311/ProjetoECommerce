@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.model.pagamento;
+package br.unitins.ecommerce.model.pagamento;
 
 import java.util.Date;
 
@@ -11,10 +11,10 @@ import javax.persistence.PrimaryKeyJoinColumn;
 public class BoletoBancario extends Pagamento {
 
     @Column(nullable = false)
-    private String codigoDeBarra;
+    private String codigoBarra;
 
     @Column(nullable = false)
-    private Date dataDeGeracaoDoBoleto;
+    private Date dataGeracaoBoleto;
 
     @Column(nullable = false)
     private Double valor;
@@ -23,19 +23,19 @@ public class BoletoBancario extends Pagamento {
     private Date dataVencimento;
 
     public String getCodigoDeBarra() {
-        return codigoDeBarra;
+        return codigoBarra;
     }
 
     public void setCodigoDeBarra(String codigoDeBarra) {
-        this.codigoDeBarra = codigoDeBarra;
+        this.codigoBarra = codigoDeBarra;
     }
 
     public Date getDataDeGeracaoDoBoleto() {
-        return dataDeGeracaoDoBoleto;
+        return dataGeracaoBoleto;
     }
 
     public void setDataDeGeracaoDoBoleto(Date dataDeGeracaoDoBoleto) {
-        this.dataDeGeracaoDoBoleto = dataDeGeracaoDoBoleto;
+        this.dataGeracaoBoleto = dataDeGeracaoDoBoleto;
     }
 
     public Double getValor() {

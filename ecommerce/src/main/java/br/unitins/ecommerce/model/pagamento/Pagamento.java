@@ -1,5 +1,4 @@
-package topicos1.unitins.projeto.model.pagamento;
-
+package br.unitins.ecommerce.model.pagamento;
 
 import java.util.Date;
 
@@ -8,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-import topicos1.unitins.projeto.model.DefaultEntity;
+import br.unitins.ecommerce.model.DefaultEntity;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -17,7 +16,7 @@ public abstract class Pagamento extends DefaultEntity {
     @Column(nullable = false)
     private Boolean confirmacaoPagamento;
 
-    private Date dataDeConfirmacaoPagamento;
+    private Date dataConfirmacaoPagamento;
 
     public Boolean getConfirmacaoPagamento() {
         return confirmacaoPagamento;
@@ -28,12 +27,11 @@ public abstract class Pagamento extends DefaultEntity {
     }
 
     public Date getDataDeConfirmacaoPagamento() {
-        return dataDeConfirmacaoPagamento;
+        return dataConfirmacaoPagamento;
     }
 
     public void setDataDeConfirmacaoPagamento(Date dataDeConfirmacaoPagamento) {
-        this.dataDeConfirmacaoPagamento = dataDeConfirmacaoPagamento;
+        this.dataConfirmacaoPagamento = dataDeConfirmacaoPagamento;
     }
 
 }
-

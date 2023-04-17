@@ -1,18 +1,14 @@
-package topicos1.unitins.projeto.model.endereco;
+package br.unitins.ecommerce.model.endereco;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import topicos1.unitins.projeto.model.DefaultEntity;
-
+import br.unitins.ecommerce.model.DefaultEntity;
 
 @Entity
 public class Endereco extends DefaultEntity {
-
-    @Column(nullable = false)
-    private Boolean principal;
 
     @Column(nullable = false)
     private String logradouro;
@@ -23,7 +19,6 @@ public class Endereco extends DefaultEntity {
     @Column(nullable = false)
     private String numero;
 
-    @Column(nullable = false)
     private String complemento;
 
     @Column(nullable = false)
@@ -32,14 +27,6 @@ public class Endereco extends DefaultEntity {
     @ManyToOne
     @JoinColumn(name = "id_municipio", nullable = false)
     private Municipio municipio;
-
-    public Boolean getPrincipal() {
-        return principal;
-    }
-
-    public void setPrincipal(Boolean principal) {
-        this.principal = principal;
-    }
 
     public String getLogradouro() {
         return logradouro;
@@ -88,6 +75,4 @@ public class Endereco extends DefaultEntity {
     public void setMunicipio(Municipio municipio) {
         this.municipio = municipio;
     }
-
 }
-

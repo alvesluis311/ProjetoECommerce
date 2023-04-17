@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.model.pagamento;
+package br.unitins.ecommerce.model.pagamento;
 
 public enum BandeiraCartao {
 
@@ -39,4 +39,3 @@ public enum BandeiraCartao {
     }
 
 }
-

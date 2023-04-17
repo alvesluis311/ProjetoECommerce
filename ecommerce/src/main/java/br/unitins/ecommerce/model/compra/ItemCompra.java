@@ -1,13 +1,12 @@
-package topicos1.unitins.projeto.model.compra;
-
+package br.unitins.ecommerce.model.compra;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import topicos1.unitins.projeto.model.DefaultEntity;
-import topicos1.unitins.projeto.model.produto.Produto;
+import br.unitins.ecommerce.model.DefaultEntity;
+import br.unitins.ecommerce.model.produto.Produto;
 
 @Entity
 public class ItemCompra extends DefaultEntity {
@@ -47,4 +46,3 @@ public class ItemCompra extends DefaultEntity {
     }
 
 }
-

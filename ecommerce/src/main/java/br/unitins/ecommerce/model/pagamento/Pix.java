@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.model.pagamento;
+package br.unitins.ecommerce.model.pagamento;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,4 +31,3 @@ public class Pix extends Pagamento {
     }
 
 }
-

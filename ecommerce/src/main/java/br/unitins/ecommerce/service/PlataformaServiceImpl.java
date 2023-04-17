@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.service;
+package br.unitins.ecommerce.service;
 
 import java.util.List;
 import java.util.Set;
@@ -13,11 +13,11 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.ws.rs.NotFoundException;
 
-import topicos1.unitins.projeto.dto.PlataformaDTO;
-import topicos1.unitins.projeto.dto.PlataformaResponseDTO;
-import topicos1.unitins.projeto.model.produto.Fabricante;
-import topicos1.unitins.projeto.model.produto.Plataforma;
-import topicos1.unitins.projeto.repository.PlataformaRepository;
+import br.unitins.ecommerce.dto.game.PlataformaDTO;
+import br.unitins.ecommerce.dto.game.PlataformaResponseDTO;
+import br.unitins.ecommerce.model.produto.Fabricante;
+import br.unitins.ecommerce.model.produto.Plataforma;
+import br.unitins.ecommerce.repository.PlataformaRepository;
 
 @ApplicationScoped
 public class PlataformaServiceImpl implements PlataformaService {
@@ -48,10 +48,10 @@ public class PlataformaServiceImpl implements PlataformaService {
         validar(plataformaDTO);
 
         Plataforma entity = new Plataforma();
-        entity.setNome(plataformaDTO.getNome());
-        entity.setDescricao(plataformaDTO.getDescricao());
-        entity.setAnoLancamento(plataformaDTO.getAnoLancamento());
-        entity.setFabricante(Fabricante.valueOf(plataformaDTO.getFabricante()));
+        entity.setNome(plataformaDTO.nome());
+        entity.setDescricao(plataformaDTO.descricao());
+        entity.setAnoLancamento(plataformaDTO.anoLancamento());
+        entity.setFabricante(Fabricante.valueOf(plataformaDTO.fabricante()));
         plataformaRepository.persist(entity);
 
         return new PlataformaResponseDTO(entity);
@@ -63,10 +63,10 @@ public class PlataformaServiceImpl implements PlataformaService {
         validar(plataformaDTO);
    
         Plataforma entity = plataformaRepository.findById(id);
-        entity.setNome(plataformaDTO.getNome());
-        entity.setDescricao(plataformaDTO.getDescricao());
-        entity.setAnoLancamento(plataformaDTO.getAnoLancamento());
-        entity.setFabricante(Fabricante.valueOf(plataformaDTO.getFabricante()));
+        entity.setNome(plataformaDTO.nome());
+        entity.setDescricao(plataformaDTO.descricao());
+        entity.setAnoLancamento(plataformaDTO.anoLancamento());
+        entity.setFabricante(Fabricante.valueOf(plataformaDTO.fabricante()));
 
         return new PlataformaResponseDTO(entity);
     }

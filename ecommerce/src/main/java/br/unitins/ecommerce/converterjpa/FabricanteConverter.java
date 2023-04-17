@@ -1,9 +1,9 @@
-package topicos1.unitins.projeto.converterjpa;
+package br.unitins.ecommerce.converterjpa;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import topicos1.unitins.projeto.model.produto.Fabricante;
+import br.unitins.ecommerce.model.produto.Fabricante;
 
 @Converter(autoApply = true)
 public class FabricanteConverter implements AttributeConverter<Fabricante, Integer>{

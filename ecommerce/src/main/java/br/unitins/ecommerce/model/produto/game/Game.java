@@ -1,4 +1,4 @@
-package topicos1.unitins.projeto.model.produto.game;
+package br.unitins.ecommerce.model.produto.game;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import topicos1.unitins.projeto.model.produto.Plataforma;
-import topicos1.unitins.projeto.model.produto.Produto;
+import br.unitins.ecommerce.model.produto.Plataforma;
+import br.unitins.ecommerce.model.produto.Produto;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) 

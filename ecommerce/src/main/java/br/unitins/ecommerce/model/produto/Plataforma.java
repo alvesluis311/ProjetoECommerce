@@ -1,9 +1,9 @@
-package topicos1.unitins.projeto.model.produto;
+package br.unitins.ecommerce.model.produto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import topicos1.unitins.projeto.model.DefaultEntity;
+import br.unitins.ecommerce.model.DefaultEntity;
 
 @Entity
 public class Plataforma extends DefaultEntity {
