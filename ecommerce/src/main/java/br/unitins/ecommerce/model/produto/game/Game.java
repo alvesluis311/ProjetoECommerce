@@ -9,6 +9,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import br.unitins.ecommerce.model.produto.Plataforma;
@@ -25,14 +26,18 @@ public class Game extends Produto {
     @Column(nullable = false)
     private Integer anoLancamento;
 
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "id_developer")
     private Developer developer;
 
+    @Column(nullable = false)
+    private TipoGame tipoGame;
+
     @ManyToMany
-    @JoinTable(name = "plataforma_de_jogo",
+    @JoinTable(name = "plataformas_de_jogo",
     joinColumns = @JoinColumn(name = "id_game"),
     inverseJoinColumns = @JoinColumn(name = "id_plataforma"))
-    private List<Plataforma> plataforma;
+    private List<Plataforma> plataformas;
 
     public String getDiretor() {
         return diretor;
@@ -58,12 +63,21 @@ public class Game extends Produto {
         this.developer = developer;
     }
 
-    public List<Plataforma> getPlataforma() {
-        return plataforma;
+    public List<Plataforma> getPlataformas() {
+        return plataformas;
     }
 
-    public void setPlataforma(List<Plataforma> plataforma) {
-        this.plataforma = plataforma;
+    public void setPlataformas(List<Plataforma> plataformas) {
+        this.plataformas = plataformas;
     }
+
+    public TipoGame getTipoGame() {
+        return tipoGame;
+    }
+
+    public void setTipoGame(TipoGame tipoGame) {
+        this.tipoGame = tipoGame;
+    }
+
 
 }

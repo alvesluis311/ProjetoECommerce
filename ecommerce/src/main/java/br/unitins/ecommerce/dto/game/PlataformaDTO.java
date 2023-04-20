@@ -3,7 +3,6 @@ package br.unitins.ecommerce.dto.game;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public record PlataformaDTO (
@@ -14,7 +13,6 @@ public record PlataformaDTO (
 
     String descricao,
 
-    @NotNull
     Integer anoLancamento,
 
     @Enumerated(EnumType.STRING)

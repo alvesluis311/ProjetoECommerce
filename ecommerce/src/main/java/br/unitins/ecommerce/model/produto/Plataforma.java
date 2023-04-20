@@ -8,20 +8,21 @@ import br.unitins.ecommerce.model.DefaultEntity;
 @Entity
 public class Plataforma extends DefaultEntity {
 
+   
     @Column(nullable = false)
     private String nome;
 
     @Column(nullable = false)
     private String descricao;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private Integer anoLancamento;
 
     @Column(nullable = false)
     private Fabricante fabricante;
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public void setNome(String nome) {

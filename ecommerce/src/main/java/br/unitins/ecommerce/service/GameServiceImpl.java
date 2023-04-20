@@ -14,8 +14,9 @@ import javax.ws.rs.NotFoundException;
 
 import br.unitins.ecommerce.dto.game.GameDTO;
 import br.unitins.ecommerce.dto.game.GameResponseDTO;
-import br.unitins.ecommerce.model.produto.game.Developer;
 import br.unitins.ecommerce.model.produto.game.Game;
+import br.unitins.ecommerce.model.produto.game.TipoGame;
+import br.unitins.ecommerce.repository.DeveloperRepository;
 import br.unitins.ecommerce.repository.GameRepository;
 import br.unitins.ecommerce.repository.PlataformaRepository;
 
@@ -27,6 +28,9 @@ public class GameServiceImpl implements GameService {
 
     @Inject
     PlataformaRepository plataformaRepository;
+
+    @Inject
+    DeveloperRepository developerRepository;
 
     @Inject
     Validator validator;
@@ -56,9 +60,11 @@ public class GameServiceImpl implements GameService {
         entity.setPreco(gameDTO.preco());
         entity.setEstoque(gameDTO.estoque());
         entity.setDiretor(gameDTO.diretor());
-        entity.setAnoLancamento(gameDTO.estoque());
-        entity.setDeveloper(Developer.valueOf(gameDTO.developer()));
-        entity.setPlataforma(plataformaRepository.findByNome(gameDTO.idPlataforma()));
+        entity.setAnoLancamento(gameDTO.anoLancamento());
+        entity.setDeveloper(developerRepository.findById(gameDTO.idDeveloper()));
+        entity.setTipoGame(TipoGame.valueOf(gameDTO.tipoGame()));
+        entity.setPlataformas(plataformaRepository
+        .findById(gameDTO.idPlataformas()));
 
         gameRepository.persist(entity);
 
@@ -76,9 +82,11 @@ public class GameServiceImpl implements GameService {
         entity.setPreco(gameDTO.preco());
         entity.setEstoque(gameDTO.estoque());
         entity.setDiretor(gameDTO.diretor());
-        entity.setAnoLancamento(gameDTO.estoque());
-        entity.setDeveloper(Developer.valueOf(gameDTO.developer()));
-        entity.setPlataforma(plataformaRepository.findByNome(gameDTO.idPlataforma()));
+        entity.setAnoLancamento(gameDTO.anoLancamento());
+        entity.setDeveloper(developerRepository.findById(gameDTO.idDeveloper()));
+        entity.setTipoGame(TipoGame.valueOf(gameDTO.tipoGame()));
+        entity.setPlataformas(plataformaRepository
+        .findById(gameDTO.idPlataformas()));
 
         return new GameResponseDTO(entity);
     }
@@ -87,8 +95,6 @@ public class GameServiceImpl implements GameService {
         Set<ConstraintViolation<GameDTO>> violations = validator.validate(gameDTO);
         if (!violations.isEmpty())
             throw new ConstraintViolationException(violations);
-
-
     }
 
     @Override
