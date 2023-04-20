@@ -1,4 +1,4 @@
-package br.unitins.ecommerce.dto.game;
+package br.unitins.ecommerce.dto.developer;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

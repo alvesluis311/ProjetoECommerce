@@ -1,4 +1,4 @@
-package br.unitins.ecommerce.dto.game;
+package br.unitins.ecommerce.dto.plataforma;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;

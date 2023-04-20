@@ -18,9 +18,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import br.unitins.ecommerce.application.Result;
-import br.unitins.ecommerce.dto.game.PlataformaDTO;
-import br.unitins.ecommerce.dto.game.PlataformaResponseDTO;
-import br.unitins.ecommerce.service.PlataformaService;
+import br.unitins.ecommerce.dto.plataforma.PlataformaDTO;
+import br.unitins.ecommerce.dto.plataforma.PlataformaResponseDTO;
+import br.unitins.ecommerce.service.plataforma.PlataformaService;
 
 @Path("/plataformas")
 @Consumes(MediaType.APPLICATION_JSON)

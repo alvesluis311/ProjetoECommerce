@@ -1,4 +1,4 @@
-package br.unitins.ecommerce.service;
+package br.unitins.ecommerce.service.game;
 
 import java.util.List;
 import java.util.Set;

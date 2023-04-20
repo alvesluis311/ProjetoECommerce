@@ -18,9 +18,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import br.unitins.ecommerce.application.Result;
-import br.unitins.ecommerce.dto.game.DeveloperDTO;
-import br.unitins.ecommerce.dto.game.DeveloperResponseDTO;
-import br.unitins.ecommerce.service.DeveloperService;
+import br.unitins.ecommerce.dto.developer.DeveloperDTO;
+import br.unitins.ecommerce.dto.developer.DeveloperResponseDTO;
+import br.unitins.ecommerce.service.developer.DeveloperService;
 
 @Path("/developers")
 @Consumes(MediaType.APPLICATION_JSON)

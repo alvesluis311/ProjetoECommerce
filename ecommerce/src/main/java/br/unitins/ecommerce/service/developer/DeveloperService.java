@@ -1,9 +1,9 @@
-package br.unitins.ecommerce.service;
+package br.unitins.ecommerce.service.developer;
 
 import java.util.List;
 
-import br.unitins.ecommerce.dto.game.DeveloperDTO;
-import br.unitins.ecommerce.dto.game.DeveloperResponseDTO;
+import br.unitins.ecommerce.dto.developer.DeveloperDTO;
+import br.unitins.ecommerce.dto.developer.DeveloperResponseDTO;
 
 public interface DeveloperService {
 

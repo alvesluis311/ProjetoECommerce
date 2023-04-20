@@ -1,4 +1,4 @@
-package br.unitins.ecommerce.dto.game;
+package br.unitins.ecommerce.dto.developer;
 
 import br.unitins.ecommerce.model.produto.game.Developer;
 

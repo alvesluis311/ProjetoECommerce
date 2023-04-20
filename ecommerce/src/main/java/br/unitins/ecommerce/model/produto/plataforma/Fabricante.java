@@ -1,4 +1,4 @@
-package br.unitins.ecommerce.model.produto;
+package br.unitins.ecommerce.model.produto.plataforma;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

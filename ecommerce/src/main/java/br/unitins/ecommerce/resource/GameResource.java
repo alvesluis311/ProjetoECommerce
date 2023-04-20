@@ -20,7 +20,7 @@ import javax.ws.rs.core.Response.Status;
 import br.unitins.ecommerce.application.Result;
 import br.unitins.ecommerce.dto.game.GameDTO;
 import br.unitins.ecommerce.dto.game.GameResponseDTO;
-import br.unitins.ecommerce.service.GameService;
+import br.unitins.ecommerce.service.game.GameService;
 
 @Path("/games")
 @Consumes(MediaType.APPLICATION_JSON)

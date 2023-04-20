@@ -5,8 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import br.unitins.ecommerce.model.produto.Plataforma;
 import br.unitins.ecommerce.model.produto.game.Game;
+import br.unitins.ecommerce.model.produto.game.TipoGame;
+import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
 
 public record GameResponseDTO(
     Long id,
@@ -19,7 +20,7 @@ public record GameResponseDTO(
     String developer,
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    String tipoGame,
+    TipoGame tipoGame,
 
     Map<String, Object> plataformas
 ) {
@@ -33,7 +34,7 @@ public record GameResponseDTO(
             game.getDiretor(),
             game.getAnoLancamento(),
             game.getDeveloper().getNome(),
-            game.getTipoGame().getLabel(),
+            game.getTipoGame(),
             Map.of("nomes", game.getPlataformas().stream()
             .map(Plataforma::getNome).collect(Collectors.toList()))
         );

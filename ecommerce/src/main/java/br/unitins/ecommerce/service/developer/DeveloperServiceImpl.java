@@ -1,4 +1,4 @@
-package br.unitins.ecommerce.service;
+package br.unitins.ecommerce.service.developer;
 
 import java.util.List;
 import java.util.Set;
@@ -12,8 +12,8 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.ws.rs.NotFoundException;
 
-import br.unitins.ecommerce.dto.game.DeveloperDTO;
-import br.unitins.ecommerce.dto.game.DeveloperResponseDTO;
+import br.unitins.ecommerce.dto.developer.DeveloperDTO;
+import br.unitins.ecommerce.dto.developer.DeveloperResponseDTO;
 import br.unitins.ecommerce.model.produto.game.Developer;
 import br.unitins.ecommerce.repository.DeveloperRepository;
 import br.unitins.ecommerce.repository.PlataformaRepository;

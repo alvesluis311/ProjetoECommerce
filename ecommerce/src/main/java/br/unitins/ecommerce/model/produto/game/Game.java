@@ -12,8 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
-import br.unitins.ecommerce.model.produto.Plataforma;
 import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) 

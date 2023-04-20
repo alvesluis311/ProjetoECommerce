@@ -1,4 +1,4 @@
-package br.unitins.ecommerce.service;
+package br.unitins.ecommerce.service.plataforma;
 
 import java.util.List;
 import java.util.Set;
@@ -13,10 +13,10 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.ws.rs.NotFoundException;
 
-import br.unitins.ecommerce.dto.game.PlataformaDTO;
-import br.unitins.ecommerce.dto.game.PlataformaResponseDTO;
-import br.unitins.ecommerce.model.produto.Fabricante;
-import br.unitins.ecommerce.model.produto.Plataforma;
+import br.unitins.ecommerce.dto.plataforma.PlataformaDTO;
+import br.unitins.ecommerce.dto.plataforma.PlataformaResponseDTO;
+import br.unitins.ecommerce.model.produto.plataforma.Fabricante;
+import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
 import br.unitins.ecommerce.repository.PlataformaRepository;
 
 @ApplicationScoped

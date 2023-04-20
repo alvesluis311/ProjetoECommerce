@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import br.unitins.ecommerce.model.produto.Plataforma;
 
 @ApplicationScoped
 public class PlataformaRepository implements PanacheRepository<Plataforma> {

@@ -1,9 +1,9 @@
-package br.unitins.ecommerce.service;
+package br.unitins.ecommerce.service.plataforma;
 
 import java.util.List;
 
-import br.unitins.ecommerce.dto.game.PlataformaDTO;
-import br.unitins.ecommerce.dto.game.PlataformaResponseDTO;
+import br.unitins.ecommerce.dto.plataforma.PlataformaDTO;
+import br.unitins.ecommerce.dto.plataforma.PlataformaResponseDTO;
 
 public interface PlataformaService {
     
