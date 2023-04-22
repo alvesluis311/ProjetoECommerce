@@ -132,4 +132,56 @@ public class GameServiceImpl implements GameService {
         return gameRepository.count();
     }
 
+    @Override
+    public List<GameResponseDTO> findByPlataforma(String nome) throws NullPointerException {
+
+        List<Game> list = gameRepository.findByPlataforma(plataformaRepository.findByNome(nome).get(0));
+
+        if (list == null)
+            throw new NullPointerException("Nenhuma plataforma encontrada");
+
+        return list.stream()
+                    .map(GameResponseDTO::new)
+                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GameResponseDTO> filterByPrecoMin(Double preco) throws NullPointerException {
+        
+        List<Game> list = gameRepository.filterByPrecoMinimo(preco);
+
+        if (list == null)
+            throw new NullPointerException("Nenhum Café encontrada");
+
+        return list.stream()
+                    .map(GameResponseDTO::new)
+                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GameResponseDTO> filterByPrecoMax(Double preco) {
+        
+        List<Game> list = gameRepository.filterByPrecoMaximo(preco);
+
+        if (list == null)
+            throw new NullPointerException("Nenhum Café encontrada");
+
+        return list.stream()
+                    .map(GameResponseDTO::new)
+                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GameResponseDTO> filterByEntrePreco(Double precoMin, Double precoMax) {
+        
+        List<Game> list = gameRepository.filterByEntrePreco(precoMin, precoMax);
+
+        if (list == null)
+            throw new NullPointerException("Nenhum Café encontrada");
+
+        return list.stream()
+                    .map(GameResponseDTO::new)
+                    .collect(Collectors.toList());
+    }
+
 }

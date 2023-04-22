@@ -25,6 +25,15 @@ public interface GameService {
 
     List<GameResponseDTO> findByNome(String nome);
 
+    List<GameResponseDTO> findByPlataforma(String nome);
+
+    // metodos de filtragem
+
+    List<GameResponseDTO> filterByPrecoMin(Double preco);
+
+    List<GameResponseDTO> filterByPrecoMax(Double preco);
+
+    List<GameResponseDTO> filterByEntrePreco(Double precoMin, Double precoMax);
 
 
 }

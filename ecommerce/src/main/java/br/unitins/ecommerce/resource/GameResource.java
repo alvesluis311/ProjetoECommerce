@@ -91,5 +91,33 @@ public class GameResource {
         return gameService.findByNome(nome);
         
     }
+
+    @GET
+    @Path("/searchByPlataforma/{plataforma}")
+    public List<GameResponseDTO> getByPlataforma (@PathParam("plataforma") String nomePlataforma) throws NullPointerException {
+
+        return gameService.findByPlataforma(nomePlataforma);
+    }
+
+    @GET
+    @Path("/filterByPrecoMin/{precoMin}")
+    public List<GameResponseDTO> filterByPrecoMin (@PathParam("precoMin") Double preco) {
+
+        return gameService.filterByPrecoMin(preco);
+    }
+
+    @GET
+    @Path("/filterByPrecoMax/{precoMax}")
+    public List<GameResponseDTO> filterByPrecoMax (@PathParam("precoMax") Double preco) {
+
+        return gameService.filterByPrecoMax(preco);
+    }
+
+    @GET
+    @Path("/filterByEntrePreco/{precoMin}&{precoMax}")
+    public List<GameResponseDTO> filterByEntrePreco (@PathParam("precoMin") Double precoMin, @PathParam("precoMax") Double precoMax) {
+
+        return gameService.filterByEntrePreco(precoMin, precoMax);
+    }
     
 }
