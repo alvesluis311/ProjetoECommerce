@@ -19,6 +19,8 @@ import br.unitins.ecommerce.model.produto.game.TipoGame;
 import br.unitins.ecommerce.repository.DeveloperRepository;
 import br.unitins.ecommerce.repository.GameRepository;
 import br.unitins.ecommerce.repository.PlataformaRepository;
+import br.unitins.ecommerce.service.avaliacao.AvaliacaoService;
+import br.unitins.ecommerce.service.usuario.UsuarioService;
 
 @ApplicationScoped
 public class GameServiceImpl implements GameService {
@@ -34,6 +36,12 @@ public class GameServiceImpl implements GameService {
 
     @Inject
     Validator validator;
+
+    @Inject
+    UsuarioService usuarioService;
+
+    @Inject
+    AvaliacaoService avaliacaoService;
 
     @Override
     public List<GameResponseDTO> getAll() {
@@ -104,6 +112,10 @@ public class GameServiceImpl implements GameService {
             throw new IllegalArgumentException("Número inválido");
 
         Game game = gameRepository.findById(id);
+
+        avaliacaoService.delete(game);
+
+        usuarioService.deleteProdutoFromListaDesejo(game);
 
         if (gameRepository.isPersistent(game))
             gameRepository.deleteById(id);

@@ -1,4 +1,4 @@
-package topicos1;
+package br.unitins;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
