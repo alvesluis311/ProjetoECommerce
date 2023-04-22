@@ -80,21 +80,6 @@ public class PlataformaServiceImpl implements PlataformaService {
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) throws IllegalArgumentException, NotFoundException {
-        if (id == null)
-            throw new IllegalArgumentException("Número inválido");
-
-        Plataforma plataforma = plataformaRepository.findById(id);
-
-        if (plataformaRepository.isPersistent(plataforma))
-            plataformaRepository.deleteById(id);
-
-            else
-                throw new NotFoundException("Nenhum jogo encontrado");
-    }
-
-    @Override
     public List<PlataformaResponseDTO> findByNome(String nome) {
         List<Plataforma> list = plataformaRepository.findByNome(nome);
 

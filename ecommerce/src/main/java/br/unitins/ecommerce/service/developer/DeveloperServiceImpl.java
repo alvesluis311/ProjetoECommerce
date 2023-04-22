@@ -77,18 +77,6 @@ public class DeveloperServiceImpl implements DeveloperService {
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
-        if (id == null)
-            throw new IllegalArgumentException("Número inválido");
-
-        Developer developer = developerRepository.findById(id);
-
-        if (developerRepository.isPersistent(developer))
-            developerRepository.deleteById(id);
-    }
-
-    @Override
     public List<DeveloperResponseDTO> findByNome(String nome) {
         List<Developer> list = developerRepository.findByNome(nome);
         return list.stream().map(DeveloperResponseDTO::new).collect(Collectors.toList());

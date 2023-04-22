@@ -17,8 +17,6 @@ public interface PlataformaService {
 
     PlataformaResponseDTO update(Long id, PlataformaDTO plataformaDTO);
 
-    void delete(Long id);
-
     long count();
 
     // Metodos extras

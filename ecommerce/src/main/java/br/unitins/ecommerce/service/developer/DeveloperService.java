@@ -17,8 +17,6 @@ public interface DeveloperService {
 
     DeveloperResponseDTO update(Long id, DeveloperDTO developerDTO);
 
-    void delete(Long id);
-
     long count();
 
     // Metodos extras
