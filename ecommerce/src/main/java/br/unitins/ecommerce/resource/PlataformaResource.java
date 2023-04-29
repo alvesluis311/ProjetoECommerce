@@ -60,11 +60,16 @@ public class PlataformaResource {
     @Produces(MediaType.APPLICATION_JSON) // produz; retorna o metodo
     @Transactional // insert, delete e update
     public Response update(@PathParam("id") Long id, PlataformaDTO dto) {
+
         try {
-            PlataformaResponseDTO plataforma = plataformaService.update(id, dto);
-            return Response.ok(plataforma).build();
+            plataformaService.update(id, dto);
+            return Response
+                    .status(Status.NO_CONTENT) // 204
+                    .build();
         } catch(ConstraintViolationException e) {
+
             Result result = new Result(e.getConstraintViolations());
+            
             return Response.status(Status.NOT_FOUND).entity(result).build();
         }      
     }

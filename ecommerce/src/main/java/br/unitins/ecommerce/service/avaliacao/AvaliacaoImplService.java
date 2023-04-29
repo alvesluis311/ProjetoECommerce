@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -57,6 +58,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
     }
 
     @Override
+    @Transactional
     public AvaliacaoResponseDTO insert(AvaliacaoDTO avaliacaoDto) throws ConstraintViolationException {
 
         validar(avaliacaoDto);
@@ -79,6 +81,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
     }
 
     @Override
+    @Transactional
     public AvaliacaoResponseDTO update(Long id, AvaliacaoDTO avaliacaoDto) throws ConstraintViolationException {
 
         validar(avaliacaoDto);
@@ -99,22 +102,25 @@ public class AvaliacaoImplService implements AvaliacaoService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) throws IllegalArgumentException, NotFoundException {
 
         if (id == null)
-        throw new IllegalArgumentException("Número inválido");
+            throw new IllegalArgumentException("Número inválido");
 
         Avaliacao avaliacao = avaliacaoRepository.findById(id);
-        
-        if (avaliacaoRepository.isPersistent(avaliacao))
-        avaliacaoRepository.delete(avaliacao);
 
-    else
-        throw new NotFoundException("Nenhuma avaliação encontrado");
+        if (avaliacaoRepository.isPersistent(avaliacao))
+            avaliacaoRepository.delete(avaliacao);
+
+        else
+            throw new NotFoundException("Nenhuma avaliação encontrado");
     }
 
     @Override
+    @Transactional
     public void delete(Produto produto) {
+
         List<Avaliacao> listaAvaliacao = avaliacaoRepository.findByGame(produto);
 
         for (Avaliacao avaliacao : listaAvaliacao) {
@@ -150,6 +156,4 @@ public class AvaliacaoImplService implements AvaliacaoService {
             throw new ConstraintViolationException(violations);
 
     }
-
-    
 }

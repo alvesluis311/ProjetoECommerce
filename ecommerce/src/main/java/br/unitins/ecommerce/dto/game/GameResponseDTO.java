@@ -2,12 +2,12 @@ package br.unitins.ecommerce.dto.game;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import br.unitins.ecommerce.model.produto.game.Game;
 import br.unitins.ecommerce.model.produto.game.TipoGame;
 import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public record GameResponseDTO(
     Long id,
@@ -22,7 +22,7 @@ public record GameResponseDTO(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     TipoGame tipoGame,
 
-    Map<String, Object> plataformas
+    List<String> plataformas
 ) {
     public GameResponseDTO(Game game) {
         this(
@@ -35,9 +35,19 @@ public record GameResponseDTO(
             game.getAnoLancamento(),
             game.getDeveloper().getNome(),
             game.getTipoGame(),
-            Map.of("nomes", game.getPlataformas().stream()
-            .map(Plataforma::getNome).collect(Collectors.toList()))
-        );
+            viewPlataformas(game.getPlataformas()));
+    }
+
+    private static List<String> viewPlataformas (List<Plataforma> lista) {
+
+        List<String> listaPlataformas = new ArrayList<>();
+
+        for (Plataforma plataformas : lista) {
+
+            listaPlataformas.add(plataformas.getNome());
+        }
+
+        return listaPlataformas;
     }
 }
 

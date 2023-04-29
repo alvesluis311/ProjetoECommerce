@@ -62,12 +62,16 @@ public class GameResource {
     @Transactional // insert, delete e update
     public Response update(@PathParam("id") Long id, GameDTO dto) {
         try {
-            GameResponseDTO game = gameService.update(id, dto);
-            return Response.ok(game).build();
+            gameService.update(id, dto);
+            return Response
+                    .status(Status.NO_CONTENT) // 204
+                    .build();
         } catch(ConstraintViolationException e) {
+
             Result result = new Result(e.getConstraintViolations());
+            
             return Response.status(Status.NOT_FOUND).entity(result).build();
-        }      
+        }          
     }
 
     @DELETE
@@ -86,17 +90,10 @@ public class GameResource {
     }
 
     @GET
-    @Path("/search/{nome}")
+    @Path("/searchByNome/{nome}")
     public List<GameResponseDTO> search(@PathParam("nome") String nome){
         return gameService.findByNome(nome);
         
-    }
-
-    @GET
-    @Path("/searchByPlataforma/{plataforma}")
-    public List<GameResponseDTO> getByPlataforma (@PathParam("plataforma") String nomePlataforma) throws NullPointerException {
-
-        return gameService.findByPlataforma(nomePlataforma);
     }
 
     @GET
@@ -114,7 +111,7 @@ public class GameResource {
     }
 
     @GET
-    @Path("/filterByEntrePreco/{precoMin}&{precoMax}")
+    @Path("/filterByEntrePreco/{precoMin}/{precoMax}")
     public List<GameResponseDTO> filterByEntrePreco (@PathParam("precoMin") Double precoMin, @PathParam("precoMax") Double precoMax) {
 
         return gameService.filterByEntrePreco(precoMin, precoMax);

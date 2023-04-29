@@ -132,18 +132,7 @@ public class GameServiceImpl implements GameService {
         return gameRepository.count();
     }
 
-    @Override
-    public List<GameResponseDTO> findByPlataforma(String nome) throws NullPointerException {
-
-        List<Game> list = gameRepository.findByPlataforma(plataformaRepository.findByNome(nome).get(0));
-
-        if (list == null)
-            throw new NullPointerException("Nenhuma plataforma encontrada");
-
-        return list.stream()
-                    .map(GameResponseDTO::new)
-                    .collect(Collectors.toList());
-    }
+    
 
     @Override
     public List<GameResponseDTO> filterByPrecoMin(Double preco) throws NullPointerException {

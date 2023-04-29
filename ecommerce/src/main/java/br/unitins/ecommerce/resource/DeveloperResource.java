@@ -61,12 +61,16 @@ public class DeveloperResource {
     @Transactional // insert, delete e update
     public Response update(@PathParam("id") Long id, DeveloperDTO dto) {
         try {
-            DeveloperResponseDTO developer = developerService.update(id, dto);
-            return Response.ok(developer).build();
+            developerService.update(id, dto);
+            return Response
+                    .status(Status.NO_CONTENT) // 204
+                    .build();
         } catch(ConstraintViolationException e) {
+
             Result result = new Result(e.getConstraintViolations());
-            return Response.status(Status.NOT_FOUND).entity(result).build();
-        }      
+            
+            return Response.status(Status.NOT_FOUND).entity(result).build();    
+        }
     }
 
     @GET
