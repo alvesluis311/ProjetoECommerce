@@ -250,7 +250,7 @@ public class UsuarioImplService implements UsuarioService {
                     .collect(Collectors.toList());
     }
 
-    @Transactional
+  //  @Transactional
     private Telefone insertTelefone (TelefoneDTO telefoneDTO) throws ConstraintViolationException {
 
         validar(telefoneDTO);
@@ -265,19 +265,19 @@ public class UsuarioImplService implements UsuarioService {
         return telefone;
     }
 
-    @Transactional
+    //@Transactional
     private void deleteTelefone (Long id) throws NotFoundException, IllegalArgumentException {
 
-        if (id == null)
-            throw new IllegalArgumentException("Número inválido");
+        // if (id == null)
+        //     throw new IllegalArgumentException("Número inválido");
 
-        Telefone telefone = telefoneRepository.findById(id);
+        // Telefone telefone = telefoneRepository.findById(id);
 
-        if (telefoneRepository.isPersistent(telefone))
-            telefoneRepository.delete(telefone);
+        // if (telefoneRepository.isPersistent(telefone))
+        //     telefoneRepository.delete(telefone);
 
-        else
-            throw new NotFoundException("Nenhum Telefone encontrado");
+        // else
+        //     throw new NotFoundException("Nenhum Telefone encontrado");
     }
 
     private Endereco insertEndereco(EnderecoDTO enderecoDto) throws ConstraintViolationException {
@@ -303,7 +303,7 @@ public class UsuarioImplService implements UsuarioService {
         return endereco;
     }
 
-    @Transactional
+    //@Transactional
     private void deleteEndereco (Long id) throws NotFoundException, IllegalArgumentException {
 
         if (id == null)
@@ -352,5 +352,10 @@ public class UsuarioImplService implements UsuarioService {
         if (!violations.isEmpty())
             throw new ConstraintViolationException(violations);
 
+    }
+
+    @Override
+    public Usuario findByLoginAndSenha(String login, String senha) {
+        return usuarioRepository.findByLoginAndSenha(login, senha);
     }
 }

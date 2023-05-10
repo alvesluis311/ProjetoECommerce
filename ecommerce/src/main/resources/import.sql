@@ -205,24 +205,30 @@ insert into telefone (codigoarea, numero) values ('063', '98832-1250');
 
 
 
-insert into usuario (nome, email, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
-values ('João Aguiar', 'joao_aguiar@gmail.com', 'joao1234', '24568941318', 1, 2, 1);
+insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
+values ('João Aguiar', 'joao_aguiar@gmail.com', 'joaoaguiar', 'ZXChMgzI4VI5Jx+KKCL0AnuRaug9sWorJdV7iCDgWIDNVms7vyhaZeXP+5x26q6uDWKJmyQySZzE8hvoncjgCA==', '24568941318', 1, 2, 1);
 
-insert into usuario (nome, email, senha, cpf, id_endereco, id_telefone_principal)
-values ('Maria Fernanda', 'mariaF@gmail.com', 'senha1234', '08723462371', 3, 3);
+insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal)
+values ('Maria Fernanda', 'mariaF@gmail.com', 'mfernanada', 'x6JkviFo/CZc/dYoTsn+KjkyXu9rqbOwZ89vC1horO3B+ZT2N9nhquEvkFxm2WZahBpo5wgui91vSF00c1BYPA==', '08723462371', 3, 3);
 
-insert into usuario (nome, email, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
-values ('Paulo Vitor', 'paulo_gamer@gmail.com', 'pa1000ulo', '56712389045', 2, 4, 5);
+insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
+values ('Paulo Vitor', 'paulo_gamer@gmail.com', 'pgamer', 'EDCT26TOqyKJg1i5rpN/tOkmr8RSjKfPP1qdPhjlj+sA3Wd++oZFkG5YChaMMRndKipiyVxfL12CUYWybBk+aA==', '56712389045', 2, 4, 5);
 
-insert into usuario (nome, email, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
-values ('André Gustavo', 'andreg@gmail.com', 'andrezinho123', '01234567890', 5, 6, 7);
+insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
+values ('André Gustavo', 'andreg@gmail.com', 'andregustavo', 'RfXkjGmkLte9wfbrO9237FdQiMKPjlKk3soCKh7zYvhiZToYC/424oO8HClVYVrEvIZTwd5OVZsIj4C+q9k21w==', '01234567890', 5, 6, 7);
 
-insert into usuario (nome, email, senha, cpf, id_endereco, id_telefone_principal)
-values ('Marcelo da Silva', 'marcilva@gmail.com', 'password', '44455566699', 4, 8);
+insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal)
+values ('Marcelo da Silva', 'marcilva@gmail.com', 'marcelinho', 'Wp7loHTF7tvklCuczvAnLXJGWSBVrOS2VnsB6ZJvl4ysfhoYiH+U4Dl/DT9w2XQCqLV+uoQ/R7myAiT4sIEjew==', '44455566699', 4, 8);
 
-insert into usuario (nome, email, senha, cpf, id_endereco, id_telefone_principal) 
-values ('Marina Pereira', 'mpereira@gmail.com', 'mrnprr45', '98765432102', 4, 9);
+insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal) 
+values ('Marina Pereira', 'mpereira@gmail.com', 'mapereira', 'ccD5mRYxf9XgnDZUKjOq/Fx123hMiHQCX+nDp6j2iztugbW5q36cqqtxJy2dimLNpd6ZQHvDUKXQenN3Y5yiDQ==', '98765432102', 4, 9);
 
+-- joao1234
+-- senha1234
+-- pa1000ulo
+-- andrezinho123
+-- password
+-- mrnprr45
 
 
 insert into lista_desejo (id_usuario, id_produto) VALUES (1, 3);
@@ -250,3 +256,11 @@ values ('muito bom, quero comprar a DLC agora', '2023-01-18', 4, 5, 5);
 
 insert into avaliacao (comentario, data, estrela, id_produto, id_usuario) 
 values ('Uma das melhores experiências que ja vivi na minha vida foi jogando esse jogo', '2023-02-25', 5, 6, 6);
+
+insert into perfis (id_usuario, perfil) values (1, 'Admin');
+insert into perfis (id_usuario, perfil) values (1, 'User');
+insert into perfis (id_usuario, perfil) values (2, 'User');
+insert into perfis (id_usuario, perfil) values (3, 'User');
+insert into perfis (id_usuario, perfil) values (4, 'User');
+insert into perfis (id_usuario, perfil) values (5, 'User');
+insert into perfis (id_usuario, perfil) values (6, 'User');

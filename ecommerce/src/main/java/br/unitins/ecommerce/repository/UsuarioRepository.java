@@ -17,4 +17,10 @@ public class UsuarioRepository implements PanacheRepository<Usuario> {
 
         return find("FROM Usuario WHERE UPPER(UNACCENT(nome)) LIKE UNACCENT(?1)", "%" + nome.toUpperCase() + "%").list();
     }
+    public Usuario findByLoginAndSenha(String login, String senha){
+        if (login == null || senha == null)
+            return null;
+
+        return find("login = ?1 AND senha = ?2 ", login, senha).firstResult();
+    }
 }

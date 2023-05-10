@@ -2,6 +2,7 @@ package br.unitins.ecommerce.resource;
 
 import java.util.List;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -31,6 +32,7 @@ public class EstadoResource {
     EstadoService estadoService;
 
     @GET
+    @RolesAllowed({"Admin","User"})
     public List<EstadoResponseDTO> getAll() {
 
         return estadoService.getAll();
@@ -97,6 +99,7 @@ public class EstadoResource {
     }
 
     @GET
+    @RolesAllowed({"Admin"})
     @Path("/count")
     public Long count() {
 
