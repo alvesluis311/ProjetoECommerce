@@ -10,7 +10,7 @@ import io.restassured.http.ContentType;
 
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import br.unitins.ecommerce.dto.developer.DeveloperDTO;
 import br.unitins.ecommerce.dto.developer.DeveloperResponseDTO;

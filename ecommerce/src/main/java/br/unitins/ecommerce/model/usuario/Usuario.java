@@ -1,14 +1,17 @@
 package br.unitins.ecommerce.model.usuario;
 
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 import br.unitins.ecommerce.model.DefaultEntity;
 import br.unitins.ecommerce.model.endereco.Endereco;
@@ -20,14 +23,19 @@ import br.unitins.ecommerce.model.produto.Produto;
 @Entity
 public class Usuario extends DefaultEntity {
 
+    private String login;
+    private String senha;
+
+    @ElementCollection
+    @CollectionTable(name = "perfis", joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "id"))
+    @Column(name = "perfil", length = 30)
+    private Set<Perfil> perfis;
+
     @Column(nullable = false)
     private String nome;
 
     @Column(nullable = false, unique = true)
     private String email;
-
-    @Column(nullable = false)
-    private String senha;
 
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
@@ -38,6 +46,26 @@ public class Usuario extends DefaultEntity {
                 inverseJoinColumns = @JoinColumn(name = "id_produto"))
     // Criando uma tabela auxiliar
     private List<Produto> produtos;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public Set<Perfil> getPerfis() {
+        return perfis;
+    }
+
+    public void setPerfis(Set<Perfil> perfis) {
+        this.perfis = perfis;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
 
     @ManyToOne
     @JoinColumn(name = "id_endereco", nullable = false)
