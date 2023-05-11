@@ -2,6 +2,7 @@ package br.unitins.ecommerce.resource;
 
 import java.util.List;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -33,6 +34,7 @@ public class UsuarioResource {
     UsuarioService usuarioService;
 
     @GET
+    @RolesAllowed({"Admin"})
     public List<UsuarioResponseDTO> getAll() {
 
         return usuarioService.getAll();
@@ -40,6 +42,7 @@ public class UsuarioResource {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"Admin"})
     public UsuarioResponseDTO getById(@PathParam("id") Long id) throws NotFoundException {
 
         return usuarioService.getById(id);
@@ -47,12 +50,14 @@ public class UsuarioResource {
 
     @GET
     @Path("/lista_desejo/{idUsuario}")
+    @RolesAllowed({"Admin","User"})
     public ListaDesejoResponseDTO getListaDesejo(@PathParam("idUsuario") Long idUsuario) {
 
         return usuarioService.getListaDesejo(idUsuario);
     }
 
     @POST
+    @RolesAllowed({"Admin","User"})
     public Response insert(UsuarioDTO usuarioDto) {
 
         try {
@@ -74,6 +79,7 @@ public class UsuarioResource {
 
     @POST
     @Path("/lista_desejo")
+    @RolesAllowed({"Admin","User"})
     public Response insertListaDesejo(ListaDesejoDTO listaDto) {
 
         try {
@@ -96,6 +102,7 @@ public class UsuarioResource {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Admin","User"})
     public Response update(@PathParam("id") Long id, UsuarioDTO usuarioDto) {
 
         try {
@@ -118,6 +125,7 @@ public class UsuarioResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Admin","User"})
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException, NotFoundException {
 
         usuarioService.delete(id);
@@ -129,6 +137,7 @@ public class UsuarioResource {
 
     @DELETE
     @Path("/lista_desejo/{idUsuario}/{idProduto}")
+    @RolesAllowed({"Admin","User"})
     public Response deleteProdutoFromListaDesejo(@PathParam("idUsuario") Long idUsuario, @PathParam("idProduto") Long idProdutoListaDesejo) {
 
         usuarioService.deleteProdutoFromListaDesejo(idUsuario, idProdutoListaDesejo);
@@ -140,6 +149,7 @@ public class UsuarioResource {
 
     @GET
     @Path("/count")
+    @RolesAllowed({"Admin"})
     public Long count() {
 
         return usuarioService.count();
@@ -147,6 +157,7 @@ public class UsuarioResource {
 
     @GET
     @Path("/lista_desejo/count/{id}")
+    @RolesAllowed({"Admin","User"})
     public Integer countListaDesejo(@PathParam("id") Long id) {
 
         return usuarioService.countListaDesejo(id);
@@ -154,6 +165,7 @@ public class UsuarioResource {
 
     @GET
     @Path("/searchByNome/{nome}")
+    @RolesAllowed({"Admin"})
     public List<UsuarioResponseDTO> getByNome(@PathParam("nome") String nome) throws NullPointerException {
 
         return usuarioService.getByNome(nome);

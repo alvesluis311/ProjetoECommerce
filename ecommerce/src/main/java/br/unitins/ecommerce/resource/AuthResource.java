@@ -32,7 +32,7 @@ public class AuthResource {
     public Response login(AuthUsuarioDTO authDTO) {
         String hash = hashService.getHashSenha(authDTO.senha());
 
-        Usuario usuario = usuarioService.findByLoginAndSenha(authDTO.login(), hash);
+        Usuario usuario = usuarioService.getByLoginAndSenha(authDTO.login(), hash);
 
         if (usuario == null) {
             return Response.status(Status.NO_CONTENT)
