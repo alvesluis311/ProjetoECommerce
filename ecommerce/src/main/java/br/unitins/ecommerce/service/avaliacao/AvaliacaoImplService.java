@@ -121,7 +121,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
     @Transactional
     public void delete(Produto produto) {
 
-        List<Avaliacao> listaAvaliacao = avaliacaoRepository.findByGame(produto);
+        List<Avaliacao> listaAvaliacao = avaliacaoRepository.findByProduto(produto);
 
         for (Avaliacao avaliacao : listaAvaliacao) {
             

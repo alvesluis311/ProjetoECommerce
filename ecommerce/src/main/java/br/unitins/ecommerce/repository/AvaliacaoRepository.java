@@ -19,7 +19,7 @@ public class AvaliacaoRepository implements PanacheRepository<Avaliacao> {
         return find("FROM Avaliacao WHERE YEAR(data) = ?1", year).list();
     }
 
-    public List<Avaliacao> findByGame(Produto produto) {
+    public List<Avaliacao> findByProduto(Produto produto) {
 
         if (produto == null)
             return null;

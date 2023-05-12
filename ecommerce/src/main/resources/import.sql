@@ -187,8 +187,8 @@ insert into municipio (nome, id_estado) values ('Goiânia', 3);
 insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 12', 'Quadra 708 Sul', 'lote 10', '77082-012', 2);
 insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('avenida Bernado Sayão', 'Setor Aeroporto', 'número 3564', '77700-001', 3);
 insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('rua Piauí', 'Quadra 301 Norte', 'numero 102', '77030-030', 1);
-INSERT INTO endereco (logradouro, bairro, numero, cep, id_municipio) VALUES ('alameda 08', 'Quadra 1200 Sul', 'numero 092', '77092-839', 3);
-INSERT INTO endereco (logradouro, bairro, numero, cep, id_municipio) VALUES ('alameda 13', 'Setor Bueno', 'lote 18', '77903-029', 1);
+insert into endereco (logradouro, bairro, numero, cep, id_municipio) VALUES ('alameda 08', 'Quadra 1200 Sul', 'numero 092', '77092-839', 3);
+insert into endereco (logradouro, bairro, numero, cep, id_municipio) VALUES ('alameda 13', 'Setor Bueno', 'lote 18', '77903-029', 1);
 insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 5', 'Quadra 201 Norte', 'numero 12', '77010-840', 2);
 
 
@@ -203,25 +203,38 @@ insert into telefone (codigoarea, numero) values ('012', '99378-6412');
 insert into telefone (codigoarea, numero) values ('071', '99749-1046');
 insert into telefone (codigoarea, numero) values ('063', '98832-1250');
 
+insert into pessoa (nome) VALUES ('João Aguiar');
+insert into pessoa (nome) VALUES ('Maria Fernanda');
+insert into pessoa (nome) VALUES ('Paulo Vitor');
+insert into pessoa (nome) VALUES ('André Gustavo');
+insert into pessoa (nome) VALUES ('Marcelo da Silva');
+insert into pessoa (nome) VALUES ('Marina Pereira');
+
+INSERT INTO pessoaFisica (cpf, email, sexo, id) VALUES ('09112332145', 'joao_aguiar@gmail.com', 1, 1);
+INSERT INTO pessoaFisica (cpf, email, sexo, id) VALUES ('89114182345', 'mariaF@gmail.com', 2, 2);
+INSERT INTO pessoaFisica (cpf, email, sexo, id) VALUES ('19429301284', 'paulo_gamer@gmail.com', 1, 3);
+INSERT INTO pessoaFisica (cpf, email, sexo, id) VALUES ('90819287304', 'andreg@gmail.com', 1, 4);
+INSERT INTO pessoaFisica (cpf, email, sexo, id) VALUES ('92874291092', 'marcilva@gmail.com', 1, 5);
+INSERT INTO pessoaFisica (cpf, email, sexo, id) VALUES ('02484871941', 'mpereira@gmail.com', 2, 6);
 
 
-insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
-values ('João Aguiar', 'joao_aguiar@gmail.com', 'joaoaguiar', 'ZXChMgzI4VI5Jx+KKCL0AnuRaug9sWorJdV7iCDgWIDNVms7vyhaZeXP+5x26q6uDWKJmyQySZzE8hvoncjgCA==', '24568941318', 1, 2, 1);
+insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal, id_telefone_opcional)
+values (1, 'joaoaguiar', 'ZXChMgzI4VI5Jx+KKCL0AnuRaug9sWorJdV7iCDgWIDNVms7vyhaZeXP+5x26q6uDWKJmyQySZzE8hvoncjgCA==', 1, 2, 1);
 
-insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal)
-values ('Maria Fernanda', 'mariaF@gmail.com', 'mfernanada', 'x6JkviFo/CZc/dYoTsn+KjkyXu9rqbOwZ89vC1horO3B+ZT2N9nhquEvkFxm2WZahBpo5wgui91vSF00c1BYPA==', '08723462371', 3, 3);
+insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal)
+values (2, 'mfernanada', 'x6JkviFo/CZc/dYoTsn+KjkyXu9rqbOwZ89vC1horO3B+ZT2N9nhquEvkFxm2WZahBpo5wgui91vSF00c1BYPA==', 3, 3);
 
-insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
-values ('Paulo Vitor', 'paulo_gamer@gmail.com', 'pgamer', 'EDCT26TOqyKJg1i5rpN/tOkmr8RSjKfPP1qdPhjlj+sA3Wd++oZFkG5YChaMMRndKipiyVxfL12CUYWybBk+aA==', '56712389045', 2, 4, 5);
+insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal, id_telefone_opcional)
+values (3, 'pgamer', 'EDCT26TOqyKJg1i5rpN/tOkmr8RSjKfPP1qdPhjlj+sA3Wd++oZFkG5YChaMMRndKipiyVxfL12CUYWybBk+aA==', 2, 4, 5);
 
-insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
-values ('André Gustavo', 'andreg@gmail.com', 'andregustavo', 'RfXkjGmkLte9wfbrO9237FdQiMKPjlKk3soCKh7zYvhiZToYC/424oO8HClVYVrEvIZTwd5OVZsIj4C+q9k21w==', '01234567890', 5, 6, 7);
+insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal, id_telefone_opcional)
+values (4, 'andregustavo', 'RfXkjGmkLte9wfbrO9237FdQiMKPjlKk3soCKh7zYvhiZToYC/424oO8HClVYVrEvIZTwd5OVZsIj4C+q9k21w==', 5, 6, 7);
 
-insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal)
-values ('Marcelo da Silva', 'marcilva@gmail.com', 'marcelinho', 'Wp7loHTF7tvklCuczvAnLXJGWSBVrOS2VnsB6ZJvl4ysfhoYiH+U4Dl/DT9w2XQCqLV+uoQ/R7myAiT4sIEjew==', '44455566699', 4, 8);
+insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal)
+values (5, 'marcelinho', 'Wp7loHTF7tvklCuczvAnLXJGWSBVrOS2VnsB6ZJvl4ysfhoYiH+U4Dl/DT9w2XQCqLV+uoQ/R7myAiT4sIEjew==', 4, 8);
 
-insert into usuario (nome, email, login, senha, cpf, id_endereco, id_telefone_principal) 
-values ('Marina Pereira', 'mpereira@gmail.com', 'mapereira', 'ccD5mRYxf9XgnDZUKjOq/Fx123hMiHQCX+nDp6j2iztugbW5q36cqqtxJy2dimLNpd6ZQHvDUKXQenN3Y5yiDQ==', '98765432102', 4, 9);
+insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal) 
+values (6, 'mapereira', 'ccD5mRYxf9XgnDZUKjOq/Fx123hMiHQCX+nDp6j2iztugbW5q36cqqtxJy2dimLNpd6ZQHvDUKXQenN3Y5yiDQ==', 4, 9);
 
 -- joao1234
 -- senha1234
@@ -230,12 +243,20 @@ values ('Marina Pereira', 'mpereira@gmail.com', 'mapereira', 'ccD5mRYxf9XgnDZUKj
 -- password
 -- mrnprr45
 
+insert into perfis (id_usuario, perfil) values (1, 'Admin');
+insert into perfis (id_usuario, perfil) values (1, 'User');
+insert into perfis (id_usuario, perfil) values (2, 'User');
+insert into perfis (id_usuario, perfil) values (3, 'User');
+insert into perfis (id_usuario, perfil) values (4, 'User');
+insert into perfis (id_usuario, perfil) values (5, 'User');
+insert into perfis (id_usuario, perfil) values (6, 'User');
 
-insert into lista_desejo (id_usuario, id_produto) VALUES (1, 3);
+
+insert into lista_desejo (id_usuario, id_produto) VALUES (6, 4);
 insert into lista_desejo (id_usuario, id_produto) VALUES (2, 3);
-insert into lista_desejo (id_usuario, id_produto) VALUES (1, 1);
-insert into lista_desejo (id_usuario, id_produto) VALUES (1, 5);
-insert into lista_desejo (id_usuario, id_produto) VALUES (4, 4);
+insert into lista_desejo (id_usuario, id_produto) VALUES (3, 5);
+insert into lista_desejo (id_usuario, id_produto) VALUES (2, 2);
+insert into lista_desejo (id_usuario, id_produto) VALUES (4, 1);
 
 
 
@@ -257,10 +278,4 @@ values ('muito bom, quero comprar a DLC agora', '2023-01-18', 4, 5, 5);
 insert into avaliacao (comentario, data, estrela, id_produto, id_usuario) 
 values ('Uma das melhores experiências que ja vivi na minha vida foi jogando esse jogo', '2023-02-25', 5, 6, 6);
 
-insert into perfis (id_usuario, perfil) values (1, 'Admin');
-insert into perfis (id_usuario, perfil) values (1, 'User');
-insert into perfis (id_usuario, perfil) values (2, 'User');
-insert into perfis (id_usuario, perfil) values (3, 'User');
-insert into perfis (id_usuario, perfil) values (4, 'User');
-insert into perfis (id_usuario, perfil) values (5, 'User');
-insert into perfis (id_usuario, perfil) values (6, 'User');
+

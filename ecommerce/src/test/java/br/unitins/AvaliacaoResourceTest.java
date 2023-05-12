@@ -13,6 +13,9 @@ import org.junit.jupiter.api.Test;
 import br.unitins.ecommerce.dto.avaliacao.AvaliacaoDTO;
 import br.unitins.ecommerce.dto.avaliacao.AvaliacaoResponseDTO;
 import br.unitins.ecommerce.service.avaliacao.AvaliacaoService;
+import br.unitins.ecommerce.service.hash.HashService;
+import br.unitins.ecommerce.service.token.TokenJwtService;
+import br.unitins.ecommerce.service.usuario.UsuarioService;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 
@@ -21,6 +24,16 @@ public class AvaliacaoResourceTest {
 
     @Inject
     AvaliacaoService avaliacaoService;
+
+    @Inject
+    UsuarioService usuarioService;
+
+    @Inject
+    HashService hashService;
+
+    @Inject
+    TokenJwtService tokenJwtService;
+    
 
     @Test
     public void getAllTest() {
@@ -63,9 +76,19 @@ public class AvaliacaoResourceTest {
                 .when().post("/avaliacoes")
                 .then()
                 .statusCode(201)
-                .body("id", notNullValue(), "comentario", is("Ruim"), "estrela.label", is("⭐"), "produto.id", is(2),
-                        "produto.nome", is("God of War Ragnarok"), "usuario.id", is(1), "usuario.nome",
-                        is("João Aguiar"), "usuario.email", is("joao_aguiar@gmail.com"));
+                .body("id", notNullValue(),
+                 "comentario", is("Ruim"),
+                  "estrela.label",
+                   is("⭐"),
+                    "produto.id",
+                     is(2),
+                      "produto.nome",
+                       is("God of War Ragnarok"),
+                        "usuario.id", is(1),
+                         "usuario.login",
+                          is("joaoaguiar"),
+                           "usuario.email",
+                            is("joao_aguiar@gmail.com"));
     }
 
     @Test
@@ -100,7 +123,7 @@ public class AvaliacaoResourceTest {
         assertThat(avaliacaoResponse.produto().get("id"), is(2l));
         assertThat(avaliacaoResponse.produto().get("nome"), is("God of War Ragnarok"));
         assertThat(avaliacaoResponse.usuario().get("id"), is(1l));
-        assertThat(avaliacaoResponse.usuario().get("nome"), is("João Aguiar"));
+        assertThat(avaliacaoResponse.usuario().get("login"), is("joaoaguiar"));
         assertThat(avaliacaoResponse.usuario().get("email"), is("joao_aguiar@gmail.com"));
 
     }

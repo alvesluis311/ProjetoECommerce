@@ -56,6 +56,14 @@ public class Usuario extends DefaultEntity {
         return senha;
     }
 
+    public void setPerfis(Set<Perfil> perfis) {
+        this.perfis = perfis;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
+
     public void setSenha(String senha) {
         this.senha = senha;
     }
