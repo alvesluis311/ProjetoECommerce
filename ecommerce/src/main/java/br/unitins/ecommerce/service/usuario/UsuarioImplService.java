@@ -253,6 +253,16 @@ public class UsuarioImplService implements UsuarioService {
     }
 
     @Override
+    public UsuarioResponseDTO getByLogin(String login) {
+
+        Usuario usuario = usuarioRepository.getByLogin(login);
+        if (usuario == null) {
+            throw new NullPointerException("usuario não encontrado");
+        }
+        return new UsuarioResponseDTO(usuario);
+    }
+
+    @Override
     public Usuario getByLoginAndSenha(String login, String senha) {
 
         return usuarioRepository.findByLoginAndSenha(login, senha);
@@ -364,11 +374,5 @@ public class UsuarioImplService implements UsuarioService {
 
     }
 
-    @Override
-    public UsuarioResponseDTO getByLogin(String login) {
-        Usuario usuario = usuarioRepository.findByLogin(login);
-        if (usuario == null)
-            throw new NotFoundException("Usuário não encontrado.");
-        return UsuarioResponseDTO.valueOf(usuario);
-    }
+    
 }

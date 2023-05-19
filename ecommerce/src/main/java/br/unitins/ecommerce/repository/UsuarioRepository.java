@@ -26,7 +26,7 @@ public class UsuarioRepository implements PanacheRepository<Usuario> {
         return find("login = ?1 AND senha = ?2 ", login, senha).firstResult();
     }
     
-    public Usuario findByLogin(String login){
+    public Usuario getByLogin(String login){
         if (login == null)
             return null;
 

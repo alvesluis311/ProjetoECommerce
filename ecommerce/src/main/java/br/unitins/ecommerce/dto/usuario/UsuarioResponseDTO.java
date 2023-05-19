@@ -40,29 +40,6 @@ public record UsuarioResponseDTO(
                                                 : null);
     }
 
-    public static UsuarioResponseDTO valueOf(Usuario usuario) {
-        if (usuario.getPessoaFisica() == null) 
-            return new UsuarioResponseDTO(usuario.getId(), null, usuario.getLogin(), null, null, null, null, null);
-        
-        return new UsuarioResponseDTO(usuario.getId(),
-        usuario.getPessoaFisica().getNome(),
-            usuario.getLogin(),
-            usuario.getPessoaFisica().getEmail(),
-            usuario.getPessoaFisica().getCpf(),
-            viewEndereco(usuario.getEndereco().getLogradouro(),
-                        usuario.getEndereco().getBairro(), 
-                        usuario.getEndereco().getNumero(), 
-                        usuario.getEndereco().getComplemento(), 
-                        usuario.getEndereco().getCep(),
-                        usuario.getEndereco().getMunicipio()),
-            viewTelefone(usuario.getTelefonePrincipal().getCodigoArea(), 
-                        usuario.getTelefonePrincipal().getNumero()),
-            usuario.getTelefoneOpcional() != null?
-                                                viewTelefone(usuario.getTelefoneOpcional().getCodigoArea(),
-                                                            usuario.getTelefoneOpcional().getNumero())
-                                                : null);
-        }
-
     
     private static Map<String, Object> viewEndereco (String logradouro, String bairro, String numero, String complemento, String cep, Municipio municipio) {
 
