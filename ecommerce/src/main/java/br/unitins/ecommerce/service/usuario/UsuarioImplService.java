@@ -363,4 +363,12 @@ public class UsuarioImplService implements UsuarioService {
             throw new ConstraintViolationException(violations);
 
     }
+
+    @Override
+    public UsuarioResponseDTO getByLogin(String login) {
+        Usuario usuario = usuarioRepository.findByLogin(login);
+        if (usuario == null)
+            throw new NotFoundException("Usuário não encontrado.");
+        return UsuarioResponseDTO.valueOf(usuario);
+    }
 }

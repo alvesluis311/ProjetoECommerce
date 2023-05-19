@@ -19,6 +19,8 @@ public interface UsuarioService {
 
     Usuario getByLoginAndSenha(String login, String senha);
 
+    UsuarioResponseDTO getByLogin(String login);
+
     UsuarioResponseDTO insert(UsuarioDTO usuarioDto);
 
     UsuarioResponseDTO update(Long id, UsuarioDTO usuarioDto);
