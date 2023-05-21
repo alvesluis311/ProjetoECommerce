@@ -7,7 +7,6 @@ import br.unitins.ecommerce.dto.endereco.EnderecoResponseDTO;
 import br.unitins.ecommerce.dto.telefone.TelefoneDTO;
 import br.unitins.ecommerce.dto.telefone.TelefonesResponseDTO;
 import br.unitins.ecommerce.dto.usuario.SenhaDTO;
-import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
 import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisDTO;
 import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisResponseDTO;
 import br.unitins.ecommerce.model.usuario.Usuario;
