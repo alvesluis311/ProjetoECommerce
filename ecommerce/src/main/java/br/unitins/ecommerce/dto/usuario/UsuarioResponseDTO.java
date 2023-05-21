@@ -39,7 +39,6 @@ public record UsuarioResponseDTO(
                                                             usuario.getTelefoneOpcional().getNumero())
                                                 : null);
     }
-
     
     private static Map<String, Object> viewEndereco (String logradouro, String bairro, String numero, String complemento, String cep, Municipio municipio) {
 
@@ -65,7 +64,7 @@ public record UsuarioResponseDTO(
         return municipio;
     }
 
-    private static Map<String, Object> viewTelefone (String codigoArea, String numero) {
+    public static Map<String, Object> viewTelefone (String codigoArea, String numero) {
 
         Map<String, Object> telefone = new HashMap<>();
 

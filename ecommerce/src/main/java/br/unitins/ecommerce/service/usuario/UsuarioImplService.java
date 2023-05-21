@@ -10,18 +10,22 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
+import jakarta.ws.rs.NotAuthorizedException;
 import jakarta.ws.rs.NotFoundException;
 
 import br.unitins.ecommerce.dto.endereco.EnderecoDTO;
 import br.unitins.ecommerce.dto.telefone.TelefoneDTO;
 import br.unitins.ecommerce.dto.usuario.PessoaFisicaDTO;
+import br.unitins.ecommerce.dto.usuario.SenhaDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
+import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoResponseDTO;
 import br.unitins.ecommerce.model.endereco.Endereco;
 import br.unitins.ecommerce.model.produto.Produto;
 import br.unitins.ecommerce.model.usuario.PessoaFisica;
+import br.unitins.ecommerce.model.usuario.Sexo;
 import br.unitins.ecommerce.model.usuario.Telefone;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.GameRepository;
@@ -29,6 +33,7 @@ import br.unitins.ecommerce.repository.EnderecoRepository;
 import br.unitins.ecommerce.repository.MunicipioRepository;
 import br.unitins.ecommerce.repository.TelefoneRepository;
 import br.unitins.ecommerce.repository.UsuarioRepository;
+import br.unitins.ecommerce.service.hash.HashService;
 import br.unitins.ecommerce.service.pessoafisica.PessoaFisicaService;
 
 @ApplicationScoped
@@ -36,6 +41,9 @@ public class UsuarioImplService implements UsuarioService {
 
     @Inject
     Validator validator;
+
+    @Inject
+    HashService hashService;
 
     @Inject
     UsuarioRepository usuarioRepository;
@@ -57,16 +65,16 @@ public class UsuarioImplService implements UsuarioService {
 
     @Override
     public List<UsuarioResponseDTO> getAll() {
-        
+
         return usuarioRepository.findAll()
-                                    .stream()
-                                    .map(UsuarioResponseDTO::new)
-                                    .collect(Collectors.toList());
+                .stream()
+                .map(UsuarioResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
     public UsuarioResponseDTO getById(Long id) throws NotFoundException {
-        
+
         Usuario usuario = usuarioRepository.findById(id);
 
         if (usuario == null)
@@ -77,7 +85,7 @@ public class UsuarioImplService implements UsuarioService {
 
     @Override
     public ListaDesejoResponseDTO getListaDesejo(Long id) throws NullPointerException {
-        
+
         Usuario usuario = usuarioRepository.findById(id);
 
         if (usuario == null)
@@ -89,7 +97,7 @@ public class UsuarioImplService implements UsuarioService {
     @Override
     @Transactional
     public UsuarioResponseDTO insert(UsuarioDTO usuarioDto) throws ConstraintViolationException {
-        
+
         validar(usuarioDto);
 
         Usuario entity = new Usuario();
@@ -98,8 +106,8 @@ public class UsuarioImplService implements UsuarioService {
 
         entity.setLogin(usuarioDto.login());
 
-        entity.setSenha(usuarioDto.senha());
-        
+        entity.setSenha(hashService.getHashSenha(usuarioDto.senha()));
+
         entity.setEndereco(insertEndereco(usuarioDto.endereco()));
 
         entity.setTelefonePrincipal(insertTelefone(usuarioDto.telefonePrincipal()));
@@ -115,7 +123,7 @@ public class UsuarioImplService implements UsuarioService {
     @Override
     @Transactional
     public void insertListaDesejo(ListaDesejoDTO listaDto) throws NullPointerException {
-        
+
         validar(listaDto);
 
         Usuario usuario = usuarioRepository.findById(listaDto.idUsuario());
@@ -128,8 +136,9 @@ public class UsuarioImplService implements UsuarioService {
 
     @Override
     @Transactional
-    public UsuarioResponseDTO update(Long id, UsuarioDTO usuarioDto) throws ConstraintViolationException, NotFoundException {
-        
+    public UsuarioResponseDTO update(Long id, UsuarioDTO usuarioDto)
+            throws ConstraintViolationException, NotFoundException {
+
         validar(usuarioDto);
 
         Usuario entity = usuarioRepository.findById(id);
@@ -137,11 +146,11 @@ public class UsuarioImplService implements UsuarioService {
         if (entity == null)
             throw new NotFoundException("Número fora das opções disponíveis");
 
-            entity.setPessoaFisica(insertPessoaFisica(usuarioDto.pessoaFisicaDto()));
+        entity.setPessoaFisica(insertPessoaFisica(usuarioDto.pessoaFisicaDto()));
 
-            entity.setLogin(usuarioDto.login());
-    
-            entity.setSenha(usuarioDto.senha());
+        entity.setLogin(usuarioDto.login());
+
+        entity.setSenha(hashService.getHashSenha(usuarioDto.senha()));
 
         Long idEndereco = entity.getEndereco().getId();
 
@@ -155,17 +164,22 @@ public class UsuarioImplService implements UsuarioService {
 
         deleteTelefone(idTelefone);
 
-        if (usuarioDto.telefoneOpcional() != null) {
-         
+        if (usuarioDto.telefoneOpcional() != null && entity.getTelefoneOpcional() != null) {
+
             idTelefone = entity.getTelefoneOpcional().getId();
 
             entity.setTelefoneOpcional(insertTelefone(usuarioDto.telefoneOpcional()));
 
             deleteTelefone(idTelefone);
         }
-        
+
+        else if (usuarioDto.telefoneOpcional() != null && entity.getTelefoneOpcional() == null) {
+
+            entity.setTelefoneOpcional(insertTelefone(usuarioDto.telefoneOpcional()));
+        }
+
         else if (entity.getTelefoneOpcional() != null) {
-         
+
             idTelefone = entity.getTelefoneOpcional().getId();
 
             entity.setTelefoneOpcional(null);
@@ -179,7 +193,7 @@ public class UsuarioImplService implements UsuarioService {
     @Override
     @Transactional
     public void delete(Long id) throws IllegalArgumentException, NotFoundException {
-        
+
         if (id == null)
             throw new IllegalArgumentException("Número inválido");
 
@@ -195,7 +209,7 @@ public class UsuarioImplService implements UsuarioService {
     @Override
     @Transactional
     public void deleteProdutoFromListaDesejo(Long id, Long idProduto) {
-        
+
         Usuario usuario = usuarioRepository.findById(id);
 
         if (usuario == null)
@@ -211,7 +225,7 @@ public class UsuarioImplService implements UsuarioService {
         List<Usuario> usuarios = usuarioRepository.findAll().list();
 
         for (Usuario usuario : usuarios) {
-            
+
             if (usuario.getProdutos().contains(produto)) {
 
                 deleteProdutoFromListaDesejo(usuario.getId(), produto.getId());
@@ -221,13 +235,13 @@ public class UsuarioImplService implements UsuarioService {
 
     @Override
     public Long count() {
-        
+
         return usuarioRepository.count();
     }
 
     @Override
     public Integer countListaDesejo(Long id) throws NullPointerException {
-        
+
         Usuario usuario = usuarioRepository.findById(id);
 
         if (usuario == null)
@@ -241,39 +255,134 @@ public class UsuarioImplService implements UsuarioService {
 
     @Override
     public List<UsuarioResponseDTO> getByNome(String nome) throws NullPointerException {
-        
+
         List<Usuario> list = usuarioRepository.findByNome(nome);
 
         if (list == null)
             throw new NullPointerException("nenhum usuario encontrado");
 
         return list.stream()
-                    .map(UsuarioResponseDTO::new)
-                    .collect(Collectors.toList());
+                .map(UsuarioResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public UsuarioResponseDTO getByLogin(String login) {
+    public Usuario getByLogin(String login) {
 
-        Usuario usuario = usuarioRepository.getByLogin(login);
+        Usuario usuario = usuarioRepository.findByLogin(login);
+
         if (usuario == null) {
             throw new NullPointerException("usuario não encontrado");
         }
-        return new UsuarioResponseDTO(usuario);
+        return usuario;
     }
 
     @Override
     public Usuario getByLoginAndSenha(String login, String senha) {
 
-        return usuarioRepository.findByLoginAndSenha(login, senha);
+        Usuario usuario = usuarioRepository.findByLoginAndSenha(login, senha);
+
+        return usuario;
     }
 
-    private PessoaFisica insertPessoaFisica (PessoaFisicaDTO pessoaFisicaDTO) throws ConstraintViolationException {
+    @Override
+    @Transactional
+    public void update(Long id, DadosPessoaisDTO dadosPessoaisDTO) {
+        
+        validar(dadosPessoaisDTO);
+
+        Usuario entity = usuarioRepository.findById(id);
+
+        entity.getPessoaFisica().setEmail(dadosPessoaisDTO.email());
+
+        entity.getPessoaFisica().setSexo(Sexo.valueOf(dadosPessoaisDTO.sexo()));
+    }
+
+    @Override
+    @Transactional
+    public void update(Long id, SenhaDTO senhaDTO) {
+        
+        validar(senhaDTO);
+
+        Usuario entity = usuarioRepository.findById(id);
+
+        if (entity.getSenha().equals(hashService.getHashSenha(senhaDTO.senhaAntiga())))
+            entity.setSenha(hashService.getHashSenha(senhaDTO.senhaNova()));
+
+        else
+            throw new NotAuthorizedException("A senha inserida não corresponde à senha atual, acesso negado");
+    }
+
+    @Override
+    @Transactional
+    public void update(Long id, EnderecoDTO enderecoDTO) {
+        
+        validar(enderecoDTO);
+
+        Usuario entity = usuarioRepository.findById(id);
+
+        Long idEndereco = entity.getEndereco().getId();
+
+        entity.setEndereco(insertEndereco(enderecoDTO));
+
+        deleteEndereco(idEndereco);
+    }
+
+    @Override
+    @Transactional
+    public void updateTelefonePrincipal(Long id, TelefoneDTO telefonePrincipalDTO) {
+        
+        validar(telefonePrincipalDTO);
+
+        Usuario entity = usuarioRepository.findById(id);
+
+        Long idTelefone = entity.getTelefonePrincipal().getId();
+
+        entity.setTelefonePrincipal(insertTelefone(telefonePrincipalDTO));
+
+        deleteTelefone(idTelefone);
+    }
+
+    @Override
+    @Transactional
+    public void updateTelefoneOpcional(Long id, TelefoneDTO telefoneOpcionalDTO) {
+        
+        validar(telefoneOpcionalDTO);
+
+        Long idTelefone;
+
+        Usuario entity = usuarioRepository.findById(id);
+
+        if (telefoneOpcionalDTO != null && entity.getTelefoneOpcional() != null) {
+
+            idTelefone = entity.getTelefoneOpcional().getId();
+
+            entity.setTelefoneOpcional(insertTelefone(telefoneOpcionalDTO));
+
+            deleteTelefone(idTelefone);
+        }
+
+        else if (telefoneOpcionalDTO != null && entity.getTelefoneOpcional() == null) {
+
+            entity.setTelefoneOpcional(insertTelefone(telefoneOpcionalDTO));
+        }
+
+        else if (entity.getTelefoneOpcional() != null) {
+
+            idTelefone = entity.getTelefoneOpcional().getId();
+
+            entity.setTelefoneOpcional(null);
+
+            deleteTelefone(idTelefone);
+        }
+    }
+
+    private PessoaFisica insertPessoaFisica(PessoaFisicaDTO pessoaFisicaDTO) throws ConstraintViolationException {
 
         return pessoaFisicaService.insertPessoaFisica(pessoaFisicaDTO);
     }
 
-    private Telefone insertTelefone (TelefoneDTO telefoneDTO) throws ConstraintViolationException {
+    private Telefone insertTelefone(TelefoneDTO telefoneDTO) throws ConstraintViolationException {
 
         validar(telefoneDTO);
 
@@ -287,7 +396,7 @@ public class UsuarioImplService implements UsuarioService {
         return telefone;
     }
 
-    private void deleteTelefone (Long id) throws NotFoundException, IllegalArgumentException {
+    private void deleteTelefone(Long id) throws NotFoundException, IllegalArgumentException {
 
         if (id == null)
             throw new IllegalArgumentException("Número inválido");
@@ -302,7 +411,7 @@ public class UsuarioImplService implements UsuarioService {
     }
 
     private Endereco insertEndereco(EnderecoDTO enderecoDto) throws ConstraintViolationException {
-        
+
         validar(enderecoDto);
 
         Endereco endereco = new Endereco();
@@ -324,7 +433,7 @@ public class UsuarioImplService implements UsuarioService {
         return endereco;
     }
 
-    private void deleteEndereco (Long id) throws NotFoundException, IllegalArgumentException {
+    private void deleteEndereco(Long id) throws NotFoundException, IllegalArgumentException {
 
         if (id == null)
             throw new IllegalArgumentException("Número inválido");
@@ -337,7 +446,7 @@ public class UsuarioImplService implements UsuarioService {
         else
             throw new NotFoundException("Nenhum endereço encontrado");
     }
-    
+
     private void validar(UsuarioDTO usuarioDTO) throws ConstraintViolationException {
 
         Set<ConstraintViolation<UsuarioDTO>> violations = validator.validate(usuarioDTO);
@@ -374,5 +483,21 @@ public class UsuarioImplService implements UsuarioService {
 
     }
 
-    
+    private void validar(DadosPessoaisDTO dadosPessoaisDTO) throws ConstraintViolationException {
+
+        Set<ConstraintViolation<DadosPessoaisDTO>> violations = validator.validate(dadosPessoaisDTO);
+
+        if (!violations.isEmpty())
+            throw new ConstraintViolationException(violations);
+
+    }
+
+    private void validar(SenhaDTO senhaDTO) throws ConstraintViolationException {
+
+        Set<ConstraintViolation<SenhaDTO>> violations = validator.validate(senhaDTO);
+
+        if (!violations.isEmpty())
+            throw new ConstraintViolationException(violations);
+
+    }
 }
