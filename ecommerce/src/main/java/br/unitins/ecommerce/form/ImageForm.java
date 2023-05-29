@@ -29,6 +29,4 @@ public class ImageForm {
         this.imagem = imagem;
     }
 
-    
-    
 }

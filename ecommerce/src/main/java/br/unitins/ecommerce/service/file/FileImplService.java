@@ -10,22 +10,25 @@ import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
-
 @ApplicationScoped
-public class FileServiceImpl implements FileService {
+public class FileImplService implements FileService {
+
     // ex. /user/janio/quarkus/images/usuario/
     private final String PATH_USER = System.getProperty("user.home")
-        + File.separator + "quarkus"
-        + File.separator + "images"
-        + File.separator + "usuario" + File.separator;
+            + File.separator + "quarkus"
+            + File.separator + "images"
+            + File.separator + "usuario" + File.separator;
 
     @Override
     public String salvarImagemUsuario(byte[] imagem, String nomeImagem) throws IOException {
-        
+
         // verificando o tipo da imagem
         String mimeType = Files.probeContentType(new File(nomeImagem).toPath());
+
         List<String> listMimeType = Arrays.asList("image/jpg", "image/png", "image/gif");
-        if (!listMimeType.contains(mimeType)) {
+
+        if (!(listMimeType.contains(mimeType))) {
+
             throw new IOException("Tipo de imagem não suportada.");
         }
 
@@ -35,17 +38,19 @@ public class FileServiceImpl implements FileService {
 
         // criando as pastas quando não existir
         File diretorio = new File(PATH_USER);
+
         if (!diretorio.exists())
             diretorio.mkdirs();
 
         // gerando o nome do arquivo
         String nomeArquivo = UUID.randomUUID()
-        +"."+mimeType.substring(mimeType.lastIndexOf("/")+1);
+                + "." + mimeType.substring(mimeType.lastIndexOf("/") + 1);
 
         String path = PATH_USER + nomeArquivo;
 
         // salvando o arquivo
         File file = new File(path);
+
         // alunos (melhorar :)
         if (file.exists())
             throw new IOException("O nome gerado da imagem está repedido.");
@@ -54,19 +59,23 @@ public class FileServiceImpl implements FileService {
         file.createNewFile();
 
         FileOutputStream fos = new FileOutputStream(file);
+
         fos.write(imagem);
+
         // garantindo o envio do ultimo lote de bytes
         fos.flush();
+
         fos.close();
 
         return nomeArquivo;
-    
     }
 
     @Override
     public File download(String nomeArquivo) {
-        File file = new File(PATH_USER+nomeArquivo);
+
+        File file = new File(PATH_USER + nomeArquivo);
+
         return file;
     }
-    
+
 }
