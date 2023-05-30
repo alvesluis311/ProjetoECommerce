@@ -107,6 +107,18 @@ public class GameServiceImpl implements GameService {
 
     @Override
     @Transactional
+    public void update(Long id, String nomeImagem) {
+
+        Game entity = gameRepository.findById(id);
+
+        if (entity == null)
+            throw new NullPointerException("Nenhum game encontrado");
+
+        entity.setNomeImagem(nomeImagem);
+    }
+
+    @Override
+    @Transactional
     public void delete(Long id) {
         if (id == null)
             throw new IllegalArgumentException("Número inválido");

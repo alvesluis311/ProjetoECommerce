@@ -17,6 +17,8 @@ public interface GameService {
 
     GameResponseDTO update(Long id, GameDTO gameDTO);
 
+    void update(Long id, String nomeImagem);
+
     void delete(Long id);
 
     long count();
