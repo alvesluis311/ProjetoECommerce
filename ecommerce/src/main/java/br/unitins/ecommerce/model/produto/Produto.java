@@ -55,6 +55,7 @@ public abstract class Produto extends DefaultEntity {
     public void setEstoque(Integer estoque) {
         this.estoque = estoque;
     }
+
     public void minusEstoque(Integer estoque) {
 
         this.estoque -= estoque;
