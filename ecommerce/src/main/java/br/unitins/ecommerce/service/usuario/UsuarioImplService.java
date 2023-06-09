@@ -4,19 +4,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validator;
-import jakarta.ws.rs.NotAuthorizedException;
-import jakarta.ws.rs.NotFoundException;
-
 import br.unitins.ecommerce.dto.endereco.EnderecoDTO;
 import br.unitins.ecommerce.dto.telefone.TelefoneDTO;
 import br.unitins.ecommerce.dto.usuario.PessoaFisicaDTO;
 import br.unitins.ecommerce.dto.usuario.SenhaDTO;
+import br.unitins.ecommerce.dto.usuario.UpgradeUsuarioDTO;
+import br.unitins.ecommerce.dto.usuario.UsuarioBasicoDTO;
+import br.unitins.ecommerce.dto.usuario.UsuarioBasicoResponseDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
 import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisDTO;
@@ -24,6 +18,7 @@ import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoResponseDTO;
 import br.unitins.ecommerce.model.endereco.Endereco;
 import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.usuario.Perfil;
 import br.unitins.ecommerce.model.usuario.PessoaFisica;
 import br.unitins.ecommerce.model.usuario.Sexo;
 import br.unitins.ecommerce.model.usuario.Telefone;
@@ -35,6 +30,14 @@ import br.unitins.ecommerce.repository.TelefoneRepository;
 import br.unitins.ecommerce.repository.UsuarioRepository;
 import br.unitins.ecommerce.service.hash.HashService;
 import br.unitins.ecommerce.service.pessoafisica.PessoaFisicaService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
+import jakarta.ws.rs.NotAuthorizedException;
+import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class UsuarioImplService implements UsuarioService {
@@ -122,6 +125,27 @@ public class UsuarioImplService implements UsuarioService {
 
     @Override
     @Transactional
+    public UsuarioBasicoResponseDTO insert(UsuarioBasicoDTO usuarioBasicoDto) throws ConstraintViolationException {
+
+        validar(usuarioBasicoDto);
+
+        Usuario entity = new Usuario();
+
+        entity.setPessoaFisica(pessoaFisicaService.insertPessoaFisica(usuarioBasicoDto.nome(), usuarioBasicoDto.email()));
+
+        entity.setLogin(usuarioBasicoDto.login());
+
+        entity.setSenha(hashService.getHashSenha(usuarioBasicoDto.senha()));
+
+        entity.addPerfis(Perfil.USER_BASIC);
+
+        usuarioRepository.persist(entity);
+
+        return new UsuarioBasicoResponseDTO(entity);
+    }
+
+    @Override
+    @Transactional
     public void insertListaDesejo(ListaDesejoDTO listaDto) throws NullPointerException {
 
         validar(listaDto);
@@ -186,6 +210,30 @@ public class UsuarioImplService implements UsuarioService {
 
             deleteTelefone(idTelefone);
         }
+
+        return new UsuarioResponseDTO(entity);
+    }
+
+    @Override
+    @Transactional
+    public UsuarioResponseDTO upgrade(Long id, UpgradeUsuarioDTO usuarioDto) {
+        
+        validar(usuarioDto);
+
+        Usuario entity = usuarioRepository.findById(id);
+
+        entity.getPessoaFisica().setCpf(usuarioDto.cpf());
+
+        entity.getPessoaFisica().setSexo(Sexo.valueOf(usuarioDto.sexo()));
+
+        entity.setEndereco(insertEndereco(usuarioDto.endereco()));
+
+        entity.setTelefonePrincipal(insertTelefone(usuarioDto.telefonePrincipal()));
+
+        if (usuarioDto.telefoneOpcional() != null)
+            entity.setTelefoneOpcional(insertTelefone(usuarioDto.telefoneOpcional()));
+
+        entity.addPerfis(Perfil.USER);
 
         return new UsuarioResponseDTO(entity);
     }
@@ -465,6 +513,15 @@ public class UsuarioImplService implements UsuarioService {
 
     }
 
+    private void validar(UsuarioBasicoDTO usuarioBasicoDTO) throws ConstraintViolationException {
+
+        Set<ConstraintViolation<UsuarioBasicoDTO>> violations = validator.validate(usuarioBasicoDTO);
+
+        if (!violations.isEmpty())
+            throw new ConstraintViolationException(violations);
+
+    }
+
     private void validar(TelefoneDTO telefoneDTO) throws ConstraintViolationException {
 
         Set<ConstraintViolation<TelefoneDTO>> violations = validator.validate(telefoneDTO);
@@ -504,6 +561,15 @@ public class UsuarioImplService implements UsuarioService {
     private void validar(SenhaDTO senhaDTO) throws ConstraintViolationException {
 
         Set<ConstraintViolation<SenhaDTO>> violations = validator.validate(senhaDTO);
+
+        if (!violations.isEmpty())
+            throw new ConstraintViolationException(violations);
+
+    }
+
+    private void validar(UpgradeUsuarioDTO upgradeUsuarioDTO) throws ConstraintViolationException {
+
+        Set<ConstraintViolation<UpgradeUsuarioDTO>> violations = validator.validate(upgradeUsuarioDTO);
 
         if (!violations.isEmpty())
             throw new ConstraintViolationException(violations);

@@ -1,16 +1,16 @@
 package br.unitins.ecommerce.model.usuario;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Perfil {
-    ADMIN(1, "Admin"),
-    USER(2, "User");
 
+    ADMIN(1, "Admin"),
+    USER(2, "User"),
+    USER_BASIC(3, "User_Basic");
+    
     private int id;
     private String label;
 
-    Perfil(int id, String label) {
+    Perfil (int id, String label) {
+
         this.id = id;
         this.label = label;
     }
@@ -23,16 +23,17 @@ public enum Perfil {
         return label;
     }
 
-    public static Perfil valueOf(Integer id) throws IllegalArgumentException {
+    public static Perfil valueOf (Integer id) throws IllegalArgumentException {
+
         if (id == null)
             return null;
-        for(Perfil perfil : Perfil.values()) {
-            if (id.equals(perfil.getId()))
-                return perfil;
-        } 
-        throw new IllegalArgumentException("Id inválido:" + id);
-    }
 
-    
-    
+        for (Perfil perfil : Perfil.values()) {
+            
+            if (id == perfil.id)
+                return perfil;
+        }
+
+        throw new IllegalArgumentException("Número fora das opções disponíveis");
+    }
 }

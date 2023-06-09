@@ -46,6 +46,7 @@ public class GameResource {
     private static final Logger LOG = Logger.getLogger(GameResource.class);
 
     @GET
+    @RolesAllowed({ "User", "User_Basic" })
     public List<GameResponseDTO> getAll() {
         LOG.info("Buscando todas os produtos");
         LOG.debug("ERRO DE DEBUG.");

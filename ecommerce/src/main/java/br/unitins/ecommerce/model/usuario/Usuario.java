@@ -1,5 +1,6 @@
 package br.unitins.ecommerce.model.usuario;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -43,11 +44,11 @@ public class Usuario extends DefaultEntity {
     private List<Produto> produtos;
 
     @ManyToOne
-    @JoinColumn(name = "id_endereco", nullable = false)
+    @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
     @OneToOne
-    @JoinColumn(name = "id_telefone_principal", unique = true, nullable = false)
+    @JoinColumn(name = "id_telefone_principal", unique = true)
     private Telefone telefonePrincipal;
 
     @OneToOne
@@ -56,14 +57,6 @@ public class Usuario extends DefaultEntity {
 
     public String getSenha() {
         return senha;
-    }
-
-    public void setPerfis(Set<Perfil> perfis) {
-        this.perfis = perfis;
-    }
-
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
     }
 
     public void setSenha(String senha) {
@@ -122,6 +115,18 @@ public class Usuario extends DefaultEntity {
         return perfis;
     }
 
+    public void setPerfis(Set<Perfil> perfis) {
+        this.perfis = perfis;
+    }
+
+    public void addPerfis(Perfil perfil) {
+
+        if (this.perfis == null)
+            this.perfis = new HashSet<>();
+        
+        this.perfis.add(perfil);
+    }
+
     public String getNomeImagem() {
         return nomeImagem;
     }
@@ -129,5 +134,5 @@ public class Usuario extends DefaultEntity {
     public void setNomeImagem(String nomeImagem) {
         this.nomeImagem = nomeImagem;
     }
-    
+
 }
