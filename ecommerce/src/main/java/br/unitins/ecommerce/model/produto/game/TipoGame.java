@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum TipoGame {
 
-    TRIPLE_A(1, "Triple A"),
+    TRIPLE_A(1, "Triple_A"),
     INDIE(2, "Indie/Independente");
 
     private int id;

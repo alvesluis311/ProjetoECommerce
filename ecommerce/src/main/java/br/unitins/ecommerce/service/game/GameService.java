@@ -11,7 +11,7 @@ public interface GameService {
     
     List<GameResponseDTO> getAll();
 
-    GameResponseDTO findById(Long id);
+    GameResponseDTO getById(Long id);
 
     GameResponseDTO create(GameDTO gameDTO);
 

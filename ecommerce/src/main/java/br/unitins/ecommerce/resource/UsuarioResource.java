@@ -5,6 +5,7 @@ import java.util.List;
 import org.jboss.logging.Logger;
 
 import br.unitins.ecommerce.application.Result;
+import br.unitins.ecommerce.dto.usuario.UsuarioBasicoResponseDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoDTO;
@@ -17,6 +18,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -38,11 +40,21 @@ public class UsuarioResource {
 
     @GET
     @RolesAllowed({ "Admin" })
-    public List<UsuarioResponseDTO> getAll() {
+    public List<UsuarioResponseDTO> getAllUsuario() {
         LOG.info("Buscando todos os usuários");
         LOG.debug("ERRO DE DEBUG.");
 
-        return usuarioService.getAll();
+        return usuarioService.getAllUsuario();
+    }
+
+    @GET
+    @Path("/usuarios-basicos")
+    @RolesAllowed({ "Admin" })
+    public List<UsuarioBasicoResponseDTO> getAllUsuarioBasico() {
+        LOG.info("Buscando todos os usuários basicos");
+        LOG.debug("ERRO DE DEBUG.");
+
+        return usuarioService.getAllUsuarioBasico();
     }
 
     @GET
@@ -66,7 +78,7 @@ public class UsuarioResource {
     }
 
     @POST
-    @RolesAllowed({ "Admin", "User" })
+    @RolesAllowed({ "Admin" })
     public Response insert(UsuarioDTO usuarioDto) {
         Result result = null;
         try {
@@ -93,7 +105,7 @@ public class UsuarioResource {
 
     }
 
-    @POST
+    @PATCH
     @Path("/lista_desejo")
     @RolesAllowed({ "Admin", "User" })
     public Response insertListaDesejo(ListaDesejoDTO listaDto) {
@@ -123,7 +135,7 @@ public class UsuarioResource {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed({ "Admin", "User" })
+    @RolesAllowed({ "Admin" })
     public Response update(@PathParam("id") Long id, UsuarioDTO usuarioDto) {
         Result result = null;
         try {
@@ -152,7 +164,7 @@ public class UsuarioResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed({ "Admin", "User" })
+    @RolesAllowed({ "Admin" })
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException, NotFoundException {
         try {
             usuarioService.delete(id);
@@ -167,7 +179,7 @@ public class UsuarioResource {
         }
     }
 
-    @DELETE
+    @PATCH
     @Path("/lista_desejo/{idUsuario}/{idProduto}")
     @RolesAllowed({ "Admin", "User" })
     public Response deleteProdutoFromListaDesejo(@PathParam("idUsuario") Long idUsuario,

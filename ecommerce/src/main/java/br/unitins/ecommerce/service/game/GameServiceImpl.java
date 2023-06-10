@@ -50,7 +50,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameResponseDTO findById(Long id) {
+    public GameResponseDTO getById(Long id) {
         Game game = gameRepository.findById(id);
         if (game == null)
             throw new NotFoundException("Game não encontrado.");
@@ -93,8 +93,7 @@ public class GameServiceImpl implements GameService {
         entity.setAnoLancamento(gameDTO.anoLancamento());
         entity.setDeveloper(developerRepository.findById(gameDTO.idDeveloper()));
         entity.setTipoGame(TipoGame.valueOf(gameDTO.tipoGame()));
-        entity.setPlataformas(plataformaRepository
-        .findById(gameDTO.idPlataformas()));
+        entity.setPlataformas(plataformaRepository.findById(gameDTO.idPlataformas()));
 
         return new GameResponseDTO(entity);
     }

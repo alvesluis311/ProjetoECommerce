@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
 
 import org.junit.jupiter.api.Test;
@@ -37,8 +38,17 @@ public class GameResourceTest {
     }
 
     @Test
-    public void insertTest() {
+    public void getByIdTest() {
 
+        given()
+                .when().get("/games/" + 1)
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    @TestSecurity(user = "testUser", roles = { "Admin" })
+    public void insertTest() {
         List<Long> plataformas = new ArrayList<>();
         plataformas.add(1l);
         plataformas.add(2l);
@@ -84,6 +94,70 @@ public class GameResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = { "User" })
+    public void insertForbiddenTest() {
+
+        List<Long> plataformas = new ArrayList<>();
+        plataformas.add(1l);
+        plataformas.add(2l);
+        plataformas.add(3l);
+        plataformas.add(4l);
+        plataformas.add(5l);
+        plataformas.add(6l);
+        plataformas.add(7l);
+
+        GameDTO game = new GameDTO(
+                "Hollow Knight",
+                "Jogo indie de plataforma e ação com atmosfera sombria e desafiadora. Exploração de um vasto mundo interconectado, com combate preciso, chefes desafiadores e uma história rica em lore.",
+                62.5,
+                30,
+                "Cristopher Larkin",
+                2022,
+                6l,
+                2,
+                plataformas);
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(game)
+                .when().post("/games")
+                .then()
+                .statusCode(403);
+    }
+
+    @Test
+    public void insertUnauthorizedTest() {
+
+        List<Long> plataformas = new ArrayList<>();
+        plataformas.add(1l);
+        plataformas.add(2l);
+        plataformas.add(3l);
+        plataformas.add(4l);
+        plataformas.add(5l);
+        plataformas.add(6l);
+        plataformas.add(7l);
+
+        GameDTO game = new GameDTO(
+                "Hollow Knight",
+                "Jogo indie de plataforma e ação com atmosfera sombria e desafiadora. Exploração de um vasto mundo interconectado, com combate preciso, chefes desafiadores e uma história rica em lore.",
+                62.5,
+                30,
+                "Cristopher Larkin",
+                2022,
+                6l,
+                2,
+                plataformas);
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(game)
+                .when().post("/games")
+                .then()
+                .statusCode(401);
+    }
+
+    @Test
+    @TestSecurity(user = "testUser", roles = { "Admin" })
     public void updateTest() {
 
         List<Long> plataformas = new ArrayList<>();
@@ -91,15 +165,15 @@ public class GameResourceTest {
         plataformas.add(2l);
 
         GameDTO game = new GameDTO(
-            "Hollow Knight",
-            "Jogo indie de plataforma e ação com atmosfera sombria e desafiadora. Exploração de um vasto mundo interconectado, com combate preciso, chefes desafiadores e uma história rica em lore.",
-            62.5,
-            30,
-            "Cristopher Larkin",
-            2022,
-            6l,
-            2,
-            plataformas);
+                "Hollow Knight",
+                "Jogo indie de plataforma e ação com atmosfera sombria e desafiadora. Exploração de um vasto mundo interconectado, com combate preciso, chefes desafiadores e uma história rica em lore.",
+                62.5,
+                30,
+                "Cristopher Larkin",
+                2022,
+                6l,
+                2,
+                plataformas);
 
         Long id = gameService.create(game).id();
 
@@ -119,13 +193,13 @@ public class GameResourceTest {
                 newPlataformas);
 
         given()
-          .contentType(ContentType.JSON)
-          .body(newGame)
-          .when().put("/games/alter/" + id)
-          .then()
-             .statusCode(204);
+                .contentType(ContentType.JSON)
+                .body(newGame)
+                .when().put("/games/" + id)
+                .then()
+                .statusCode(204);
 
-        GameResponseDTO gameResponse = gameService.findById(id);
+        GameResponseDTO gameResponse = gameService.getById(id);
 
         assertThat(gameResponse.nome(), is("God of War Ragnarok"));
         assertThat(gameResponse.descricao(), is("Sequência do aclamado jogo de ação da Sony Santa Monica. Continuação da históriade Kratos e Atreus em Midgard, com batalhas épicas, novo sistema de equipamentos e progressão de personagem."));
@@ -140,6 +214,7 @@ public class GameResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void deleteTest() {
 
         List<Long> plataformas = new ArrayList<>();
@@ -147,42 +222,42 @@ public class GameResourceTest {
         plataformas.add(2l);
 
         GameDTO game = new GameDTO(
-            "Hollow Knight",
-            "Jogo indie de plataforma e ação com atmosfera sombria e desafiadora. Exploração de um vasto mundo interconectado, com combate preciso, chefes desafiadores e uma história rica em lore.",
-            62.5,
-            30,
-            "Cristopher Larkin",
-            2022,
-            6l,
-            2,
-            plataformas);
+                "Hollow Knight",
+                "Jogo indie de plataforma e ação com atmosfera sombria e desafiadora. Exploração de um vasto mundo interconectado, com combate preciso, chefes desafiadores e uma história rica em lore.",
+                62.5,
+                30,
+                "Cristopher Larkin",
+                2022,
+                6l,
+                2,
+                plataformas);
 
         Long id = gameService.create(game).id();
 
         given()
-          .when().delete("/games/" + id)
-          .then()
-             .statusCode(204);
+                .when().delete("/games/" + id)
+                .then()
+                .statusCode(204);
 
         GameResponseDTO gameResponse = null;
 
         try {
-            
-            gameResponse =  gameService.findById(id);
+
+            gameResponse = gameService.getById(id);
         } catch (Exception e) {
 
-        }
-        finally {
-            assertNull(gameResponse);   
+        } finally {
+            assertNull(gameResponse);
         }
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void countTest() {
 
         given()
-            .when().get("/games/count")
-            .then()
+                .when().get("/games/count")
+                .then()
                 .statusCode(200);
     }
 
@@ -207,8 +282,8 @@ public class GameResourceTest {
         Long id = gameService.create(game).id();
 
         given()
-            .when().get("/games/" + id)
-            .then()
+                .when().get("/games/" + id)
+                .then()
                 .statusCode(200);
     }
 
@@ -233,8 +308,8 @@ public class GameResourceTest {
         String nome = gameService.create(game).nome();
 
         given()
-            .when().get("/games/searchByNome/" + nome)
-            .then()
+                .when().get("/games/searchByNome/" + nome)
+                .then()
                 .statusCode(200);
     }
 
@@ -244,8 +319,8 @@ public class GameResourceTest {
         Double precoMin = 1200.0;
 
         given()
-            .when().get("/games/filterByPrecoMin/" + precoMin)
-            .then()
+                .when().get("/games/filterByPrecoMin/" + precoMin)
+                .then()
                 .statusCode(200);
     }
 
@@ -255,10 +330,10 @@ public class GameResourceTest {
         Double precoMax = 1400.0;
 
         given()
-            .pathParam("precoMax", precoMax)
-            .when()
-            .get("/games/filterByPrecoMax/{precoMax}")
-            .then()
+                .pathParam("precoMax", precoMax)
+                .when()
+                .get("/games/filterByPrecoMax/{precoMax}")
+                .then()
                 .statusCode(200);
     }
 
@@ -269,11 +344,11 @@ public class GameResourceTest {
         Double precoMax = 2000.0;
 
         given()
-            .pathParam("precoMin", precoMin)
-            .pathParam("precoMax", precoMax)
-            .when()
-            .get("/games/filterByEntrePreco/{precoMin}/{precoMax}")
-            .then()
+                .pathParam("precoMin", precoMin)
+                .pathParam("precoMax", precoMax)
+                .when()
+                .get("/games/filterByEntrePreco/{precoMin}/{precoMax}")
+                .then()
                 .statusCode(200);
     }
 

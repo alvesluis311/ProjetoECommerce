@@ -7,6 +7,7 @@ import org.jboss.logging.Logger;
 
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
@@ -46,7 +47,7 @@ public class GameResource {
     private static final Logger LOG = Logger.getLogger(GameResource.class);
 
     @GET
-    @RolesAllowed({ "User", "User_Basic" })
+    @PermitAll
     public List<GameResponseDTO> getAll() {
         LOG.info("Buscando todas os produtos");
         LOG.debug("ERRO DE DEBUG.");
@@ -55,10 +56,11 @@ public class GameResource {
 
     @GET
     @Path("/{id}")
+    @PermitAll
     public GameResponseDTO getById(@PathParam("id") Long id) throws NotFoundException {
         LOG.infof("Buscando produtos por ID. ", id);
         LOG.debug("ERRO DE DEBUG.");
-        return gameService.findById(id);
+        return gameService.getById(id);
     }
 
     @GET
@@ -84,6 +86,7 @@ public class GameResource {
     }
 
     @POST
+    @RolesAllowed({"Admin"})
     public Response insert(GameDTO gameDto) {
         LOG.infof("Inserindo um produto: %s", gameDto.nome());
         Result result = null;
@@ -112,6 +115,7 @@ public class GameResource {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Admin"})
     public Response update(@PathParam("id") Long id, GameDTO gameDto) {
         Result result = null;
         try {
@@ -166,6 +170,7 @@ public class GameResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
         try {
             gameService.delete(id);
@@ -183,6 +188,7 @@ public class GameResource {
 
     @GET
     @Path("/count")
+    @RolesAllowed({"Admin"})
     public Long count() {
         LOG.info("Contando todos os produtos.");
         LOG.debug("ERRO DE DEBUG.");
@@ -191,6 +197,7 @@ public class GameResource {
 
     @GET
     @Path("/searchByNome/{nome}")
+    @PermitAll
     public List<GameResponseDTO> getByNome(@PathParam("nome") String nome) {
         LOG.infof("Buscando produto pelo nome. ", nome);
         LOG.debug("ERRO DE DEBUG.");
@@ -199,6 +206,7 @@ public class GameResource {
 
     @GET
     @Path("/filterByPrecoMin/{precoMin}")
+    @PermitAll
     public List<GameResponseDTO> filterByPrecoMin(@PathParam("precoMin") Double preco) {
         LOG.infof("Filtrando pelo preço mínimo. ", preco);
         LOG.debug("ERRO DE DEBUG.");
@@ -207,6 +215,7 @@ public class GameResource {
 
     @GET
     @Path("/filterByPrecoMax/{precoMax}")
+    @PermitAll
     public List<GameResponseDTO> filterByPrecoMax(@PathParam("precoMax") Double preco) {
         LOG.infof("Filtrando pelo preço máximo. ", preco);
         LOG.debug("ERRO DE DEBUG.");
@@ -215,6 +224,7 @@ public class GameResource {
 
     @GET
     @Path("/filterByEntrePreco/{precoMin}/{precoMax}")
+    @PermitAll
     public List<GameResponseDTO> filterByEntrePreco(@PathParam("precoMin") Double precoMin,
             @PathParam("precoMax") Double precoMax) {
         LOG.infof("Filtrando entre os preços mínimo e máximo. ", precoMin, " e ", precoMax);
