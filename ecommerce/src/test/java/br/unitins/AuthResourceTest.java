@@ -14,7 +14,7 @@ public class AuthResourceTest {
     @Test
     public void login() {
 
-        AuthUsuarioDTO authUsuarioDTO = new AuthUsuarioDTO("joaoaguiar", "joao1234");
+        AuthUsuarioDTO authUsuarioDTO = new AuthUsuarioDTO("JoaoA", "joao1234");
 
         given()
             .contentType(ContentType.JSON)

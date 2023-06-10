@@ -103,7 +103,7 @@ public class CompraResourceTest {
     @Test
     public void cancelarCompraTest() {
 
-        Usuario usuario = usuarioService.getByLogin("joaoaguiar");
+        Usuario usuario = usuarioService.getByLogin("JoaoA");
 
         String token = tokenService.generateJwt(usuario);
 

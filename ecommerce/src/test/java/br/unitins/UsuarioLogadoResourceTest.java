@@ -27,7 +27,7 @@ public class UsuarioLogadoResourceTest {
     @Test
     public void getDadosPessoaisTest() {
 
-        Usuario usuario = usuarioService.getByLogin("joaoaguiar");
+        Usuario usuario = usuarioService.getByLogin("JoaoA");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -42,7 +42,7 @@ public class UsuarioLogadoResourceTest {
     @Test
     public void getTelefonesTest() {
 
-        Usuario usuario = usuarioService.getByLogin("joaoaguiar");
+        Usuario usuario = usuarioService.getByLogin("JoaoA");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -57,7 +57,7 @@ public class UsuarioLogadoResourceTest {
     @Test
     public void getEnderecoTest() {
 
-        Usuario usuario = usuarioService.getByLogin("joaoaguiar");
+        Usuario usuario = usuarioService.getByLogin("JoaoA");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -72,7 +72,7 @@ public class UsuarioLogadoResourceTest {
     @Test
     public void updateDadosPessoaisTest() {
 
-        Usuario usuario = usuarioService.getByLogin("joaoaguiar");
+        Usuario usuario = usuarioService.getByLogin("JoaoA");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -91,7 +91,7 @@ public class UsuarioLogadoResourceTest {
     @Test
     public void updateSenhaTest() {
 
-        Usuario usuario = usuarioService.getByLogin("joaoaguiar");
+        Usuario usuario = usuarioService.getByLogin("JoaoA");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -110,7 +110,7 @@ public class UsuarioLogadoResourceTest {
     @Test
     public void updateTelefonePrincipalTest() {
 
-        Usuario usuario = usuarioService.getByLogin("joaoaguiar");
+        Usuario usuario = usuarioService.getByLogin("JoaoA");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -129,7 +129,7 @@ public class UsuarioLogadoResourceTest {
     @Test
     public void updateTelefoneOpcionalTest() {
 
-        Usuario usuario = usuarioService.getByLogin("joaoaguiar");
+        Usuario usuario = usuarioService.getByLogin("JoaoA");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -148,7 +148,7 @@ public class UsuarioLogadoResourceTest {
     @Test
     public void updateEnderecoTest() {
 
-        Usuario usuario = usuarioService.getByLogin("joaoaguiar");
+        Usuario usuario = usuarioService.getByLogin("JoaoA");
 
         String token = tokenService.generateJwt(usuario);
 

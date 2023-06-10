@@ -219,8 +219,8 @@ insert into pessoaFisica (cpf, email, sexo, id) values ('92874291092', 'marcilva
 insert into pessoaFisica (cpf, email, sexo, id) values ('02484871941', 'mpereira@gmail.com', 2, 6);
 insert into pessoaFisica (email, id) values ('jubiscreisson@outlook.com', 7);
 
-insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal, id_telefone_opcional)
-values (1, 'joaoaguiar', 'ZXChMgzI4VI5Jx+KKCL0AnuRaug9sWorJdV7iCDgWIDNVms7vyhaZeXP+5x26q6uDWKJmyQySZzE8hvoncjgCA==', 1, 2, 1);
+insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal, id_telefone_opcional) 
+values (1, 'JoaoA', 'ZXChMgzI4VI5Jx+KKCL0AnuRaug9sWorJdV7iCDgWIDNVms7vyhaZeXP+5x26q6uDWKJmyQySZzE8hvoncjgCA==', 1, 2, 1);
 
 insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal)
 values (2, 'mfernanda', 'x6JkviFo/CZc/dYoTsn+KjkyXu9rqbOwZ89vC1horO3B+ZT2N9nhquEvkFxm2WZahBpo5wgui91vSF00c1BYPA==', 3, 3);
@@ -236,14 +236,16 @@ values (5, 'marcelinho', 'Wp7loHTF7tvklCuczvAnLXJGWSBVrOS2VnsB6ZJvl4ysfhoYiH+U4D
 
 insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal) 
 values (6, 'mapereira', 'ccD5mRYxf9XgnDZUKjOq/Fx123hMiHQCX+nDp6j2iztugbW5q36cqqtxJy2dimLNpd6ZQHvDUKXQenN3Y5yiDQ==', 4, 9);
+
 insert into usuario (id_pessoa_fisica, login, senha)
-values (7, 'Joao_dos_Isekai', '89ud9FUF967ZPp2GxHJ6ITVrXHnVfA0uf1AsYZ0V0SYuA0OCjSKXEgH72aTLeGBaQr3m7WuVsgWlx76WK/gWuA==');
+values (7, 'JohnDev', '89ud9FUF967ZPp2GxHJ6ITVrXHnVfA0uf1AsYZ0V0SYuA0OCjSKXEgH72aTLeGBaQr3m7WuVsgWlx76WK/gWuA==');
 -- joao1234
 -- senha1234
 -- pa1000ulo
 -- andrezinho123
 -- password
 -- mrnprr45
+-- JohnDev
 
 insert into perfis (id_usuario, perfil) values (1, 'Admin');
 insert into perfis (id_usuario, perfil) values (1, 'User');

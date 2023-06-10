@@ -85,7 +85,7 @@ public class AvaliacaoResourceTest {
                         "produto.nome", is("God of War Ragnarok"),
                         "usuario.id", is(1),
                         "usuario.login",
-                        is("joaoaguiar"),
+                        is("JoaoA"),
                         "usuario.email",
                         is("joao_aguiar@gmail.com"));
     }
@@ -123,7 +123,7 @@ public class AvaliacaoResourceTest {
         assertThat(avaliacaoResponse.produto().get("id"), is(2l));
         assertThat(avaliacaoResponse.produto().get("nome"), is("God of War Ragnarok"));
         assertThat(avaliacaoResponse.usuario().get("id"), is(1l));
-        assertThat(avaliacaoResponse.usuario().get("login"), is("joaoaguiar"));
+        assertThat(avaliacaoResponse.usuario().get("login"), is("JoaoA"));
         assertThat(avaliacaoResponse.usuario().get("email"), is("joao_aguiar@gmail.com"));
 
     }
