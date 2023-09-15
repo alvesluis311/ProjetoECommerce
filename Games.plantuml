@@ -15,11 +15,20 @@
         - anoLacamento: String
     }
 
-    enum TipoGame {
-
-        + TRIPLE_A: int
-        + INDIE: int
-    }
+    enum Genero {
+        + Acao : int
+        + Aventura : int
+        + RPG : int
+        + Estrategia : int
+        + Esportes : int
+        + Corrida : int
+        + Luta : int
+        + FPS : int
+        + Plataforma : int
+        + Horror : int
+        + Souslike : int
+        + Musica : int
+}
 
     class Developer {
 
@@ -36,11 +45,10 @@
         - anoLancamento: String
     }
 
-    enum Fabricante {
+    class Fabricante {
 
-        + SONY: int
-        + MICROSOFT: int
-        + NINTENDO: int
+        - id: Long
+        - nome: String
     }
 
     abstract class Pessoa {
@@ -99,6 +107,16 @@
     }
 
     class Endereco {
+
+        - id: Long
+        - logradouro: String
+        - bairro: String
+        - numero: String
+        - complemento: String
+        - cep: String
+    }
+
+    class EnderecoEntrega {
 
         - id: Long
         - logradouro: String
@@ -178,7 +196,7 @@
     }
 
     Game -up-|> Produto
-    Game "*" o--> "1" TipoGame
+    Game "*" o--> "*" Genero
     Game "*" o--> "1" Developer
     Game "*" o--> "*" Plataforma
 
@@ -188,7 +206,7 @@
 
     Endereco "*" --> "1" Municipio
 
-    PessoaFisica "1" --> "*" Sexo
+    PessoaFisica "*" --> "1" Sexo
 
     PessoaFisica -up-|> Pessoa
 
@@ -210,7 +228,7 @@
 
     Compra "*" --> "1" Usuario
     Compra "1" *--> "*" ItemCompra
-    Compra "*" --> "1" Endereco
+    Compra "*" *--> "1" EnderecoEntrega
     Compra "1" *--> "1" Pagamento
 
     Avaliacao "*" --> "1" Estrela
