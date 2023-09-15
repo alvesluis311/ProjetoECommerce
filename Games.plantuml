@@ -1,33 +1,23 @@
 @startuml Games-eCommerce
 
-    abstract class Produto {
+    class Game {
 
         - id: Long
         - nome: String
         - descricao: String
         - preco: Double
-        - estoque: Integer
-    }
-
-    class Game {
-
         - diretor: String
         - anoLacamento: String
     }
 
-    enum Genero {
-        + Acao : int
-        + Aventura : int
-        + RPG : int
-        + Estrategia : int
-        + Esportes : int
-        + Corrida : int
-        + Luta : int
-        + FPS : int
-        + Plataforma : int
-        + Horror : int
-        + Souslike : int
-        + Musica : int
+    class Estoque {
+        
+    }
+
+    class Genero {
+        
+        - id: Long
+        - nome: String
 }
 
     class Developer {
@@ -109,6 +99,7 @@
     class Endereco {
 
         - id: Long
+        - principal: boolean
         - logradouro: String
         - bairro: String
         - numero: String
@@ -194,8 +185,6 @@
         - id: Long
         - nome: String
     }
-
-    Game -up-|> Produto
     Game "*" o--> "*" Genero
     Game "*" o--> "1" Developer
     Game "*" o--> "*" Plataforma
@@ -212,12 +201,11 @@
 
     Usuario "1" --> "1" PessoaFisica
     Usuario "*" --> "*" Perfil
-    Usuario "*" --> "*" Produto: listaDesejo
-    Usuario "1" *--> "1" Telefone: telefonePrincipal
-    Usuario "1" *--> "1" Telefone: telefoneOpcional
-    Usuario "*" *--> "1" Endereco: endereçoPrincipal
+    Usuario "*" --> "*" Game: listaDesejo
+    Usuario "1" *--> "*" Telefone: telefone
+    Usuario "1" *--> "*" Endereco: endereço
 
-    ItemCompra "*" --> "1" Produto
+    ItemCompra "*" --> "1" Game
 
     BoletoBancario -up-|> Pagamento
 
@@ -233,5 +221,5 @@
 
     Avaliacao "*" --> "1" Estrela
     Avaliacao "*" o--> "1" Usuario
-    Avaliacao "*" --> "1" Produto
+    Avaliacao "*" --> "1" Game
 @enduml
