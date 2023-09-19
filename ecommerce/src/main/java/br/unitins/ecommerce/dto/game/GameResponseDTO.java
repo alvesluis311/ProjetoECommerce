@@ -1,9 +1,7 @@
 package br.unitins.ecommerce.dto.game;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import br.unitins.ecommerce.model.produto.game.Game;
-import br.unitins.ecommerce.model.produto.game.TipoGame;
+import br.unitins.ecommerce.model.produto.game.Genero;
 import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
 
 import java.util.ArrayList;
@@ -19,10 +17,7 @@ public record GameResponseDTO(
     String diretor,
     Integer anoLancamento,
     String developer,
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    TipoGame tipoGame,
-
+    List<String> generos,
     List<String> plataformas
 ) {
     public GameResponseDTO(Game game) {
@@ -36,7 +31,7 @@ public record GameResponseDTO(
             game.getDiretor(),
             game.getAnoLancamento(),
             game.getDeveloper().getNome(),
-            game.getTipoGame(),
+            viewGeneros(game.getGeneros()),
             viewPlataformas(game.getPlataformas()));
     }
 
@@ -50,6 +45,18 @@ public record GameResponseDTO(
         }
 
         return listaPlataformas;
+    }
+
+    private static List<String> viewGeneros (List<Genero> lista) {
+
+        List<String> listaGeneros = new ArrayList<>();
+
+        for (Genero generos : lista) {
+
+            listaGeneros.add(generos.getNome());
+        }
+
+        return listaGeneros;
     }
 }
 

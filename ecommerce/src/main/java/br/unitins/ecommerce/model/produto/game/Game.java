@@ -30,8 +30,11 @@ public class Game extends Produto {
     @JoinColumn(name = "id_developer")
     private Developer developer;
 
-    @Column(nullable = false)
-    private TipoGame tipoGame;
+    @ManyToMany
+    @JoinTable(name = "generos_do_jogo",
+    joinColumns = @JoinColumn(name = "id_game"),
+    inverseJoinColumns = @JoinColumn(name = "id_genero"))
+    private List<Genero> generos;
 
     @ManyToMany
     @JoinTable(name = "plataformas_de_jogo",
@@ -71,12 +74,12 @@ public class Game extends Produto {
         this.plataformas = plataformas;
     }
 
-    public TipoGame getTipoGame() {
-        return tipoGame;
+    public List<Genero> getGeneros() {
+        return generos;
     }
 
-    public void setTipoGame(TipoGame tipoGame) {
-        this.tipoGame = tipoGame;
+    public void setGeneros(List<Genero> generos) {
+        this.generos = generos;
     }
 
 

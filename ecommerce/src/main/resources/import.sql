@@ -19,33 +19,88 @@ values('Team Cherry', 2014); --6
 
 
 
-insert into plataforma(nome, descricao, anolancamento, fabricante) 
+insert into fabricante(nome)
+values('Sony');
+
+insert into fabricante(nome)
+values('Microsoft');
+
+insert into fabricante(nome)
+values('Nintendo');
+
+
+
+
+insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
 values('PlayStation 4', 'O PS4  é um console de jogos da Sony, que foi um grande sucesso e vendeu mais de 
 115 milhões de unidades em todo o mundo. Apresentou um grande salto em relação ao PS3', 2013, 1); -- 1
 
-insert into plataforma(nome, descricao, anolancamento, fabricante) 
+insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
 values('PlayStation 5', 'O PS5 é a mais recente versão do console de jogos da Sony é o sucessor do PS4 e 
 apresenta melhorias em relação ao seu antecessor.', 2020, 1); -- 2
 
-insert into plataforma(nome, descricao, anolancamento, fabricante)
+insert into plataforma(nome, descricao, anolancamento, id_fabricante)
 values('Xbox One', 'O Xbox One é um console de jogos da Microsoft, que competiu diretamente com o PS4 da Sony. 
 Apresentou uma grande melhoria em relação ao Xbox 360,', 2013, 2); -- 3
 
-insert into plataforma(nome, descricao, anolancamento, fabricante) 
+insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
 values('Xbox Series S', 'O Xbox Series S é um console de jogos da Microsoft. É uma versão mais acessível do console
 Xbox Serie X, projetado para jogadores que desejam jogar jogos de próxima geração sem gastar tanto dinheiro', 2020, 2); --4
 
-insert into plataforma(nome, descricao, anolancamento, fabricante) 
+insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
 values('Xbox Series X', 'O Xbox Series X é um console de jogos da Microsoft, juntamente com o Xbox Series S. É a versão mais
 poderosa do console, projetada para jogadores que desejam desempenho máximo e gráficos de última geração.', 2020, 2); --5
 
-insert into plataforma(nome, descricao, anolancamento, fabricante) 
+insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
 values('Nintendo Switch', 'O Nintendo Switch é um console de jogos híbrido criado pela Nintendo. É um console versátil 
 que pode ser jogado tanto no modo de TV quanto no modo portátil.', 2017, 3); -- 6
 
-insert into plataforma(nome, descricao, fabricante)  
+insert into plataforma(nome, descricao, id_fabricante)  
 values('PC', 'O Windows é uma das plataformas de jogos mais populares no mundo dos games. Ele oferece uma grande 
 variedade de jogos, incluindo jogos de diferentes gêneros.', 2); -- 7
+
+
+
+insert into genero(nome)
+values('Ação'); -- 1
+insert into genero(nome)
+values('Aventura'); -- 2
+insert into genero(nome)
+values('RPG'); -- 3
+insert into genero(nome)
+values('Estratégia'); -- 4
+insert into genero(nome)
+values('Simulação'); -- 5
+insert into genero(nome)
+values('Puzzle'); -- 6
+insert into genero(nome)
+values('Esportes'); -- 7
+insert into genero(nome)
+values('Corrida'); -- 8
+insert into genero(nome)
+values('Luta'); -- 9
+insert into genero(nome)
+values('Tiro'); -- 10
+insert into genero(nome)
+values('Plataforma'); -- 11
+insert into genero(nome)
+values('Sobrevivência'); -- 12
+insert into genero(nome)
+values('Horror'); -- 13
+insert into genero(nome)
+values('Mundo Aberto'); -- 14
+insert into genero(nome)
+values('Música'); -- 15
+insert into genero(nome)
+values('Souslike'); -- 16
+insert into genero(nome)
+values('Exploração'); -- 17
+insert into genero(nome)
+values('Mistério'); -- 18
+insert into genero(nome)
+values('Metroidvania'); -- 19
+insert into genero(nome)
+values('Roguelike'); -- 20
 
 
 
@@ -76,8 +131,22 @@ values('Hollow Knight', 'Jogo indie de plataforma e ação com atmosfera sombria
 
 
 
-insert into game(id, diretor, anolancamento, id_developer, tipogame) 
-values(1, 'Hidetaka Miyazaki', 2022, 1, 1);
+insert into game(id, diretor, anolancamento, id_developer) 
+values(1, 'Hidetaka Miyazaki', 2022, 1);
+
+insert into generos_do_jogo(id_game, id_genero)
+values(1, 1); -- Ação
+insert into generos_do_jogo(id_game, id_genero)
+values(1, 2); -- Aventura
+insert into generos_do_jogo(id_game, id_genero)
+values(1, 3); -- RPG
+insert into generos_do_jogo(id_game, id_genero)
+values(1, 14); -- Mundo Aberto
+insert into generos_do_jogo(id_game, id_genero)
+values(1, 16); -- Souslike
+insert into generos_do_jogo(id_game, id_genero)
+values(1, 17); -- Exploração
+
 insert into plataformas_de_jogo(id_game, id_plataforma)
 values(1, 1); -- PlayStation 4
 insert into plataformas_de_jogo(id_game, id_plataforma)
@@ -93,8 +162,20 @@ values(1, 7); -- PC
 
 
 
-insert into game(id, diretor, anolancamento, id_developer, tipogame) 
-values(2, 'Eric Williams', 2022, 2, 1);
+insert into game(id, diretor, anolancamento, id_developer) 
+values(2, 'Eric Williams', 2022, 2);
+
+insert into generos_do_jogo(id_game, id_genero)
+values(2, 1); -- Ação
+insert into generos_do_jogo(id_game, id_genero)
+values(2, 2); -- Aventura
+insert into generos_do_jogo(id_game, id_genero)
+values(2, 3); -- RPG
+insert into generos_do_jogo(id_game, id_genero)
+values(2, 9); -- Luta
+insert into generos_do_jogo(id_game, id_genero)
+values(2, 14); -- Mundo Aberto
+
 insert into plataformas_de_jogo(id_game, id_plataforma)
 values(2, 1); -- PlayStation 4
 insert into plataformas_de_jogo(id_game, id_plataforma)
@@ -102,8 +183,20 @@ values(2, 2); -- PlayStation 5
 
 
 
-insert into game(id, diretor, anolancamento, id_developer, tipogame) 
-values(3, 'Conrad Roset', 2018, 3, 2);
+insert into game(id, diretor, anolancamento, id_developer) 
+values(3, 'Conrad Roset', 2018, 3);
+
+insert into generos_do_jogo(id_game, id_genero)
+values(3, 2); -- Aventura
+insert into generos_do_jogo(id_game, id_genero)
+values(3, 6); -- Puzzle
+insert into generos_do_jogo(id_game, id_genero)
+values(3, 11); -- Plataforma
+insert into generos_do_jogo(id_game, id_genero)
+values(3, 15); -- Música
+insert into generos_do_jogo(id_game, id_genero)
+values(3, 17); -- Exploração
+
 insert into plataformas_de_jogo(id_game, id_plataforma)
 values(3, 1); -- PlayStation 4
 insert into plataformas_de_jogo(id_game, id_plataforma)
@@ -121,8 +214,20 @@ values(3, 7); -- PC
 
 
 
-insert into game(id, diretor, anolancamento, id_developer, tipogame) 
-values(4, 'Neil Druckmann', 2020, 4, 1);
+insert into game(id, diretor, anolancamento, id_developer) 
+values(4, 'Neil Druckmann', 2020, 4);
+
+insert into generos_do_jogo(id_game, id_genero)
+values(4, 1); --Ação
+insert into generos_do_jogo(id_game, id_genero)
+values(4, 2); --Aventura
+insert into generos_do_jogo(id_game, id_genero)
+values(4, 9); --Luta
+insert into generos_do_jogo(id_game, id_genero)
+values(4, 12); -- Sobrevivência
+insert into generos_do_jogo(id_game, id_genero)
+values(4, 17); -- Exploração
+
 insert into plataformas_de_jogo(id_game, id_plataforma)
 values(4, 1); -- PlayStation 4
 insert into plataformas_de_jogo(id_game, id_plataforma)
@@ -132,8 +237,18 @@ values(4, 7); -- PC
 
 
 
-insert into game(id, diretor, anolancamento, id_developer, tipogame) 
-values(5, 'Alex Beachum', 2019, 5, 2);
+insert into game(id, diretor, anolancamento, id_developer) 
+values(5, 'Alex Beachum', 2019, 5);
+
+insert into generos_do_jogo(id_game, id_genero)
+values(5, 2); --Aventura
+insert into generos_do_jogo(id_game, id_genero)
+values(5, 6); --Puzzle
+insert into generos_do_jogo(id_game, id_genero)
+values(5, 17); -- Exploração
+insert into generos_do_jogo(id_game, id_genero)
+values(5, 18); -- Mistério
+
 insert into plataformas_de_jogo(id_game, id_plataforma)
 values(5, 1); -- PlayStation 4
 insert into plataformas_de_jogo(id_game, id_plataforma)
@@ -149,8 +264,20 @@ values(5, 7); -- PC
 
 
 
-insert into game(id, diretor, anolancamento, id_developer, tipogame) 
-values(6, 'Christopher Larkin', 2017, 6, 2);
+insert into game(id, diretor, anolancamento, id_developer) 
+values(6, 'Christopher Larkin', 2017, 6);
+
+insert into generos_do_jogo(id_game, id_genero)
+values(6, 1); --Ação
+insert into generos_do_jogo(id_game, id_genero)
+values(6, 2); --Aventura
+insert into generos_do_jogo(id_game, id_genero)
+values(6, 9); --Luta
+insert into generos_do_jogo(id_game, id_genero)
+values(6, 17); --Exploração
+insert into generos_do_jogo(id_game, id_genero)
+values(6, 19); --Metroidvania
+
 insert into plataformas_de_jogo(id_game, id_plataforma)
 values(6, 1); -- PlayStation 4
 insert into plataformas_de_jogo(id_game, id_plataforma)

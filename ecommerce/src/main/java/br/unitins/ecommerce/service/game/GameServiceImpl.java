@@ -15,9 +15,9 @@ import jakarta.ws.rs.NotFoundException;
 import br.unitins.ecommerce.dto.game.GameDTO;
 import br.unitins.ecommerce.dto.game.GameResponseDTO;
 import br.unitins.ecommerce.model.produto.game.Game;
-import br.unitins.ecommerce.model.produto.game.TipoGame;
 import br.unitins.ecommerce.repository.DeveloperRepository;
 import br.unitins.ecommerce.repository.GameRepository;
+import br.unitins.ecommerce.repository.GeneroRepository;
 import br.unitins.ecommerce.repository.PlataformaRepository;
 import br.unitins.ecommerce.service.avaliacao.AvaliacaoService;
 import br.unitins.ecommerce.service.usuario.UsuarioService;
@@ -30,6 +30,9 @@ public class GameServiceImpl implements GameService {
 
     @Inject
     PlataformaRepository plataformaRepository;
+
+    @Inject
+    GeneroRepository generoRepository;
 
     @Inject
     DeveloperRepository developerRepository;
@@ -70,7 +73,8 @@ public class GameServiceImpl implements GameService {
         entity.setDiretor(gameDTO.diretor());
         entity.setAnoLancamento(gameDTO.anoLancamento());
         entity.setDeveloper(developerRepository.findById(gameDTO.idDeveloper()));
-        entity.setTipoGame(TipoGame.valueOf(gameDTO.tipoGame()));
+        entity.setGeneros(generoRepository
+        .findById(gameDTO.idGeneros()));
         entity.setPlataformas(plataformaRepository
         .findById(gameDTO.idPlataformas()));
 
@@ -92,7 +96,7 @@ public class GameServiceImpl implements GameService {
         entity.setDiretor(gameDTO.diretor());
         entity.setAnoLancamento(gameDTO.anoLancamento());
         entity.setDeveloper(developerRepository.findById(gameDTO.idDeveloper()));
-        entity.setTipoGame(TipoGame.valueOf(gameDTO.tipoGame()));
+        entity.setGeneros(generoRepository.findById(gameDTO.idGeneros()));
         entity.setPlataformas(plataformaRepository.findById(gameDTO.idPlataformas()));
 
         return new GameResponseDTO(entity);

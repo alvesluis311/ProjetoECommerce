@@ -30,9 +30,9 @@ public record GameDTO (
 
     @NotNull
     Long idDeveloper,
-
+    
     @NotNull
-    Integer tipoGame,
+    List<Long> idGeneros,
 
     @NotNull
     List<Long> idPlataformas
