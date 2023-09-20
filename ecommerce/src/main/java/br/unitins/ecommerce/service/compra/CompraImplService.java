@@ -153,7 +153,7 @@ public class CompraImplService implements CompraService {
                 itemCompra.getProduto().minusEstoque(itemCompra.getQuantidade());
         }
 
-        compra.setEndereco(compra.getUsuario().getEndereco());
+        compra.setEndereco(compra.getUsuario().getEnderecoPrincipal());
 
         compra.setIfConcluida(true);
     }
@@ -166,7 +166,7 @@ public class CompraImplService implements CompraService {
         
         Compra compra = validar(usuario);
 
-        BoletoBancario pagamento = new BoletoBancario(compra.getTotalCompra(), compra.getUsuario().getPessoaFisica().getNome(), compra.getUsuario().getPessoaFisica().getCpf());
+        BoletoBancario pagamento = new BoletoBancario(compra.getTotalCompra(), compra.getUsuario().getNome(), compra.getUsuario().getCpf());
 
         boletoBancarioRepository.persist(pagamento);
 
@@ -186,7 +186,7 @@ public class CompraImplService implements CompraService {
         
         Compra compra = validar(usuario);
 
-        Pix pagamento = new Pix(compra.getTotalCompra(), compra.getUsuario().getPessoaFisica().getNome(), compra.getUsuario().getPessoaFisica().getCpf());
+        Pix pagamento = new Pix(compra.getTotalCompra(), compra.getUsuario().getNome(), compra.getUsuario().getCpf());
 
         pixRepository.persist(pagamento);
 
@@ -209,7 +209,7 @@ public class CompraImplService implements CompraService {
         CartaoCredito pagamento = new CartaoCredito(compra.getTotalCompra(),
                                             cartaoCreditoDTO.numeroCartao(),
                                             cartaoCreditoDTO.nomeImpressoCartao(),
-                                            usuario.getPessoaFisica().getCpf(),
+                                            usuario.getCpf(),
                                             BandeiraCartao.valueOf(cartaoCreditoDTO.bandeiraCartao()));
         
         cartaoCreditoRepository.persist(pagamento);

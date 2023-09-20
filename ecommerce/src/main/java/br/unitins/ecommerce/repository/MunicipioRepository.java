@@ -1,6 +1,7 @@
 package br.unitins.ecommerce.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -25,5 +26,10 @@ public class MunicipioRepository implements PanacheRepository<Municipio> {
             return null;
 
         return find("FROM Municipio WHERE estado = ?1", estado).list();
+    }
+
+    public Optional<Municipio> buscarPorId(Long id) {
+        return find("id = ?1", id)
+                .firstResultOptional();
     }
 }

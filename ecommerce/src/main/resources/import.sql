@@ -308,127 +308,97 @@ insert into municipio (nome, id_estado) values ('Palmas', 5);
 insert into municipio (nome, id_estado) values ('Guaraí', 5);
 insert into municipio (nome, id_estado) values ('Belém', 4);
 insert into municipio (nome, id_estado) values ('Goiânia', 3);
+--
+-- insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 12', 'Quadra 708 Sul', 'lote 10', '77082-012', 2);
+-- insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('avenida Bernado Sayão', 'Setor Aeroporto', 'número 3564', '77700-001', 3);
+-- insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('rua Piauí', 'Quadra 301 Norte', 'numero 102', '77030-030', 1);
+-- insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 08', 'Quadra 1200 Sul', 'numero 092', '77092-839', 3);
+-- insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 13', 'Setor Bueno', 'lote 18', '77903-029', 1);
+-- insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 5', 'Quadra 201 Norte', 'numero 12', '77010-840', 2);
+--
+-- insert into usuario (login, senha, id_telefone_opcional)
+-- values (1, 'JoaoA', 'ZXChMgzI4VI5Jx+KKCL0AnuRaug9sWorJdV7iCDgWIDNVms7vyhaZeXP+5x26q6uDWKJmyQySZzE8hvoncjgCA==', 1, 2, 1);
+--
+-- insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal)
+-- values (2, 'mfernanda', 'x6JkviFo/CZc/dYoTsn+KjkyXu9rqbOwZ89vC1horO3B+ZT2N9nhquEvkFxm2WZahBpo5wgui91vSF00c1BYPA==', 3, 3);
+--
+-- insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal, id_telefone_opcional)
+-- values (3, 'pgamer', 'EDCT26TOqyKJg1i5rpN/tOkmr8RSjKfPP1qdPhjlj+sA3Wd++oZFkG5YChaMMRndKipiyVxfL12CUYWybBk+aA==', 2, 4, 5);
+--
+-- insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal, id_telefone_opcional)
+-- values (4, 'andregustavo', 'RfXkjGmkLte9wfbrO9237FdQiMKPjlKk3soCKh7zYvhiZToYC/424oO8HClVYVrEvIZTwd5OVZsIj4C+q9k21w==', 5, 6, 7);
+--
+-- insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal)
+-- values (5, 'marcelinho', 'Wp7loHTF7tvklCuczvAnLXJGWSBVrOS2VnsB6ZJvl4ysfhoYiH+U4Dl/DT9w2XQCqLV+uoQ/R7myAiT4sIEjew==', 4, 8);
+--
+-- insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal)
+-- values (6, 'mapereira', 'ccD5mRYxf9XgnDZUKjOq/Fx123hMiHQCX+nDp6j2iztugbW5q36cqqtxJy2dimLNpd6ZQHvDUKXQenN3Y5yiDQ==', 4, 9);
+--
+-- insert into usuario (id_pessoa_fisica, login, senha)
+-- values (7, 'JohnDev', '89ud9FUF967ZPp2GxHJ6ITVrXHnVfA0uf1AsYZ0V0SYuA0OCjSKXEgH72aTLeGBaQr3m7WuVsgWlx76WK/gWuA==');
+-- -- joao1234
+-- -- senha1234
+-- -- pa1000ulo
+-- -- andrezinho123
+-- -- password
+-- -- mrnprr45
+-- -- JohnDev
+--
+-- insert into perfis (id_usuario, perfil) values (1, 'Admin');
+-- insert into perfis (id_usuario, perfil) values (1, 'User');
+-- insert into perfis (id_usuario, perfil) values (2, 'User');
+-- insert into perfis (id_usuario, perfil) values (3, 'User');
+-- insert into perfis (id_usuario, perfil) values (4, 'User');
+-- insert into perfis (id_usuario, perfil) values (5, 'User');
+-- insert into perfis (id_usuario, perfil) values (6, 'User');
+-- insert into perfis (id_usuario, perfil) values (7, 'User_Basic');
+
+
+-- insert into lista_desejo (id_usuario, id_produto) values (6, 4);
+-- insert into lista_desejo (id_usuario, id_produto) values (2, 3);
+-- insert into lista_desejo (id_usuario, id_produto) values (3, 5);
+-- insert into lista_desejo (id_usuario, id_produto) values (2, 2);
+-- insert into lista_desejo (id_usuario, id_produto) values (4, 1);
 
 
 
-insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 12', 'Quadra 708 Sul', 'lote 10', '77082-012', 2);
-insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('avenida Bernado Sayão', 'Setor Aeroporto', 'número 3564', '77700-001', 3);
-insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('rua Piauí', 'Quadra 301 Norte', 'numero 102', '77030-030', 1);
-insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 08', 'Quadra 1200 Sul', 'numero 092', '77092-839', 3);
-insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 13', 'Setor Bueno', 'lote 18', '77903-029', 1);
-insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 5', 'Quadra 201 Norte', 'numero 12', '77010-840', 2);
-
-
-
-insert into telefone (codigoarea, numero) values ('011', '98456-7812');
-insert into telefone (codigoarea, numero) values ('061', '99901-5842');
-insert into telefone (codigoarea, numero) values ('061', '99933-0572');
-insert into telefone (codigoarea, numero) values ('063', '99933-0572');
-insert into telefone (codigoarea, numero) values ('078', '98203-3301');
-insert into telefone (codigoarea, numero) values ('092', '99602-9825');
-insert into telefone (codigoarea, numero) values ('012', '99378-6412');
-insert into telefone (codigoarea, numero) values ('071', '99749-1046');
-insert into telefone (codigoarea, numero) values ('063', '98832-1250');
-
-insert into pessoa (nome) values ('João Aguiar');
-insert into pessoa (nome) values ('Maria Fernanda');
-insert into pessoa (nome) values ('Paulo Vitor');
-insert into pessoa (nome) values ('André Gustavo');
-insert into pessoa (nome) values ('Marcelo da Silva');
-insert into pessoa (nome) values ('Marina Pereira');
-insert into pessoa (nome) values ('João Jorilo');
-
-insert into pessoaFisica (cpf, email, sexo, id) values ('09112332145', 'joao_aguiar@gmail.com', 1, 1);
-insert into pessoaFisica (cpf, email, sexo, id) values ('89114182345', 'mariaF@gmail.com', 2, 2);
-insert into pessoaFisica (cpf, email, sexo, id) values ('19429301284', 'paulo_gamer@gmail.com', 1, 3);
-insert into pessoaFisica (cpf, email, sexo, id) values ('90819287304', 'andreg@gmail.com', 1, 4);
-insert into pessoaFisica (cpf, email, sexo, id) values ('92874291092', 'marcilva@gmail.com', 1, 5);
-insert into pessoaFisica (cpf, email, sexo, id) values ('02484871941', 'mpereira@gmail.com', 2, 6);
-insert into pessoaFisica (email, id) values ('jubiscreisson@outlook.com', 7);
-
-insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal, id_telefone_opcional) 
-values (1, 'JoaoA', 'ZXChMgzI4VI5Jx+KKCL0AnuRaug9sWorJdV7iCDgWIDNVms7vyhaZeXP+5x26q6uDWKJmyQySZzE8hvoncjgCA==', 1, 2, 1);
-
-insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal)
-values (2, 'mfernanda', 'x6JkviFo/CZc/dYoTsn+KjkyXu9rqbOwZ89vC1horO3B+ZT2N9nhquEvkFxm2WZahBpo5wgui91vSF00c1BYPA==', 3, 3);
-
-insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal, id_telefone_opcional)
-values (3, 'pgamer', 'EDCT26TOqyKJg1i5rpN/tOkmr8RSjKfPP1qdPhjlj+sA3Wd++oZFkG5YChaMMRndKipiyVxfL12CUYWybBk+aA==', 2, 4, 5);
-
-insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal, id_telefone_opcional)
-values (4, 'andregustavo', 'RfXkjGmkLte9wfbrO9237FdQiMKPjlKk3soCKh7zYvhiZToYC/424oO8HClVYVrEvIZTwd5OVZsIj4C+q9k21w==', 5, 6, 7);
-
-insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal)
-values (5, 'marcelinho', 'Wp7loHTF7tvklCuczvAnLXJGWSBVrOS2VnsB6ZJvl4ysfhoYiH+U4Dl/DT9w2XQCqLV+uoQ/R7myAiT4sIEjew==', 4, 8);
-
-insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal) 
-values (6, 'mapereira', 'ccD5mRYxf9XgnDZUKjOq/Fx123hMiHQCX+nDp6j2iztugbW5q36cqqtxJy2dimLNpd6ZQHvDUKXQenN3Y5yiDQ==', 4, 9);
-
-insert into usuario (id_pessoa_fisica, login, senha)
-values (7, 'JohnDev', '89ud9FUF967ZPp2GxHJ6ITVrXHnVfA0uf1AsYZ0V0SYuA0OCjSKXEgH72aTLeGBaQr3m7WuVsgWlx76WK/gWuA==');
--- joao1234
--- senha1234
--- pa1000ulo
--- andrezinho123
--- password
--- mrnprr45
--- JohnDev
-
-insert into perfis (id_usuario, perfil) values (1, 'Admin');
-insert into perfis (id_usuario, perfil) values (1, 'User');
-insert into perfis (id_usuario, perfil) values (2, 'User');
-insert into perfis (id_usuario, perfil) values (3, 'User');
-insert into perfis (id_usuario, perfil) values (4, 'User');
-insert into perfis (id_usuario, perfil) values (5, 'User');
-insert into perfis (id_usuario, perfil) values (6, 'User');
-insert into perfis (id_usuario, perfil) values (7, 'User_Basic');
-
-
-insert into lista_desejo (id_usuario, id_produto) values (6, 4);
-insert into lista_desejo (id_usuario, id_produto) values (2, 3);
-insert into lista_desejo (id_usuario, id_produto) values (3, 5);
-insert into lista_desejo (id_usuario, id_produto) values (2, 2);
-insert into lista_desejo (id_usuario, id_produto) values (4, 1);
-
-
-
-insert into avaliacao (comentario, data, estrela, id_produto, id_usuario) 
-values ('Melhor jogo que já vi da FromSoftware. Basicamente Dark Souls 4', '2023-01-22', 5, 1, 1);
-
-insert into avaliacao (comentario, data, estrela, id_produto, id_usuario)
-values ('Gostei da gameplay, mas a história acaba destoando dos games clássicos', '2022-11-09', 3, 2, 2);
-
-insert into avaliacao (comentario, data, estrela, id_produto, id_usuario) 
-values ('Esse é o jogo mais lindo que já vi na minha vida', '2023-02-08', 5, 3, 3);
-
-insert into avaliacao (comentario, data, estrela, id_produto, id_usuario) 
-values ('Que jogo bom, simplesmente The Last of Us. só não gostei da parte do taco de golfe', '2023-03-08', 4, 4, 4);
-
-insert into avaliacao (comentario, data, estrela, id_produto, id_usuario) 
-values ('muito bom, quero comprar a DLC agora', '2023-01-18', 4, 5, 5);
-
-insert into avaliacao (comentario, data, estrela, id_produto, id_usuario) 
-values ('Uma das melhores experiências que ja vivi na minha vida foi jogando esse jogo', '2023-02-25', 5, 6, 6);
-
-insert into avaliacao (data, estrela, id_produto, id_usuario) 
-values ('2022-10-28', 5, 1, 3);
-
-insert into pagamento (valor, confirmacaoPagamento, dataConfirmacaoPagamento) values (511, true, '2023-06-10');
-insert into pagamento (valor, confirmacaoPagamento, dataConfirmacaoPagamento) values (1228.25, true, '2023-06-15');
-
-insert into pix (nome, cpf, dataExpiracaoTokenPix, id) values ('Maria Fernanda', '89114182345', '2023-06-11', 1);
-insert into boletoBancario (id, nome, cpf, dataGeracaoBoleto, dataVencimento)
-            values (2, 'Maria Fernanda', '89114182345', '2023-06-15', '2023-06-25');
-
-insert into compra (dataCompra, totalCompra, ifConcluida, id_endereco, id_pagamento, id_usuario)
-            values ('2023-06-10', 511, true, 3, 1, 2);
-
-insert into compra (dataCompra, totalCompra, ifConcluida, id_endereco, id_pagamento, id_usuario)
-            values ('2023-06-15', 1228.25, true, 3, 2, 2);
-
-insert into itemCompra (id_compra, quantidade, precoUnitario, id_produto) values (1, 10, 34.95, 1);
-insert into itemCompra (id_compra, quantidade, precoUnitario, id_produto) values (1, 5, 32.30, 2);
-insert into itemCompra (id_compra, quantidade, precoUnitario, id_produto) values (2, 15, 34.95, 1);
-insert into itemCompra (id_compra, quantidade, precoUnitario, id_produto) values (2, 2, 29.00, 3);
-insert into itemCompra (id_compra, quantidade, precoUnitario, id_produto) values (2, 20, 32.30, 2);
+-- insert into avaliacao (comentario, data, estrela, id_produto, id_usuario)
+-- values ('Melhor jogo que já vi da FromSoftware. Basicamente Dark Souls 4', '2023-01-22', 5, 1, 1);
+--
+-- insert into avaliacao (comentario, data, estrela, id_produto, id_usuario)
+-- values ('Gostei da gameplay, mas a história acaba destoando dos games clássicos', '2022-11-09', 3, 2, 2);
+--
+-- insert into avaliacao (comentario, data, estrela, id_produto, id_usuario)
+-- values ('Esse é o jogo mais lindo que já vi na minha vida', '2023-02-08', 5, 3, 3);
+--
+-- insert into avaliacao (comentario, data, estrela, id_produto, id_usuario)
+-- values ('Que jogo bom, simplesmente The Last of Us. só não gostei da parte do taco de golfe', '2023-03-08', 4, 4, 4);
+--
+-- insert into avaliacao (comentario, data, estrela, id_produto, id_usuario)
+-- values ('muito bom, quero comprar a DLC agora', '2023-01-18', 4, 5, 5);
+--
+-- insert into avaliacao (comentario, data, estrela, id_produto, id_usuario)
+-- values ('Uma das melhores experiências que ja vivi na minha vida foi jogando esse jogo', '2023-02-25', 5, 6, 6);
+--
+-- insert into avaliacao (data, estrela, id_produto, id_usuario)
+-- values ('2022-10-28', 5, 1, 3);
+--
+-- insert into pagamento (valor, confirmacaoPagamento, dataConfirmacaoPagamento) values (511, true, '2023-06-10');
+-- insert into pagamento (valor, confirmacaoPagamento, dataConfirmacaoPagamento) values (1228.25, true, '2023-06-15');
+--
+-- insert into pix (nome, cpf, dataExpiracaoTokenPix, id) values ('Maria Fernanda', '89114182345', '2023-06-11', 1);
+-- insert into boletoBancario (id, nome, cpf, dataGeracaoBoleto, dataVencimento)
+--             values (2, 'Maria Fernanda', '89114182345', '2023-06-15', '2023-06-25');
+--
+-- insert into compra (dataCompra, totalCompra, ifConcluida, id_endereco, id_pagamento, id_usuario)
+--             values ('2023-06-10', 511, true, 3, 1, 2);
+--
+-- insert into compra (dataCompra, totalCompra, ifConcluida, id_endereco, id_pagamento, id_usuario)
+--             values ('2023-06-15', 1228.25, true, 3, 2, 2);
+--
+-- insert into itemCompra (id_compra, quantidade, precoUnitario, id_produto) values (1, 10, 34.95, 1);
+-- insert into itemCompra (id_compra, quantidade, precoUnitario, id_produto) values (1, 5, 32.30, 2);
+-- insert into itemCompra (id_compra, quantidade, precoUnitario, id_produto) values (2, 15, 34.95, 1);
+-- insert into itemCompra (id_compra, quantidade, precoUnitario, id_produto) values (2, 2, 29.00, 3);
+-- insert into itemCompra (id_compra, quantidade, precoUnitario, id_produto) values (2, 20, 32.30, 2);
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import br.unitins.ecommerce.exception.NotFoundEntityException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -21,7 +22,6 @@ import br.unitins.ecommerce.repository.MunicipioRepository;
 
 @ApplicationScoped
 public class MunicipioImplService implements MunicipioService {
-
     @Inject
     Validator validator;
 
@@ -38,6 +38,11 @@ public class MunicipioImplService implements MunicipioService {
                                     .stream()
                                     .map(MunicipioResponseDTO::new)
                                     .toList();
+    }
+
+    public Municipio buscarOuFalharEntidadePorId(Long id) {
+        return municipioRepository.buscarPorId(id)
+                .orElseThrow(() -> new NotFoundEntityException(String.format("Municipio de id %d não encontrado.", id)));
     }
 
     @Override

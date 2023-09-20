@@ -130,7 +130,6 @@ public class GameServiceImpl implements GameService {
 
         avaliacaoService.delete(game);
 
-        usuarioService.deleteProdutoFromListaDesejo(game);
 
         if (gameRepository.isPersistent(game))
             gameRepository.deleteById(id);

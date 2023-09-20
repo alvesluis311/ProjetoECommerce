@@ -9,12 +9,5 @@ public record UsuarioBasicoResponseDTO(
         String email
 ) {
 
-    public UsuarioBasicoResponseDTO(Usuario usuario) {
-
-        this(usuario.getId(),
-                usuario.getLogin(),
-                usuario.getPessoaFisica().getNome(),
-                usuario.getPessoaFisica().getEmail());
-    }
 
 }

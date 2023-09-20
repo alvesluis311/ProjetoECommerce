@@ -41,7 +41,7 @@ public class UsuarioBasicoResourceTest {
     @Test
     public void getDadosPessoaisTest() {
 
-        Usuario usuario = usuarioService.getByLogin("Joao_dos_Isekai");
+        Usuario usuario = usuarioService.buscarPorLogin("Joao_dos_Isekai");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -56,7 +56,7 @@ public class UsuarioBasicoResourceTest {
     @Test
     public void upgradeUsuarioTest() {
 
-        Usuario usuario = usuarioService.getByLogin("Joao_dos_Isekai");
+        Usuario usuario = usuarioService.buscarPorLogin("Joao_dos_Isekai");
 
         String token = tokenService.generateJwt(usuario);
 

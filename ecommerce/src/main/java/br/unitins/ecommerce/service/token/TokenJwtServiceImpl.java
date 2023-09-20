@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import br.unitins.ecommerce.model.usuario.Perfil;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -19,8 +20,8 @@ public class TokenJwtServiceImpl implements TokenJwtService {
         Instant now = Instant.now();
         Instant expiryDate = now.plus(EXPIRATION_TIME);
 
-        Set<String> roles = usuario.getPerfis()
-                .stream().map(p -> p.getLabel())
+        Set<String> roles = usuario.getListaPerfil()
+                .stream().map(Perfil::getLabel)
                 .collect(Collectors.toSet());
 
         return Jwt.issuer("unitins-jwt")

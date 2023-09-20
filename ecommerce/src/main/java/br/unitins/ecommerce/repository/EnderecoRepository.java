@@ -1,6 +1,7 @@
 package br.unitins.ecommerce.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -41,5 +42,10 @@ public class EnderecoRepository implements PanacheRepository<Endereco> {
             return null;
 
         return find("FROM Endereco WHERE municipio = ?1", municipio).list();
+    }
+
+    public Optional<Endereco> buscarPorId(Long id) {
+        return find("id = ?1", id)
+                .firstResultOptional();
     }
 }

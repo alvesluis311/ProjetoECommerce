@@ -33,7 +33,7 @@ public record AvaliacaoResponseDTO(
                         avaliacao.getProduto().getNome()),
             viewUsuario(avaliacao.getUsuario().getId(),
                         avaliacao.getUsuario().getLogin(),
-                        avaliacao.getUsuario().getPessoaFisica().getEmail()));
+                    ""));
     }
 
     public static Map<String, Object> viewProduto (Long id, String nome) {

@@ -2,71 +2,26 @@ package br.unitins.ecommerce.service.usuario;
 
 import java.util.List;
 
-import br.unitins.ecommerce.dto.endereco.EnderecoDTO;
-import br.unitins.ecommerce.dto.telefone.TelefoneDTO;
-import br.unitins.ecommerce.dto.usuario.SenhaDTO;
-import br.unitins.ecommerce.dto.usuario.UpgradeUsuarioDTO;
-import br.unitins.ecommerce.dto.usuario.UsuarioBasicoDTO;
-import br.unitins.ecommerce.dto.usuario.UsuarioBasicoResponseDTO;
-import br.unitins.ecommerce.dto.usuario.UsuarioDTO;
-import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
-import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisDTO;
-import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoDTO;
-import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoResponseDTO;
-import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.dto.usuario.*;
 import br.unitins.ecommerce.model.usuario.Usuario;
 
 public interface UsuarioService {
+    Usuario buscarOuFalharEntidadePorId(Long usuarioId);
 
-    // Metodos basicos
+    UsuarioResponse buscarOuFalharResponsePorId(Long usuarioId);
 
-    List<UsuarioResponseDTO> getAllUsuario();
+    List<UsuarioResponse> buscarListaUsuario();
 
-    public List<UsuarioBasicoResponseDTO> getAllUsuarioBasico();
+    UsuarioResponse cadastrar(UsuarioForm form);
 
-    UsuarioResponseDTO getById(Long id);
+    UsuarioResponse atualizar(Long usuarioId, UsuarioRequest request);
 
-    UsuarioResponseDTO insert(UsuarioDTO usuarioDto);
+    UsuarioResponse atualizarParcial(Long usuarioId, UsuarioPatch patch);
 
-    UsuarioResponseDTO update(Long id, UsuarioDTO usuarioDto);
+    void deletar(Long usuarioId);
 
-    void delete(Long id);
+    Usuario buscarPorLoginESenha(String login, String senha);
 
-    void insertListaDesejo(ListaDesejoDTO listaDto);
 
-    ListaDesejoResponseDTO getListaDesejo(Long id);
-
-    void deleteProdutoFromListaDesejo(Long id, Long idProduto);
-
-    void deleteProdutoFromListaDesejo(Produto produto);
-
-    // Metodos extras
-
-    Long count();
-
-    List<UsuarioResponseDTO> getByNome(String nome);
-
-    Usuario getByLoginAndSenha(String login, String senha);
-
-    Usuario getByLogin(String login);
-
-    void update(Long id, DadosPessoaisDTO dadosPessoaisDTO);
-
-    void update(Long id, SenhaDTO senhaDTO);
-
-    void update(Long id, EnderecoDTO enderecoDTO);
-
-    void update(Long id, String nomeImagem);
-
-    void updateTelefonePrincipal(Long id, TelefoneDTO telefonePrincipalDTO);
-
-    void updateTelefoneOpcional(Long id, TelefoneDTO telefoneOpcionalDTO);
-
-    Integer countListaDesejo(Long id);
-
-    // Usuario basico
-
-    UsuarioBasicoResponseDTO insert(UsuarioBasicoDTO usuarioBasicoDto);
-
-    UsuarioResponseDTO upgrade(Long id, UpgradeUsuarioDTO usuarioDto);
+    Usuario buscarPorLogin(String login);
 }

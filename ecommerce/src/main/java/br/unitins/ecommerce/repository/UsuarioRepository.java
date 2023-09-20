@@ -1,6 +1,7 @@
 package br.unitins.ecommerce.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -31,5 +32,20 @@ public class UsuarioRepository implements PanacheRepository<Usuario> {
             return null;
 
         return find("login = ?1 ", login).firstResult();
+    }
+
+    public Optional<Usuario> buscarPorId(Long id) {
+        return find("id = ?1", id)
+                .firstResultOptional();
+    }
+
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return find("email = ?1", email)
+                .firstResultOptional();
+    }
+
+    public Optional<Usuario> buscarPorCpf(String cpf) {
+        return find("cpf = ?1", cpf)
+                .firstResultOptional();
     }
 }

@@ -20,28 +20,6 @@ public record UsuarioResponseDTO(
     Map<String, Object> telefoneOpcional
 ) {
 
-    public UsuarioResponseDTO (Usuario usuario) {
-
-        this(usuario.getId(),
-            usuario.getPessoaFisica().getNome(),
-            usuario.getLogin(),
-            usuario.getPessoaFisica().getEmail(),
-            usuario.getPessoaFisica().getCpf(),
-            usuario.getNomeImagem(),
-            viewEndereco(usuario.getEndereco().getLogradouro(),
-                        usuario.getEndereco().getBairro(), 
-                        usuario.getEndereco().getNumero(), 
-                        usuario.getEndereco().getComplemento(), 
-                        usuario.getEndereco().getCep(),
-                        usuario.getEndereco().getMunicipio()),
-            viewTelefone(usuario.getTelefonePrincipal().getCodigoArea(), 
-                        usuario.getTelefonePrincipal().getNumero()),
-            usuario.getTelefoneOpcional() != null?
-                                                viewTelefone(usuario.getTelefoneOpcional().getCodigoArea(),
-                                                            usuario.getTelefoneOpcional().getNumero())
-                                                : null);
-    }
-    
     public static Map<String, Object> viewEndereco (String logradouro, String bairro, String numero, String complemento, String cep, Municipio municipio) {
 
         Map<String, Object> endereco = new HashMap<>();

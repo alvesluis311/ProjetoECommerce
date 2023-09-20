@@ -2,6 +2,7 @@ package br.unitins.ecommerce.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -24,5 +25,10 @@ public class TelefoneRepository implements PanacheRepository<Telefone> {
         }
 
         return telefones;
-    }    
+    }
+
+    public Optional<Telefone> buscarPorId(Long id) {
+        return find("id = ?1", id)
+                .firstResultOptional();
+    }
 }

@@ -11,13 +11,4 @@ public record DadosPessoaisResponseDTO(
     String sexo
 ) {
     
-    public DadosPessoaisResponseDTO (Usuario usuario) {
-
-        this(usuario.getLogin(),
-            usuario.getPessoaFisica().getNome(),
-            usuario.getPessoaFisica().getEmail(),
-            usuario.getPessoaFisica().getCpf(),
-            usuario.getNomeImagem(),
-            usuario.getPessoaFisica().getSexo().getLabel());
-    }
 }

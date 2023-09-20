@@ -13,14 +13,7 @@ public record ListaDesejoResponseDTO(
     Map<String, Object> usuario,
     List<Map<String, Object>> produtos
 ) {
-    
-    public ListaDesejoResponseDTO (Usuario usuario) {
 
-        this(AvaliacaoResponseDTO.viewUsuario(usuario.getId(),
-                                            usuario.getLogin(),
-                                            usuario.getPessoaFisica().getEmail()),
-            viewProdutos(usuario.getProdutos()));
-    }
 
     private static List<Map<String, Object>> viewProdutos (List<Produto> lista) {
 

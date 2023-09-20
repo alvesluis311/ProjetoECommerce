@@ -1,30 +1,33 @@
 package br.unitins.ecommerce.model.usuario;
 
-import jakarta.persistence.Entity;
-
 import br.unitins.ecommerce.model.DefaultEntity;
+import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
 public class Telefone extends DefaultEntity {
 
-    private String codigoArea;
+    private int codigoArea;
 
     private String numero;
 
-    public String getCodigoArea() {
-        return codigoArea;
+    private boolean principal;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Telefone telefone = (Telefone) o;
+        return codigoArea == telefone.codigoArea && Objects.equals(numero, telefone.numero);
     }
 
-    public void setCodigoArea(String codigoArea) {
-        this.codigoArea = codigoArea;
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigoArea, numero);
     }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
 }
