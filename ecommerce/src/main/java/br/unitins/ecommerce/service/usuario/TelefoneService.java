@@ -1,12 +1,8 @@
 package br.unitins.ecommerce.service.usuario;
 
-import br.unitins.ecommerce.dto.endereco.EnderecoForm;
-import br.unitins.ecommerce.dto.endereco.EnderecoResponse;
 import br.unitins.ecommerce.dto.usuario.TelefoneForm;
 import br.unitins.ecommerce.dto.usuario.TelefoneResponse;
-import br.unitins.ecommerce.model.endereco.Endereco;
 import br.unitins.ecommerce.model.usuario.Telefone;
-import br.unitins.ecommerce.model.usuario.Usuario;
 
 import java.util.List;
 

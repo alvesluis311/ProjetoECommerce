@@ -1,7 +1,6 @@
 package br.unitins.ecommerce.resource;
 
 import br.unitins.ecommerce.dto.endereco.EnderecoForm;
-import br.unitins.ecommerce.dto.endereco.EnderecoRequest;
 import br.unitins.ecommerce.dto.endereco.EnderecoResponse;
 import br.unitins.ecommerce.dto.usuario.*;
 import br.unitins.ecommerce.service.endereco.EnderecoService;

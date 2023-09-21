@@ -86,7 +86,7 @@ public class GameResource {
     }
 
     @POST
-    @RolesAllowed({"Admin"})
+    @RolesAllowed({ "Admin" })
     public Response insert(GameDTO gameDto) {
         LOG.infof("Inserindo um produto: %s", gameDto.nome());
         Result result = null;
@@ -108,14 +108,14 @@ public class GameResource {
 
         }
         return Response
-        .status(Status.NOT_FOUND)
-        .entity(result)
-        .build();
+                .status(Status.NOT_FOUND)
+                .entity(result)
+                .build();
     }
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @RolesAllowed({ "Admin" })
     public Response update(@PathParam("id") Long id, GameDTO gameDto) {
         Result result = null;
         try {
@@ -170,7 +170,7 @@ public class GameResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @RolesAllowed({ "Admin" })
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
         try {
             gameService.delete(id);
@@ -188,7 +188,7 @@ public class GameResource {
 
     @GET
     @Path("/count")
-    @RolesAllowed({"Admin"})
+    @RolesAllowed({ "Admin" })
     public Long count() {
         LOG.info("Contando todos os produtos.");
         LOG.debug("ERRO DE DEBUG.");
@@ -203,6 +203,28 @@ public class GameResource {
         LOG.debug("ERRO DE DEBUG.");
         return gameService.findByNome(nome);
     }
+
+    @GET
+    @Path("/searchByDeveloper/{id}")
+    @PermitAll
+    public List<GameResponseDTO> getByDeveloper(@PathParam("id") Long id)
+            throws IndexOutOfBoundsException {
+        LOG.infof("Buscando pelo developer. ", id);
+        LOG.debug("ERRO DE DEBUG.");
+        return gameService.getByDeveloper(id);
+    }
+
+    @GET
+    @Path("/searchByGenero/{id}")
+    @PermitAll
+    public List<GameResponseDTO> getByGenero(@PathParam("id") Long id)
+            throws IndexOutOfBoundsException {
+        LOG.infof("Buscando pelo gênero. ID: %d", id); // Use %d para formatar o ID
+        LOG.debug("ERRO DE DEBUG.");
+        return gameService.getByGenero(id);
+    }
+
+    
 
     @GET
     @Path("/filterByPrecoMin/{precoMin}")

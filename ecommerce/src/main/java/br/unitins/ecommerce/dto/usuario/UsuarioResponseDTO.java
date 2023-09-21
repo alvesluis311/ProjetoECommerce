@@ -6,7 +6,6 @@ import java.util.Map;
 import br.unitins.ecommerce.dto.municipio.MunicipioResponseDTO;
 import br.unitins.ecommerce.model.endereco.Estado;
 import br.unitins.ecommerce.model.endereco.Municipio;
-import br.unitins.ecommerce.model.usuario.Usuario;
 
 public record UsuarioResponseDTO(
     Long id,

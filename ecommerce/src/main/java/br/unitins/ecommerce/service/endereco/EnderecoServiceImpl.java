@@ -1,7 +1,6 @@
 package br.unitins.ecommerce.service.endereco;
 
 import br.unitins.ecommerce.dto.endereco.EnderecoForm;
-import br.unitins.ecommerce.dto.endereco.EnderecoRequest;
 import br.unitins.ecommerce.dto.endereco.EnderecoResponse;
 import br.unitins.ecommerce.exception.ConflictException;
 import br.unitins.ecommerce.exception.NotFoundEntityException;
@@ -12,7 +11,6 @@ import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.EnderecoRepository;
 import br.unitins.ecommerce.service.muncipio.MunicipioService;
 import br.unitins.ecommerce.service.usuario.UsuarioService;
-import br.unitins.ecommerce.service.usuario.UsuarioServiceImpl;
 import br.unitins.ecommerce.utils.BeanUtil;
 import br.unitins.ecommerce.utils.RequestValidator;
 import jakarta.enterprise.context.ApplicationScoped;

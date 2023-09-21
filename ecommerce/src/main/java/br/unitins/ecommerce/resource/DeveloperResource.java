@@ -22,51 +22,52 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 import br.unitins.ecommerce.application.Result;
-import br.unitins.ecommerce.dto.plataforma.PlataformaDTO;
-import br.unitins.ecommerce.dto.plataforma.PlataformaResponseDTO;
-import br.unitins.ecommerce.service.plataforma.PlataformaService;
+import br.unitins.ecommerce.dto.developer.DeveloperDTO;
+import br.unitins.ecommerce.dto.developer.DeveloperResponseDTO;
+import br.unitins.ecommerce.service.developer.DeveloperService;
 
-@Path("/plataformas")
+@Path("/developers")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class PlataformaResource {
+public class DeveloperResource {
 
     @Inject
-    PlataformaService plataformaService;
+    DeveloperService developerService;
 
-    private static final Logger LOG = Logger.getLogger(PlataformaResource.class);
+
+    private static final Logger LOG = Logger.getLogger(DeveloperResource.class);
 
     @GET
     @PermitAll
-    public List<PlataformaResponseDTO> getAll() {
-        LOG.info("Buscando todas os plataformas");
+    public List<DeveloperResponseDTO> getAll() {
+        LOG.info("Buscando todos os developers");
         LOG.debug("ERRO DE DEBUG.");
-        return plataformaService.getAll();
+        return developerService.getAll();
     }
 
     @GET
     @Path("/{id}")
     @PermitAll
-    public PlataformaResponseDTO getById(@PathParam("id") Long id) throws NotFoundException {
-        LOG.infof("Buscando plataformas por ID. ", id);
+    public DeveloperResponseDTO getById(@PathParam("id") Long id) throws NotFoundException {
+        LOG.infof("Buscando developers por ID. ", id);
         LOG.debug("ERRO DE DEBUG.");
-        return plataformaService.getById(id);
+        return developerService.getById(id);
     }
 
     @POST
     @RolesAllowed({"Admin"})
-    public Response insert(PlataformaDTO plataformaDto) {
-        LOG.infof("Inserindo uma plataforma: %s", plataformaDto.nome());
+    public Response insert(DeveloperDTO developerDto) {
+        LOG.infof("Inserindo um developer: %s", developerDto.nome());
         Result result = null;
         try {
-            LOG.infof("Plataforma criada.");
+            LOG.infof("Developer criado.");
             return Response
                     .status(Status.CREATED) // 201
-                    .entity(plataformaService.create(plataformaDto))
+                    .entity(developerService.create(developerDto))
                     .build();
 
         } catch (ConstraintViolationException e) {
-            LOG.error("Erro ao incluir um Plataforma.");
+            LOG.error("Erro ao incluir um Developer.");
             LOG.debug(e.getMessage());
             result = new Result(e.getConstraintViolations());
 
@@ -84,17 +85,17 @@ public class PlataformaResource {
     @PUT
     @Path("/{id}")
     @RolesAllowed({"Admin"})
-    public Response update(@PathParam("id") Long id, PlataformaDTO plataformaDto) {
+    public Response update(@PathParam("id") Long id, DeveloperDTO developerDto) {
         Result result = null;
         try {
-            plataformaService.update(id, plataformaDto);
-            LOG.infof("Plataforma (%d) atualizada com sucesso.", id);
+            developerService.update(id, developerDto);
+            LOG.infof("Developer (%d) atualizado com sucesso.", id);
             return Response
                     .status(Status.NO_CONTENT) // 204
                     .build();
 
         } catch (ConstraintViolationException e) {
-            LOG.errorf("Erro ao atualizar uma plataforma. ", id, e);
+            LOG.errorf("Erro ao atualizar um developer. ", id, e);
             LOG.debug(e.getMessage());
 
             result = new Result(e.getConstraintViolations());
@@ -116,15 +117,15 @@ public class PlataformaResource {
     @RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
         try {
-            plataformaService.delete(id);
-            LOG.infof("plataforma excluída com sucesso.", id);
+            developerService.delete(id);
+            LOG.infof("developer excluído com sucesso.", id);
 
             return Response
                     .status(Status.NO_CONTENT)
                     .build();
 
         } catch (IllegalArgumentException e) {
-            LOG.error("Erro ao deletar plataforma: parâmetros inválidos.", e);
+            LOG.error("Erro ao deletar developer: parâmetros inválidos.", e);
             throw e;
         }
     }
@@ -133,18 +134,18 @@ public class PlataformaResource {
     @Path("/count")
     @RolesAllowed({"Admin"})
     public Long count() {
-        LOG.info("Contando todos os plataformas.");
+        LOG.info("Contando todos os developers.");
         LOG.debug("ERRO DE DEBUG.");
-        return plataformaService.count();
+        return developerService.count();
     }
 
     @GET
     @Path("/searchByNome/{nome}")
     @PermitAll
-    public List<PlataformaResponseDTO> getByNome(@PathParam("nome") String nome) {
-        LOG.infof("Buscando plataforma pelo nome. ", nome);
+    public List<DeveloperResponseDTO> getByNome(@PathParam("nome") String nome) {
+        LOG.infof("Buscando developer pelo nome. ", nome);
         LOG.debug("ERRO DE DEBUG.");
-        return plataformaService.findByNome(nome);
+        return developerService.findByNome(nome);
     }
 
 }

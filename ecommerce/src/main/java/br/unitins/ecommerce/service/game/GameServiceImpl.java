@@ -14,7 +14,9 @@ import jakarta.ws.rs.NotFoundException;
 
 import br.unitins.ecommerce.dto.game.GameDTO;
 import br.unitins.ecommerce.dto.game.GameResponseDTO;
+import br.unitins.ecommerce.model.produto.game.Developer;
 import br.unitins.ecommerce.model.produto.game.Game;
+import br.unitins.ecommerce.model.produto.game.Genero;
 import br.unitins.ecommerce.repository.DeveloperRepository;
 import br.unitins.ecommerce.repository.GameRepository;
 import br.unitins.ecommerce.repository.GeneroRepository;
@@ -142,6 +144,36 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
+    public List<GameResponseDTO> getByDeveloper(Long id) throws NullPointerException {
+
+        Developer developer = developerRepository.findById(id);
+
+        if (developer == null)
+            throw new NullPointerException("Nenhum desenvolvedor encontrado");
+
+        List<Game> list = gameRepository.findByDeveloper(developer);
+
+        return list.stream()
+                .map(GameResponseDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GameResponseDTO> getByGenero(Long id) throws NullPointerException {
+
+        Genero genero = generoRepository.findById(id);
+
+        if (genero == null)
+            throw new NullPointerException("Nenhum gênero encontrado");
+
+        List<Game> list = gameRepository.findByGenero(genero);
+
+        return list.stream()
+                .map(GameResponseDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public long count() {
         return gameRepository.count();
     }
@@ -186,5 +218,7 @@ public class GameServiceImpl implements GameService {
                     .map(GameResponseDTO::new)
                     .collect(Collectors.toList());
     }
+
+    
 
 }

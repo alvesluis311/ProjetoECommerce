@@ -25,7 +25,6 @@ import br.unitins.ecommerce.application.Result;
 import br.unitins.ecommerce.dto.genero.GeneroDTO;
 import br.unitins.ecommerce.dto.genero.GeneroResponseDTO;
 import br.unitins.ecommerce.service.genero.GeneroService;
-import br.unitins.ecommerce.service.file.FileService;
 
 @Path("/generos")
 @Produces(MediaType.APPLICATION_JSON)
@@ -35,8 +34,6 @@ public class GeneroResource {
     @Inject
     GeneroService generoService;
 
-    @Inject
-    FileService fileService;
 
     private static final Logger LOG = Logger.getLogger(GeneroResource.class);
 

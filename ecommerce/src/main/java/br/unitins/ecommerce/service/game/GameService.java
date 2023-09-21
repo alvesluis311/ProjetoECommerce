@@ -27,6 +27,10 @@ public interface GameService {
 
     List<GameResponseDTO> findByNome(String nome);
 
+    List<GameResponseDTO> getByDeveloper(Long id);
+
+    List<GameResponseDTO> getByGenero(Long id);
+
     // metodos de filtragem
 
     List<GameResponseDTO> filterByPrecoMin(Double preco);

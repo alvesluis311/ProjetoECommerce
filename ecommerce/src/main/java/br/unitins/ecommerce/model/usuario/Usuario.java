@@ -3,7 +3,6 @@ package br.unitins.ecommerce.model.usuario;
 import br.unitins.ecommerce.model.DefaultEntity;
 import br.unitins.ecommerce.model.endereco.Endereco;
 import br.unitins.ecommerce.model.produto.Produto;
-import br.unitins.ecommerce.model.usuario.Perfil;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

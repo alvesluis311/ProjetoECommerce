@@ -25,7 +25,6 @@ import br.unitins.ecommerce.application.Result;
 import br.unitins.ecommerce.dto.fabricante.FabricanteDTO;
 import br.unitins.ecommerce.dto.fabricante.FabricanteResponseDTO;
 import br.unitins.ecommerce.service.fabricante.FabricanteService;
-import br.unitins.ecommerce.service.file.FileService;
 
 @Path("/fabricantes")
 @Produces(MediaType.APPLICATION_JSON)
@@ -35,8 +34,6 @@ public class FabricanteResource {
     @Inject
     FabricanteService fabricanteService;
 
-    @Inject
-    FileService fileService;
 
     private static final Logger LOG = Logger.getLogger(FabricanteResource.class);
 
