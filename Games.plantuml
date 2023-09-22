@@ -148,7 +148,7 @@
 
     class Pix {
 
-        - nome: String
+        - chave: String
         - cpf: String
         - dataExpiracaoTokenPix: LocalDate
     }
