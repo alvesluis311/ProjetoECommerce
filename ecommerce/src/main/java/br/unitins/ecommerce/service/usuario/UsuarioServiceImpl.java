@@ -5,6 +5,7 @@ import br.unitins.ecommerce.exception.ConflictException;
 import br.unitins.ecommerce.exception.NegocioException;
 import br.unitins.ecommerce.exception.NotFoundEntityException;
 import br.unitins.ecommerce.mapper.UsuarioMapper;
+import br.unitins.ecommerce.model.usuario.Perfil;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.UsuarioRepository;
 import br.unitins.ecommerce.service.endereco.EnderecoService;
@@ -71,6 +72,15 @@ public class UsuarioServiceImpl implements UsuarioService {
         return buscarOuFalharResponsePorId(usuario.getId());
     }
 
+    @Override
+    @Transactional
+    public void adicionarPerfil(Long id, List<Integer> perfis) {
+        Usuario usuario = buscarOuFalharEntidadePorId(id);
+
+        perfis.forEach( p ->
+                usuario.addPerfil(Perfil.valueOf(p)));
+    }
+
     private void validarEmail(String email) {
         Optional<Usuario> usuario = repository.buscarPorEmail(email);
         if (usuario.isPresent()) {
@@ -122,7 +132,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     public Usuario buscarPorLoginESenha(String login, String senha) {
-
         return repository.findByLoginAndSenha(login, senha);
     }
 

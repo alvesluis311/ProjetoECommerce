@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,5 +34,8 @@ public class UsuarioForm {
 
     @NotEmpty
     private List<EnderecoForm> listaEndereco;
+
+    @NotEmpty
+    private Set<Long> listaPerfil;
 
 }

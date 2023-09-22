@@ -49,6 +49,13 @@ public class UsuarioResource {
         return Response.status(Response.Status.CREATED).entity(response).build();
     }
 
+    @PATCH
+    @Path("/{id}/adicionar-perfil")
+    public Response adicionarPerfil(@PathParam("id") Long id,List<Integer> perfil) {
+         usuarioService.adicionarPerfil(id, perfil);
+        return Response.status(Response.Status.OK).build();
+    }
+
     @PUT
     @Path("/{id}")
     public Response atualizar(@PathParam("id") Long id, UsuarioRequest request) {
