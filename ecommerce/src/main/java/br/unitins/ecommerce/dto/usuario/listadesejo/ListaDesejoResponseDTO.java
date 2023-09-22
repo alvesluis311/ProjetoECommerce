@@ -6,28 +6,28 @@ import java.util.List;
 import java.util.Map;
 
 import br.unitins.ecommerce.dto.avaliacao.AvaliacaoResponseDTO;
-import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.produto.game.Game;
 import br.unitins.ecommerce.model.usuario.Usuario;
 
 public record ListaDesejoResponseDTO(
     Map<String, Object> usuario,
-    List<Map<String, Object>> produtos
+    List<Map<String, Object>> games
 ) {
 
 
-    private static List<Map<String, Object>> viewProdutos (List<Produto> lista) {
+    private static List<Map<String, Object>> viewGames (List<Game> lista) {
 
-        List<Map<String, Object>> listaProdutos = new ArrayList<>();
+        List<Map<String, Object>> listaGames = new ArrayList<>();
 
-        for (Produto produtos : lista) {
+        for (Game games : lista) {
             
-            Map<String, Object> produto = new HashMap<>();
+            Map<String, Object> game = new HashMap<>();
 
-            produto = AvaliacaoResponseDTO.viewProduto(produtos.getId(), produtos.getNome());
+            game = AvaliacaoResponseDTO.viewGame(games.getId(), games.getNome());
 
-            listaProdutos.add(produto);
+            listaGames.add(game);
         }
 
-        return listaProdutos;
+        return listaGames;
     }
 }

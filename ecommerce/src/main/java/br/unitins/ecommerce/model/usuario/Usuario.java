@@ -2,7 +2,7 @@ package br.unitins.ecommerce.model.usuario;
 
 import br.unitins.ecommerce.model.DefaultEntity;
 import br.unitins.ecommerce.model.endereco.Endereco;
-import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.produto.game.Game;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,7 +44,7 @@ public class Usuario extends DefaultEntity {
     @JoinTable(name = "lista_desejo",
             joinColumns = @JoinColumn(name = "id_usuario"),
             inverseJoinColumns = @JoinColumn(name = "id_produto"))
-    private List<Produto> produtos;
+    private List<Game> produtos;
 
     public void addPerfil(Perfil perfil) {
         if (this.listaPerfil == null)

@@ -54,7 +54,7 @@ public record CompraResponseDTO(
             
             Map<String, Object> itemCompra = new HashMap<>();
 
-            itemCompra = viewItemCompra(itensCompra.getProduto().getNome(), itensCompra.getPrecoUnitario(), itensCompra.getQuantidade());
+            itemCompra = viewItemCompra(itensCompra.getGame().getNome(), itensCompra.getPrecoUnitario(), itensCompra.getQuantidade());
 
             listaitensCompra.add(itemCompra);
         }

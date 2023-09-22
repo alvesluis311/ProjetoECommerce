@@ -8,7 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import br.unitins.ecommerce.model.DefaultEntity;
-import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.produto.game.Game;
 import br.unitins.ecommerce.model.usuario.Usuario;
 
 @Entity
@@ -23,8 +23,8 @@ public class Avaliacao extends DefaultEntity {
     private Estrela estrela;
 
     @ManyToOne
-    @JoinColumn(name = "id_produto", nullable = false)
-    private Produto produto;
+    @JoinColumn(name = "id_game", nullable = false)
+    private Game game;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
@@ -54,12 +54,12 @@ public class Avaliacao extends DefaultEntity {
         this.estrela = estrela;
     }
 
-    public Produto getProduto() {
-        return produto;
+    public Game getGame() {
+        return game;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     public Usuario getUsuario() {

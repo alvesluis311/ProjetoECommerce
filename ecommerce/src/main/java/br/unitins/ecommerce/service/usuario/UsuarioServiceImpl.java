@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
-@Getter
-@Setter
+//@Getter
+//@Setter
 public class UsuarioServiceImpl implements UsuarioService {
 
     @Inject

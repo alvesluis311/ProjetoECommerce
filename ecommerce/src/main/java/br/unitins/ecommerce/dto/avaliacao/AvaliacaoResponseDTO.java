@@ -17,7 +17,7 @@ public record AvaliacaoResponseDTO(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     Estrela estrela,
 
-    Map<String, Object> produto,
+    Map<String, Object> game,
     Map<String, Object> usuario
 ) {
     
@@ -29,21 +29,21 @@ public record AvaliacaoResponseDTO(
                                             : null,
             avaliacao.getData(),
             avaliacao.getEstrela(),
-            viewProduto(avaliacao.getProduto().getId(),
-                        avaliacao.getProduto().getNome()),
+            viewGame(avaliacao.getGame().getId(),
+                        avaliacao.getGame().getNome()),
             viewUsuario(avaliacao.getUsuario().getId(),
                         avaliacao.getUsuario().getLogin(),
                     ""));
     }
 
-    public static Map<String, Object> viewProduto (Long id, String nome) {
+    public static Map<String, Object> viewGame (Long id, String nome) {
 
-        Map<String, Object> produto = new HashMap<>();
+        Map<String, Object> game = new HashMap<>();
 
-        produto.put("id", id);
-        produto.put("nome", nome);
+        game.put("id", id);
+        game.put("nome", nome);
 
-        return produto;
+        return game;
     }
 
     public static Map<String, Object> viewUsuario (Long id, String login, String email) {

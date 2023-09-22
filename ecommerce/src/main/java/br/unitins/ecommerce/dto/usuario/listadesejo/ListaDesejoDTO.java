@@ -6,7 +6,7 @@ public record ListaDesejoDTO(
     @NotNull
     Long idUsuario,
 
-    Long idProduto
+    Long idGame
 ) {
     
 }

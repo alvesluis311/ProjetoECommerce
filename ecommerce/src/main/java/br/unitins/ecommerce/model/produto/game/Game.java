@@ -10,15 +10,25 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-
-import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.DefaultEntity;
 import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) 
-@PrimaryKeyJoinColumn(name = "id") 
-public class Game extends Produto {
+public class Game extends DefaultEntity {
+
+    @Column(nullable = false)
+    private String nome;
+
+    private String nomeImagem;
+
+    private String descricao;
+
+    @Column(nullable = false)
+    private Double preco;
+
+    @Column(nullable = false)
+    private Integer estoque;
 
     @Column(nullable = false, length = 120)
     private String diretor;
@@ -41,6 +51,51 @@ public class Game extends Produto {
     joinColumns = @JoinColumn(name = "id_game"),
     inverseJoinColumns = @JoinColumn(name = "id_plataforma"))
     private List<Plataforma> plataformas;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNomeImagem() {
+        return nomeImagem;
+    }
+
+    public void setNomeImagem(String nomeImagem) {
+        this.nomeImagem = nomeImagem;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
+    public Integer getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
+    }
+
+    public void minusEstoque(Integer estoque) {
+
+        this.estoque -= estoque;
+    }
 
     public String getDiretor() {
         return diretor;

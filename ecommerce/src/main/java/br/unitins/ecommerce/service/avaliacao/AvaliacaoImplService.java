@@ -15,7 +15,7 @@ import jakarta.ws.rs.NotFoundException;
 
 import br.unitins.ecommerce.dto.avaliacao.AvaliacaoDTO;
 import br.unitins.ecommerce.dto.avaliacao.AvaliacaoResponseDTO;
-import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.produto.game.Game;
 import br.unitins.ecommerce.model.produto.avaliacao.Avaliacao;
 import br.unitins.ecommerce.model.produto.avaliacao.Estrela;
 import br.unitins.ecommerce.repository.AvaliacaoRepository;
@@ -71,7 +71,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
 
         entity.setEstrela(Estrela.valueOf(avaliacaoDto.estrela()));
 
-        entity.setProduto(gameRepository.findById(avaliacaoDto.idProduto()));
+        entity.setGame(gameRepository.findById(avaliacaoDto.idGame()));
 
         entity.setUsuario(usuarioRepository.findById(avaliacaoDto.idUsuario()));
 
@@ -94,7 +94,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
 
         entity.setEstrela(Estrela.valueOf(avaliacaoDto.estrela()));
 
-        entity.setProduto(gameRepository.findById(avaliacaoDto.idProduto()));
+        entity.setGame(gameRepository.findById(avaliacaoDto.idGame()));
 
         entity.setUsuario(usuarioRepository.findById(avaliacaoDto.idUsuario()));
 
@@ -119,9 +119,9 @@ public class AvaliacaoImplService implements AvaliacaoService {
 
     @Override
     @Transactional
-    public void delete(Produto produto) {
+    public void delete(Game game) {
 
-        List<Avaliacao> listaAvaliacao = avaliacaoRepository.findByProduto(produto);
+        List<Avaliacao> listaAvaliacao = avaliacaoRepository.findByGame(game);
 
         for (Avaliacao avaliacao : listaAvaliacao) {
             

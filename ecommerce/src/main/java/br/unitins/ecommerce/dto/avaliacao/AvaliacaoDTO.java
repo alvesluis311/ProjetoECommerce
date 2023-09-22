@@ -12,7 +12,7 @@ public record AvaliacaoDTO(
 
     @NotNull
     @Min(1)
-    Long idProduto,
+    Long idGame,
 
     @NotNull
     @Min(1)

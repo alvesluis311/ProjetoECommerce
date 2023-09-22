@@ -120,8 +120,8 @@ public class AvaliacaoResourceTest {
         assertThat(avaliacaoResponse.id(), is(8l));
         assertThat(avaliacaoResponse.comentario(), is("Gostei demais"));
         assertThat(avaliacaoResponse.estrela().getLabel(), is("⭐⭐⭐⭐⭐"));
-        assertThat(avaliacaoResponse.produto().get("id"), is(2l));
-        assertThat(avaliacaoResponse.produto().get("nome"), is("God of War Ragnarok"));
+        assertThat(avaliacaoResponse.game().get("id"), is(2l));
+        assertThat(avaliacaoResponse.game().get("nome"), is("God of War Ragnarok"));
         assertThat(avaliacaoResponse.usuario().get("id"), is(1l));
         assertThat(avaliacaoResponse.usuario().get("login"), is("JoaoA"));
         assertThat(avaliacaoResponse.usuario().get("email"), is("joao_aguiar@gmail.com"));

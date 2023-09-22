@@ -6,7 +6,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 import br.unitins.ecommerce.model.DefaultEntity;
-import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.produto.game.Game;
 
 @Entity
 public class ItemCompra extends DefaultEntity {
@@ -18,13 +18,13 @@ public class ItemCompra extends DefaultEntity {
     private Double precoUnitario;
 
     @ManyToOne
-    @JoinColumn(name = "id_produto", nullable = false)
-    private Produto produto;
+    @JoinColumn(name = "id_game", nullable = false)
+    private Game game;
 
-    public ItemCompra (Produto produto, Integer quantidade) {
+    public ItemCompra (Game game, Integer quantidade) {
 
-        this.produto = produto;
-        this.precoUnitario = produto.getPreco();
+        this.game = game;
+        this.precoUnitario = game.getPreco();
         this.quantidade = quantidade;
     }
 
@@ -32,9 +32,9 @@ public class ItemCompra extends DefaultEntity {
         
     }
 
-    public boolean contains(Produto produto) {
+    public boolean contains(Game game) {
 
-        if (this.produto.getId() == produto.getId())
+        if (this.game.getId() == game.getId())
             return true;
         
         else
@@ -62,12 +62,12 @@ public class ItemCompra extends DefaultEntity {
         this.precoUnitario = preco;
     }
 
-    public Produto getProduto() {
-        return produto;
+    public Game getGame() {
+        return game;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+    public void setGame(Game game) {
+        this.game = game;
     }
 
 }

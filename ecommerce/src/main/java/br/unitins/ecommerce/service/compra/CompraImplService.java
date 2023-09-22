@@ -12,7 +12,7 @@ import br.unitins.ecommerce.model.pagamento.BandeiraCartao;
 import br.unitins.ecommerce.model.pagamento.BoletoBancario;
 import br.unitins.ecommerce.model.pagamento.CartaoCredito;
 import br.unitins.ecommerce.model.pagamento.Pix;
-import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.produto.game.Game;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.BoletoBancarioRepository;
 import br.unitins.ecommerce.repository.CartaoCreditoRepository;
@@ -38,7 +38,7 @@ public class CompraImplService implements CompraService {
     UsuarioRepository usuarioRepository;
 
     @Inject
-    PanacheRepository<? extends Produto> produtoRepository;
+    PanacheRepository<? extends Game> gameRepository;
 
     @Inject
     BoletoBancarioRepository boletoBancarioRepository;
@@ -75,11 +75,11 @@ public class CompraImplService implements CompraService {
     @Transactional
     public void insertItemIntoCompra(Long idUsuario, ItemCompraDTO itemCompraDTO) throws NullPointerException {
         
-        Produto produto = validar(itemCompraDTO);
+        Game game = validar(itemCompraDTO);
 
         Compra compra = validar(idUsuario);
 
-        Integer indice = validar(produto, compra.getItemCompra());
+        Integer indice = validar(game, compra.getItemCompra());
 
         ItemCompra itemCompra;
 
@@ -94,7 +94,7 @@ public class CompraImplService implements CompraService {
 
         else {
 
-            itemCompra = new ItemCompra(produto, itemCompraDTO.quantidade());
+            itemCompra = new ItemCompra(game, itemCompraDTO.quantidade());
 
             itemCompraRepository.persist(itemCompra);
 
@@ -106,14 +106,14 @@ public class CompraImplService implements CompraService {
 
     @Override
     @Transactional
-    public void removeItemCompra(Long idUsuario, Long idProduto) {
+    public void removeItemCompra(Long idUsuario, Long idGame) {
         
         Compra compra = compraRepository.findByUsuarioWhereIsNotFinished(usuarioRepository.findById(idUsuario));
 
         if (compra == null)
             throw new NullPointerException("Não há nenhuma compra em andamento");
 
-        ItemCompra itemCompra = itemCompraRepository.findByProduto(produtoRepository.findById(idProduto));
+        ItemCompra itemCompra = itemCompraRepository.findByGame(gameRepository.findById(idGame));
 
         compra.minusTotalCompra(itemCompra.getPrecoUnitario() * itemCompra.getQuantidade());
 
@@ -146,11 +146,11 @@ public class CompraImplService implements CompraService {
 
         for (ItemCompra itemCompra : compra.getItemCompra()) {
 
-            if (itemCompra.getProduto().getEstoque() < itemCompra.getQuantidade())
+            if (itemCompra.getGame().getEstoque() < itemCompra.getQuantidade())
                 throw new NullPointerException("quantidade em estoque insuficiente para a quantidade requisitada. Não é possível finalizar a compra");
 
             else
-                itemCompra.getProduto().minusEstoque(itemCompra.getQuantidade());
+                itemCompra.getGame().minusEstoque(itemCompra.getQuantidade());
         }
 
         compra.setEndereco(compra.getUsuario().getEnderecoPrincipal());
@@ -235,11 +235,11 @@ public class CompraImplService implements CompraService {
         return compra;
     }
 
-    private Integer validar(Produto produto, List<ItemCompra> listaItens) {
+    private Integer validar(Game game, List<ItemCompra> listaItens) {
 
         for (int i = 0; i < listaItens.size(); i++) {
             
-            if (listaItens.get(i).contains(produto))
+            if (listaItens.get(i).contains(game))
                 return i;
         }
 
@@ -263,12 +263,12 @@ public class CompraImplService implements CompraService {
             return compra;
     }
 
-    private Produto validar(ItemCompraDTO itemCompraDTO) throws NullPointerException {
+    private Game validar(ItemCompraDTO itemCompraDTO) throws NullPointerException {
 
-        Produto produto = produtoRepository.findById(itemCompraDTO.idProduto());
+        Game game = gameRepository.findById(itemCompraDTO.idGame());
 
-        if (produto.getEstoque() > itemCompraDTO.quantidade())
-            return produto;
+        if (game.getEstoque() > itemCompraDTO.quantidade())
+            return game;
 
         else
             throw new NullPointerException("quantidade em estoque insuficiente para a quantidade requisitada");
