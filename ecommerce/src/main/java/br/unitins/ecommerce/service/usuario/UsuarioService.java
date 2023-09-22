@@ -14,6 +14,8 @@ public interface UsuarioService {
 
     UsuarioResponse cadastrar(UsuarioForm form);
 
+    UsuarioResponse cadastrar(UsuarioBasicoForm form);
+
     void adicionarPerfil(Long id ,List<Integer> perfis);
 
     UsuarioResponse atualizar(Long usuarioId, UsuarioRequest request);

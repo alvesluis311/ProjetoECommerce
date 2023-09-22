@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import br.unitins.ecommerce.dto.endereco.EnderecoDTO;
 import br.unitins.ecommerce.dto.telefone.TelefoneDTO;
 import br.unitins.ecommerce.dto.usuario.UpgradeUsuarioDTO;
-import br.unitins.ecommerce.dto.usuario.UsuarioBasicoDTO;
+import br.unitins.ecommerce.dto.usuario.UsuarioBasicoForm;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.service.token.TokenJwtService;
 import br.unitins.ecommerce.service.usuario.UsuarioService;
@@ -27,7 +27,7 @@ public class UsuarioBasicoResourceTest {
     @Test
     public void insertBasicoTest() {
 
-        UsuarioBasicoDTO usuarioBasicoDTO = new UsuarioBasicoDTO("Luis_gameplays", "policiais_de_Bikini", "Luís Felipe", "luis.games@hotmail.com");
+        UsuarioBasicoForm usuarioBasicoDTO = new UsuarioBasicoForm("Luis_gameplays", "policiais_de_Bikini", "Luís Felipe", "luis.games@hotmail.com");
 
         given()
             .contentType(ContentType.JSON)

@@ -61,6 +61,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioResponse cadastrar(UsuarioForm form) {
         validator.validate(form);
         validarCpf(form.getCpf());
+        validarLogin(form.getLogin());
         validarEmail(form.getEmail());
 
         Usuario usuario = mapper.toEntity(form);
@@ -74,10 +75,28 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional
+    public UsuarioResponse cadastrar(UsuarioBasicoForm form) {
+        validator.validate(form);
+        validarEmail(form.email());
+        validarLogin(form.login());
+
+        Usuario usuario = mapper.toEntity(form);
+
+        usuario.addPerfil(Perfil.USER_BASIC);
+
+        usuario.setSenha(hashService.getHashSenha(form.senha()));
+
+        repository.persist(usuario);
+
+        return buscarOuFalharResponsePorId(usuario.getId());
+    }
+
+    @Override
+    @Transactional
     public void adicionarPerfil(Long id, List<Integer> perfis) {
         Usuario usuario = buscarOuFalharEntidadePorId(id);
 
-        perfis.forEach( p ->
+        perfis.forEach(p ->
                 usuario.addPerfil(Perfil.valueOf(p)));
     }
 
@@ -92,6 +111,13 @@ public class UsuarioServiceImpl implements UsuarioService {
         Optional<Usuario> usuario = repository.buscarPorCpf(cpf);
         if (usuario.isPresent()) {
             throw new ConflictException("Cpf já cadastrado");
+        }
+    }
+
+    private void validarLogin(String login) {
+        Optional<Usuario> usuario = repository.findByLogin(login);
+        if (usuario.isPresent()) {
+            throw new ConflictException("Login já cadastrado");
         }
     }
 

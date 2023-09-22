@@ -3,7 +3,7 @@ package br.unitins.ecommerce.dto.usuario;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record UsuarioBasicoDTO(
+public record UsuarioBasicoForm(
 
     @NotBlank
     String login,
