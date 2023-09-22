@@ -188,6 +188,7 @@
     Game "*" o--> "*" Genero
     Game "*" o--> "1" Developer
     Game "*" o--> "*" Plataforma
+    Game "1" *--> "1" Estoque
 
     Plataforma "*" o--> "1" Fabricante
 
