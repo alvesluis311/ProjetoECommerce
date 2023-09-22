@@ -1,9 +1,9 @@
 package br.unitins.ecommerce.service.usuario;
 
-import java.util.List;
-
 import br.unitins.ecommerce.dto.usuario.*;
 import br.unitins.ecommerce.model.usuario.Usuario;
+
+import java.util.List;
 
 public interface UsuarioService {
     Usuario buscarOuFalharEntidadePorId(Long usuarioId);
@@ -24,4 +24,8 @@ public interface UsuarioService {
 
 
     Usuario buscarPorLogin(String login);
+
+    UsuarioResponse buscarDadosPessoais(String login);
+
+    void alterarSenha(String login, SenhaDTO dto);
 }

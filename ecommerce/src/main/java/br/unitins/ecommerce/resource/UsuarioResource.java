@@ -70,11 +70,11 @@ public class UsuarioResource {
         return Response.ok().build();
     }
 
-
     @GET
     @Path("/{id}/enderecos/")
     public Response buscarListaEndereco(@PathParam("id") Long id) {
         List<EnderecoResponse> listaEndereco = enderecoService.buscarListaEnderecoResponse(id);
+
         return Response.status(listaEndereco.isEmpty() ? Response.Status.NO_CONTENT : Response.Status.OK)
                 .entity(listaEndereco)
                 .build();
@@ -91,7 +91,7 @@ public class UsuarioResource {
     @Path("/{id}/enderecos/{enderecoId}")
     public Response deletarEndereco(@PathParam("id") Long id, @PathParam("enderecoId") Long enderecoId) {
         enderecoService.deletar(id, enderecoId);
-        return Response.ok().build();
+        return Response.noContent().build();
     }
 
     @PUT
@@ -144,7 +144,4 @@ public class UsuarioResource {
         TelefoneResponse response = telefoneService.atualizar(id, telefoneId, form);
         return Response.ok(response).build();
     }
-
-
-
 }

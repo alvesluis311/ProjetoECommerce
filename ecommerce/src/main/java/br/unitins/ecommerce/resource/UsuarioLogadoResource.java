@@ -1,123 +1,113 @@
-//package br.unitins.ecommerce.resource;
-//
-//import java.io.IOException;
-//
-//import org.jboss.logging.Logger;
-//
-//import org.eclipse.microprofile.jwt.JsonWebToken;
-//import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
-//
-//import br.unitins.ecommerce.application.Result;
-//import br.unitins.ecommerce.dto.endereco.EnderecoDTO;
-//import br.unitins.ecommerce.dto.endereco.EnderecoResponseDTO;
-//import br.unitins.ecommerce.dto.telefone.TelefoneDTO;
-//import br.unitins.ecommerce.dto.telefone.TelefonesResponseDTO;
-//import br.unitins.ecommerce.dto.usuario.SenhaDTO;
-//import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisDTO;
-//import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisResponseDTO;
-//import br.unitins.ecommerce.form.ImageForm;
-//import br.unitins.ecommerce.model.usuario.Usuario;
-//import br.unitins.ecommerce.service.file.FileService;
-//import br.unitins.ecommerce.service.usuario.UsuarioService;
-//import jakarta.annotation.security.RolesAllowed;
-//import jakarta.inject.Inject;
-//import jakarta.ws.rs.Consumes;
-//import jakarta.ws.rs.GET;
-//import jakarta.ws.rs.NotAuthorizedException;
-//import jakarta.ws.rs.PATCH;
-//import jakarta.ws.rs.Path;
-//import jakarta.ws.rs.PathParam;
-//import jakarta.ws.rs.Produces;
-//import jakarta.ws.rs.core.MediaType;
-//import jakarta.ws.rs.core.Response;
-//import jakarta.ws.rs.core.Response.ResponseBuilder;
-//import jakarta.ws.rs.core.Response.Status;
-//
-//@Path("/perfil")
-//@Consumes(MediaType.APPLICATION_JSON)
-//@Produces(MediaType.APPLICATION_JSON)
-//public class UsuarioLogadoResource {
-//
-//    @Inject
-//    UsuarioService usuarioService;
-//
-//    @Inject
-//    JsonWebToken tokenJwt;
-//
-//    @Inject
-//    FileService fileService;
-//
-//    private static final Logger LOG = Logger.getLogger(UsuarioLogadoResource.class);
-//
-//    @GET
-//    @Path("/dados-pessoais")
-//    @RolesAllowed({ "User", "User_Basic" })
-//    public Response getDadosPessoais() {
-//
-//        String login = tokenJwt.getSubject();
-//
-//        DadosPessoaisResponseDTO dadosPessoaisUsuario = new DadosPessoaisResponseDTO(usuarioService.buscarPorLogin(login));
-//        LOG.infof("Buscando o dados pessoais do usuário: ", login);
-//        LOG.debug("ERRO DE DEBUG.");
-//
-//        return Response.ok(dadosPessoaisUsuario).build();
-//    }
-//
-//    @GET
-//    @Path("/telefones")
-//    @RolesAllowed({ "User" })
-//    public Response getTelefones() {
-//
-//        String login = tokenJwt.getSubject();
-//
-//        TelefonesResponseDTO telefonesResponseDTO = new TelefonesResponseDTO(usuarioService.buscarPorLogin(login));
-//        LOG.infof("Buscando o telefones do usuário: ", login);
-//        LOG.debug("ERRO DE DEBUG.");
-//
-//        return Response.ok(telefonesResponseDTO).build();
-//    }
-//
-//    @GET
-//    @Path("/endereco")
-//    @RolesAllowed({ "User" })
-//    public Response getEndereco() {
-//
-//        String login = tokenJwt.getSubject();
-//
-//        EnderecoResponseDTO enderecoUsuario = new EnderecoResponseDTO(usuarioService.buscarPorLogin(login).getEndereco());
-//        LOG.infof("Buscando o endereço do usuário: ", login);
-//        LOG.debug("ERRO DE DEBUG.");
-//
-//        return Response.ok(enderecoUsuario).build();
-//    }
-//
-//    @GET
-//    @Path("/download/{nomeImagem}")
-//    @RolesAllowed({ "Admin", "User" })
-//    @Produces(MediaType.APPLICATION_OCTET_STREAM)
-//    public Response download(@PathParam("nomeImagem") String nomeImagem) {
-//
-//        try {
-//            ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
-//
-//            response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
-//            LOG.infof("Download do arquivo %s concluído com sucesso.", nomeImagem);
-//
-//            return response
-//                    .build();
-//
-//        } catch (Exception e) {
-//            LOG.errorf("Erro ao realizar o download do arquivo: %s", nomeImagem, e);
-//
-//            return Response
-//                    .status(Status.INTERNAL_SERVER_ERROR)
-//                    .build();
-//        }
-//    }
-//
+package br.unitins.ecommerce.resource;
+
+import br.unitins.ecommerce.dto.endereco.EnderecoForm;
+import br.unitins.ecommerce.dto.endereco.EnderecoResponse;
+import br.unitins.ecommerce.dto.usuario.SenhaDTO;
+import br.unitins.ecommerce.dto.usuario.TelefoneResponse;
+import br.unitins.ecommerce.model.usuario.Usuario;
+import br.unitins.ecommerce.service.endereco.EnderecoService;
+import br.unitins.ecommerce.service.file.FileService;
+import br.unitins.ecommerce.service.usuario.TelefoneService;
+import br.unitins.ecommerce.service.usuario.UsuarioService;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.ResponseBuilder;
+import jakarta.ws.rs.core.Response.Status;
+import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.jboss.logging.Logger;
+
+import java.util.List;
+
+@Path("/perfil")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public class UsuarioLogadoResource {
+
+    @Inject
+    UsuarioService usuarioService;
+
+    @Inject
+    TelefoneService telefoneService;
+
+    @Inject
+    EnderecoService enderecoService;
+
+    @Inject
+    JsonWebToken tokenJwt;
+
+    @Inject
+    FileService fileService;
+
+    private static final Logger LOG = Logger.getLogger(UsuarioLogadoResource.class);
+
+    @GET
+    @Path("/dados-pessoais")
+    @RolesAllowed({"User", "User_Basic"})
+    public Response getDadosPessoais() {
+
+        String login = tokenJwt.getSubject();
+
+        return Response.ok(usuarioService.buscarDadosPessoais(login)).build();
+    }
+
+    @GET
+    @Path("/telefones")
+    @RolesAllowed({"User"})
+    public Response getTelefones() {
+        String login = tokenJwt.getSubject();
+
+        List<TelefoneResponse> listaTelefone = telefoneService.buscarListaTelefoneResponse(login);
+
+        return Response.status(listaTelefone.isEmpty() ? Response.Status.NO_CONTENT : Response.Status.OK)
+                .entity(listaTelefone)
+                .build();
+    }
+
+    @GET
+    @Path("/endereco")
+    @RolesAllowed({"User"})
+    public Response getEndereco() {
+        String login = tokenJwt.getSubject();
+
+        List<EnderecoResponse> listaEndereco = enderecoService.buscarListaEnderecoResponse(login);
+
+        return Response.status(listaEndereco.isEmpty() ? Response.Status.NO_CONTENT : Response.Status.OK)
+                .entity(listaEndereco)
+                .build();
+
+    }
+
+    @GET
+    @Path("/download/{nomeImagem}")
+    @RolesAllowed({"Admin", "User"})
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response download(@PathParam("nomeImagem") String nomeImagem) {
+
+        try {
+            ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
+
+            response.header("Content-Disposition", "attachment;filename=" + nomeImagem);
+            LOG.infof("Download do arquivo %s concluído com sucesso.", nomeImagem);
+
+            return response
+                    .build();
+
+        } catch (Exception e) {
+            LOG.errorf("Erro ao realizar o download do arquivo: %s", nomeImagem, e);
+
+            return Response
+                    .status(Status.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
+    }
+
+
 //    @PATCH
 //    @Path("/dados-pessoais")
-//    @RolesAllowed({ "User" })
+//    @RolesAllowed({"User"})
 //    public Response updateDadosPessoais(DadosPessoaisDTO dadosPessoaisDTO) {
 //
 //        try {
@@ -125,7 +115,7 @@
 //
 //            Usuario usuario = usuarioService.buscarPorLogin(login);
 //
-//            usuarioService.update(usuario.getId(), dadosPessoaisDTO);
+//            usuarioService.atualizar(usuario.getId(), dadosPessoaisDTO);
 //            LOG.info("Dados pessoais atualizados com sucesso.");
 //
 //            return Response.status(Status.NO_CONTENT).build();
@@ -138,95 +128,36 @@
 //                    .build();
 //        }
 //    }
-//
-//    @PATCH
-//    @Path("/senha")
-//    @RolesAllowed({ "User" })
-//    public Response updateSenha(SenhaDTO senhaDTO) {
-//
-//        String login = tokenJwt.getSubject();
-//
-//        Usuario usuario = usuarioService.buscarPorLogin(login);
-//
-//        try {
-//
-//            usuarioService.update(usuario.getId(), senhaDTO);
-//            LOG.info("senha atualizada com sucesso.");
-//
-//            return Response.status(Status.NO_CONTENT).build();
-//
-//        } catch (NotAuthorizedException e) {
-//
-//            LOG.error("Erro ao atualizar a senha do usuário.", e);
-//            return Response
-//                    .status(Status.FORBIDDEN)
-//                    .entity(e.getChallenges())
-//                    .build();
-//        }
-//    }
-//
-//    @PATCH
-//    @Path("/telefone-principal")
-//    @RolesAllowed({ "User" })
-//    public Response updateTelefonePrincipal(TelefoneDTO telefonePrincipalDTO) {
-//        try {
-//            String login = tokenJwt.getSubject();
-//
-//            Usuario usuario = usuarioService.buscarPorLogin(login);
-//
-//            usuarioService.updateTelefonePrincipal(usuario.getId(), telefonePrincipalDTO);
-//            LOG.info("Telefone principal atualizado com sucesso.");
-//
-//            return Response.status(Status.NO_CONTENT).build();
-//
-//        } catch (Exception e) {
-//            LOG.error("Erro ao atualizar o telefone do usuário.", e);
-//            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
-//
-//    @PATCH
-//    @Path("/telefone-opcional")
-//    @RolesAllowed({ "User" })
-//    public Response updateTelefoneOpcional(TelefoneDTO telefoneOpcionalDTO) {
-//        try {
-//            String login = tokenJwt.getSubject();
-//
-//            Usuario usuario = usuarioService.buscarPorLogin(login);
-//
-//            usuarioService.updateTelefoneOpcional(usuario.getId(), telefoneOpcionalDTO);
-//            LOG.info("Telefone opcional atualizado com sucesso.");
-//
-//            return Response.status(Status.NO_CONTENT).build();
-//
-//        } catch (Exception e) {
-//            LOG.error("Erro ao atualizar o telefone opcional do usuário.", e);
-//            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
-//
-//    @PATCH
-//    @Path("/endereco")
-//    @RolesAllowed({ "User" })
-//    public Response updateEndereco(EnderecoDTO enderecoDTO) {
-//        try {
-//            String login = tokenJwt.getSubject();
-//
-//            Usuario usuario = usuarioService.buscarPorLogin(login);
-//
-//            usuarioService.update(usuario.getId(), enderecoDTO);
-//            LOG.info("Endereço atualizado com sucesso.");
-//
-//            return Response.status(Status.NO_CONTENT).build();
-//        } catch (Exception e) {
-//            LOG.error("Erro ao atualizar o endereço do usuário.", e);
-//            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
-//
+
+    @PATCH
+    @Path("/senha")
+    @RolesAllowed({"User"})
+    public Response updateSenha(SenhaDTO senhaDTO) {
+        String login = tokenJwt.getSubject();
+        usuarioService.alterarSenha(login, senhaDTO);
+
+        return Response.status(Status.NO_CONTENT).build();
+
+    }
+
+    @PUT
+    @Path("/endereco/{id}")
+    @RolesAllowed({"User"})
+    public Response updateEndereco(@PathParam("id") Long id, EnderecoForm form) {
+        String login = tokenJwt.getSubject();
+
+        Usuario usuario = usuarioService.buscarPorLogin(login);
+
+        enderecoService.atualizar(usuario.getId(), id, form);
+
+        LOG.info("Endereço atualizado com sucesso.");
+
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
 //    @PATCH
 //    @Path("/atualizar-imagem")
-//    @RolesAllowed({ "Admin", "User" })
+//    @RolesAllowed({"Admin", "User"})
 //    @Consumes(MediaType.MULTIPART_FORM_DATA)
 //    public Response salvarImagem(@MultipartForm ImageForm form) {
 //
@@ -256,4 +187,4 @@
 //                .status(Status.NO_CONTENT)
 //                .build();
 //    }
-//}
+}

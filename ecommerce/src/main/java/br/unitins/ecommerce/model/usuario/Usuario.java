@@ -32,11 +32,11 @@ public class Usuario extends DefaultEntity {
     @Column(name = "perfil", length = 30)
     private Set<Perfil> listaPerfil;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     private List<Telefone> listaTelefone;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
     private List<Endereco> listaEndereco;
 

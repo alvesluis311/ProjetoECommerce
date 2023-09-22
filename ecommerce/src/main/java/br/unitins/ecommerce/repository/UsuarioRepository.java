@@ -10,8 +10,8 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 @ApplicationScoped
 public class UsuarioRepository implements PanacheRepository<Usuario> {
-    
-    public List<Usuario> findByNome (String nomePessoaFisica) {
+
+    public List<Usuario> findByNome(String nomePessoaFisica) {
 
         if (nomePessoaFisica == null)
             return null;
@@ -26,12 +26,10 @@ public class UsuarioRepository implements PanacheRepository<Usuario> {
 
         return find("login = ?1 AND senha = ?2 ", login, senha).firstResult();
     }
-    
-    public Usuario findByLogin(String login){
-        if (login == null)
-            return null;
 
-        return find("login = ?1 ", login).firstResult();
+    public Optional<Usuario> findByLogin(String login) {
+        return find("login = ?1 ", login)
+                .firstResultOptional();
     }
 
     public Optional<Usuario> buscarPorId(Long id) {

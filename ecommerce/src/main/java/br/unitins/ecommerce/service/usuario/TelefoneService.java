@@ -7,13 +7,13 @@ import br.unitins.ecommerce.model.usuario.Telefone;
 import java.util.List;
 
 public interface TelefoneService {
-    void cadastrar(Telefone telefone);
-
     Telefone buscarOuFalharEntidadePorId(Long telefoneId);
 
     TelefoneResponse buscarOuFalharResponseId(Long usuarioId, Long telefoneId);
 
     List<TelefoneResponse> buscarListaTelefoneResponse(Long usuarioId);
+
+    List<TelefoneResponse> buscarListaTelefoneResponse(String login);
 
     TelefoneResponse cadastrar(Long usuarioId, TelefoneForm endereco);
 

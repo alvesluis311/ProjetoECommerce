@@ -1,17 +1,14 @@
 package br.unitins.ecommerce.service.usuario;
 
-import br.unitins.ecommerce.dto.usuario.UsuarioForm;
-import br.unitins.ecommerce.dto.usuario.UsuarioPatch;
-import br.unitins.ecommerce.dto.usuario.UsuarioRequest;
-import br.unitins.ecommerce.dto.usuario.UsuarioResponse;
+import br.unitins.ecommerce.dto.usuario.*;
 import br.unitins.ecommerce.exception.ConflictException;
+import br.unitins.ecommerce.exception.NegocioException;
 import br.unitins.ecommerce.exception.NotFoundEntityException;
 import br.unitins.ecommerce.mapper.UsuarioMapper;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.UsuarioRepository;
 import br.unitins.ecommerce.service.endereco.EnderecoService;
 import br.unitins.ecommerce.service.hash.HashService;
-
 import br.unitins.ecommerce.utils.BeanUtil;
 import br.unitins.ecommerce.utils.RequestValidator;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -66,16 +63,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         validarEmail(form.getEmail());
 
         Usuario usuario = mapper.toEntity(form);
-
-        usuario.getListaTelefone()
-                .forEach(t ->
-                        telefoneService.cadastrar(t)
-                );
-
-        usuario.getListaEndereco()
-                .forEach(e -> {
-                    enderecoService.cadastrar(e);
-                });
 
         usuario.setSenha(hashService.getHashSenha(usuario.getSenha()));
 
@@ -141,7 +128,27 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario buscarPorLogin(String login) {
-        return repository.findByLogin(login);
+        return repository.findByLogin(login)
+                .orElseThrow(() -> new NotFoundEntityException(String.format("Usuario com login %s não encontrado.", login)));
+    }
+
+    @Override
+    public UsuarioResponse buscarDadosPessoais(String login) {
+        return mapper.toResponse(buscarPorLogin(login));
+    }
+
+    @Override
+    @Transactional
+    public void alterarSenha(String login, SenhaDTO dto) {
+        Usuario usuario = buscarPorLogin(login);
+
+        String senhaNova = hashService.getHashSenha(dto.senhaNova());
+
+        if (!usuario.getSenha().equals(hashService.getHashSenha(dto.senhaAntiga()))) {
+            throw new NegocioException("Senha invalida.");
+        }
+
+        usuario.setSenha(senhaNova);
     }
 
 }

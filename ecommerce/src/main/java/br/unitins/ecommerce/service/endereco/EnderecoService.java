@@ -13,11 +13,11 @@ public interface EnderecoService {
 
     List<EnderecoResponse> buscarListaEnderecoResponse(Long usuarioId);
 
+    List<EnderecoResponse> buscarListaEnderecoResponse(String login);
+
     EnderecoResponse cadastrar(Long usuarioId, EnderecoForm endereco);
 
     EnderecoResponse atualizar(Long usuarioId, Long enderecoId, EnderecoForm form);
-
-    void cadastrar(Endereco endereco);
 
     void deletar(Long usuarioId, Long enderecoId);
 }

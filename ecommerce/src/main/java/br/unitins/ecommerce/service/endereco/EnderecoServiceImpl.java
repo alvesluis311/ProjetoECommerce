@@ -65,12 +65,15 @@ public class EnderecoServiceImpl implements EnderecoService {
                 .collect(Collectors.toList());
     }
 
-    public void cadastrar(Endereco endereco) {
-        Municipio municipio = municipioService.buscarOuFalharEntidadePorId(endereco.getMunicipio().getId());
+    @Override
+    public List<EnderecoResponse> buscarListaEnderecoResponse(String login) {
+        Usuario usuario = usuarioService.buscarPorLogin(login);
 
-        endereco.setMunicipio(municipio);
-        repository.persist(endereco);
+        return usuario.getListaEndereco().stream()
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
     }
+
 
     @Transactional
     public EnderecoResponse cadastrar(Long usuarioId, EnderecoForm form) {

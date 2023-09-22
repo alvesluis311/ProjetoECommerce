@@ -60,9 +60,15 @@ public class TelefoneServiceImpl implements TelefoneService {
                 .collect(Collectors.toList());
     }
 
-    public void cadastrar(Telefone telefone) {
-        repository.persist(telefone);
+    @Override
+    public List<TelefoneResponse> buscarListaTelefoneResponse(String login) {
+        Usuario usuario = usuarioService.buscarPorLogin(login);
+
+        return usuario.getListaTelefone().stream()
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
     }
+
 
     @Transactional
     public TelefoneResponse cadastrar(Long usuarioId, TelefoneForm form) {

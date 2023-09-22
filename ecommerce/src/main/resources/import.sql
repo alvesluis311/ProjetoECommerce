@@ -334,8 +334,8 @@ insert into municipio (nome, id_estado) values ('Goiânia', 3);
 -- insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal)
 -- values (6, 'mapereira', 'ccD5mRYxf9XgnDZUKjOq/Fx123hMiHQCX+nDp6j2iztugbW5q36cqqtxJy2dimLNpd6ZQHvDUKXQenN3Y5yiDQ==', 4, 9);
 --
--- insert into usuario (id_pessoa_fisica, login, senha)
--- values (7, 'JohnDev', '89ud9FUF967ZPp2GxHJ6ITVrXHnVfA0uf1AsYZ0V0SYuA0OCjSKXEgH72aTLeGBaQr3m7WuVsgWlx76WK/gWuA==');
+insert into usuario (login, senha, cpf, email, nome )
+values ('JohnDev', '89ud9FUF967ZPp2GxHJ6ITVrXHnVfA0uf1AsYZ0V0SYuA0OCjSKXEgH72aTLeGBaQr3m7WuVsgWlx76WK/gWuA==', '05714832167', 'email@gmail.com', 'nome');
 -- -- joao1234
 -- -- senha1234
 -- -- pa1000ulo
@@ -344,7 +344,10 @@ insert into municipio (nome, id_estado) values ('Goiânia', 3);
 -- -- mrnprr45
 -- -- JohnDev
 --
--- insert into perfis (id_usuario, perfil) values (1, 'Admin');
+insert into perfis (usuario_id, perfil)
+values (1, 'Admin');
+insert into perfis (usuario_id, perfil)
+values (1, 'User');
 -- insert into perfis (id_usuario, perfil) values (1, 'User');
 -- insert into perfis (id_usuario, perfil) values (2, 'User');
 -- insert into perfis (id_usuario, perfil) values (3, 'User');
@@ -360,7 +363,11 @@ insert into municipio (nome, id_estado) values ('Goiânia', 3);
 -- insert into lista_desejo (id_usuario, id_produto) values (2, 2);
 -- insert into lista_desejo (id_usuario, id_produto) values (4, 1);
 
+insert into endereco(principal, id_municipio, usuario_id, bairro, cep, complemento, logradouro, numero)
+values (true, 1, 1, 'Quadra 708 Sul', 'lote 10', '77082-012', 'alameda 12', '1');
 
+insert into telefone (codigoarea, numero, principal, usuario_id)
+values (63, '985156666', true, 1),(63,'3366-1766', false, 1);
 
 -- insert into avaliacao (comentario, data, estrela, id_produto, id_usuario)
 -- values ('Melhor jogo que já vi da FromSoftware. Basicamente Dark Souls 4', '2023-01-22', 5, 1, 1);

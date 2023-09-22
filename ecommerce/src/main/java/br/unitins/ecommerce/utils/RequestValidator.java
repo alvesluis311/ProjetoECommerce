@@ -1,7 +1,7 @@
 package br.unitins.ecommerce.utils;
 
 import br.unitins.ecommerce.exception.BadRequestException;
-import br.unitins.ecommerce.exception.NegocioException;
+import br.unitins.ecommerce.exception.ConflictException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolation;
@@ -23,7 +23,7 @@ public class RequestValidator {
             for (ConstraintViolation<T> violation : violations) {
                 joiner.add(violation.getPropertyPath() + ": " + violation.getMessage());
             }
-            throw new NegocioException(joiner.toString());
+            throw new BadRequestException(joiner.toString());
         }
     }
 
@@ -51,7 +51,7 @@ public class RequestValidator {
                     validateProperty(dto, field.getName());
                 }
             } catch (IllegalAccessException e) {
-                throw new BadRequestException("Erro ao acessar a propriedade: " + field.getName());
+                throw new ConflictException("Erro ao acessar a propriedade: " + field.getName());
             }
         }
     }
