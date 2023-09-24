@@ -1,35 +1,37 @@
 package br.unitins.ecommerce.service.usuario;
 
+import br.unitins.ecommerce.dto.endereco.EnderecoForm;
 import br.unitins.ecommerce.dto.usuario.*;
+import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisResponse;
 import br.unitins.ecommerce.model.usuario.Usuario;
 
 import java.util.List;
 
 public interface UsuarioService {
-    Usuario buscarOuFalharEntidadePorId(Long usuarioId);
+    Usuario findOrFailEntityById(Long usuarioId);
 
-    UsuarioResponse buscarOuFalharResponsePorId(Long usuarioId);
+    UsuarioResponse findOrFailResponseById(Long usuarioId);
 
-    List<UsuarioResponse> buscarListaUsuario();
+    List<UsuarioResponse> findAllUsers();
 
-    UsuarioResponse cadastrar(UsuarioForm form);
+    void add(UsuarioForm form);
 
-    UsuarioResponse cadastrar(UsuarioBasicoForm form);
+    void addProfiles(Long id , List<Integer> perfis);
 
-    void adicionarPerfil(Long id ,List<Integer> perfis);
+    UsuarioResponse update(Long usuarioId, UsuarioRequest request);
 
-    UsuarioResponse atualizar(Long usuarioId, UsuarioRequest request);
+    UsuarioResponse merge(Long usuarioId, UsuarioPatch patch);
 
-    UsuarioResponse atualizarParcial(Long usuarioId, UsuarioPatch patch);
+    void delete(Long usuarioId);
 
-    void deletar(Long usuarioId);
-
-    Usuario buscarPorLoginESenha(String login, String senha);
+    Usuario findByLoginAndSenha(String login, String senha);
 
 
-    Usuario buscarPorLogin(String login);
+    Usuario findByLogin(String login);
 
-    UsuarioResponse buscarDadosPessoais(String login);
+    DadosPessoaisResponse buscarDadosPessoais(String login);
 
-    void alterarSenha(String login, SenhaDTO dto);
+    void updatePassword(String login, SenhaDTO dto);
+
+    void addAdresses(String login, List<EnderecoForm> forms);
 }

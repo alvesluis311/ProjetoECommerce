@@ -1,22 +1,24 @@
 package br.unitins.ecommerce.service.usuario;
 
+import br.unitins.ecommerce.dto.endereco.EnderecoForm;
 import br.unitins.ecommerce.dto.usuario.*;
+import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisResponse;
 import br.unitins.ecommerce.exception.ConflictException;
 import br.unitins.ecommerce.exception.NegocioException;
 import br.unitins.ecommerce.exception.NotFoundEntityException;
+import br.unitins.ecommerce.mapper.EnderecoMapper;
 import br.unitins.ecommerce.mapper.UsuarioMapper;
+import br.unitins.ecommerce.model.endereco.Endereco;
+import br.unitins.ecommerce.model.usuario.Cliente;
 import br.unitins.ecommerce.model.usuario.Perfil;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.UsuarioRepository;
-import br.unitins.ecommerce.service.endereco.EnderecoService;
 import br.unitins.ecommerce.service.hash.HashService;
 import br.unitins.ecommerce.utils.BeanUtil;
 import br.unitins.ecommerce.utils.RequestValidator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,117 +32,103 @@ public class UsuarioServiceImpl implements UsuarioService {
     UsuarioMapper mapper;
 
     @Inject
+    EnderecoMapper enderecoMapper;
+
+    @Inject
     RequestValidator validator;
 
     @Inject
     UsuarioRepository repository;
 
     @Inject
-    TelefoneService telefoneService;
-
-    @Inject
-    EnderecoService enderecoService;
-
-    @Inject
     HashService hashService;
 
-    public Usuario buscarOuFalharEntidadePorId(Long usuarioId) {
+    @Override
+    public Usuario findByLoginAndSenha(String login, String senha) {
+        return repository.findByLoginAndSenha(login, senha);
+    }
+
+    @Override
+    public Usuario findByLogin(String login) {
+        return repository.findByLogin(login)
+                .orElseThrow(() -> new NotFoundEntityException(String.format("Usuario com login %s não encontrado.", login)));
+    }
+
+    @Override
+    public DadosPessoaisResponse buscarDadosPessoais(String login) {
+        return mapper.dadosPessoaisToResponse(findByLogin(login));
+    }
+
+
+    public Usuario findOrFailEntityById(Long usuarioId) {
         return repository.buscarPorId(usuarioId)
                 .orElseThrow(() -> new NotFoundEntityException(String.format("Usuario de id %d não encontrado.", usuarioId)));
     }
 
-    public UsuarioResponse buscarOuFalharResponsePorId(Long usuarioId) {
-        return mapper.toResponse(buscarOuFalharEntidadePorId(usuarioId));
+    public UsuarioResponse findOrFailResponseById(Long usuarioId) {
+        return mapper.toResponse(findOrFailEntityById(usuarioId));
     }
 
-    public List<UsuarioResponse> buscarListaUsuario() {
+    public List<UsuarioResponse> findAllUsers() {
         return mapper.toListResponse(repository.findAll().list());
     }
 
     @Transactional
-    public UsuarioResponse cadastrar(UsuarioForm form) {
-        validator.validate(form);
-        validarCpf(form.getCpf());
-        validarLogin(form.getLogin());
-        validarEmail(form.getEmail());
+    public void add(UsuarioForm form) {
+        formValidation(form);
 
         Usuario usuario = mapper.toEntity(form);
 
         usuario.setSenha(hashService.getHashSenha(usuario.getSenha()));
 
+        usuario.setLevelAcessUser();
+
         repository.persist(usuario);
 
-        return buscarOuFalharResponsePorId(usuario.getId());
     }
 
-    @Override
-    @Transactional
-    public UsuarioResponse cadastrar(UsuarioBasicoForm form) {
+
+    private void formValidation(UsuarioForm form){
         validator.validate(form);
-        validarEmail(form.email());
-        validarLogin(form.login());
-
-        Usuario usuario = mapper.toEntity(form);
-
-        usuario.addPerfil(Perfil.USER_BASIC);
-
-        usuario.setSenha(hashService.getHashSenha(form.senha()));
-
-        repository.persist(usuario);
-
-        return buscarOuFalharResponsePorId(usuario.getId());
+        validateLogin(form.getLogin());
+        validateEmail(form.getEmail());
+        if (form instanceof ClienteForm clienteForm){
+            validateCpf(clienteForm.getCpf());
+        }
     }
+
 
     @Override
     @Transactional
-    public void adicionarPerfil(Long id, List<Integer> perfis) {
-        Usuario usuario = buscarOuFalharEntidadePorId(id);
+    public void addProfiles(Long id, List<Integer> perfis) {
+        Usuario usuario = findOrFailEntityById(id);
 
         perfis.forEach(p ->
                 usuario.addPerfil(Perfil.valueOf(p)));
     }
 
-    private void validarEmail(String email) {
-        Optional<Usuario> usuario = repository.buscarPorEmail(email);
-        if (usuario.isPresent()) {
-            throw new ConflictException("Email já cadastrado");
-        }
-    }
 
-    private void validarCpf(String cpf) {
-        Optional<Usuario> usuario = repository.buscarPorCpf(cpf);
-        if (usuario.isPresent()) {
-            throw new ConflictException("Cpf já cadastrado");
-        }
-    }
-
-    private void validarLogin(String login) {
-        Optional<Usuario> usuario = repository.findByLogin(login);
-        if (usuario.isPresent()) {
-            throw new ConflictException("Login já cadastrado");
-        }
-    }
 
     @Transactional
-    public UsuarioResponse atualizar(Long usuarioId, UsuarioRequest request) {
+    public UsuarioResponse update(Long usuarioId, UsuarioRequest request) {
 
         validator.validate(request);
         Usuario source = mapper.toEntity(request);
 
-        Usuario target = buscarOuFalharEntidadePorId(usuarioId);
+        Usuario target = findOrFailEntityById(usuarioId);
 
         BeanUtil.copyNonNullProperties(source, target);
 
         target.setSenha(hashService.getHashSenha(request.getSenha()));
 
-        return buscarOuFalharResponsePorId(target.getId());
+        return findOrFailResponseById(target.getId());
     }
 
     @Transactional
-    public UsuarioResponse atualizarParcial(Long usuarioId, UsuarioPatch patch) {
+    public UsuarioResponse merge(Long usuarioId, UsuarioPatch patch) {
         validator.validateNonNullProperties(patch);
         Usuario source = mapper.toEntity(patch);
-        Usuario target = buscarOuFalharEntidadePorId(usuarioId);
+        Usuario target = findOrFailEntityById(usuarioId);
 
         BeanUtil.copyNonNullProperties(source, target);
 
@@ -148,34 +136,21 @@ public class UsuarioServiceImpl implements UsuarioService {
             target.setSenha(hashService.getHashSenha(patch.getSenha()));
         }
 
-        return buscarOuFalharResponsePorId(target.getId());
+        return findOrFailResponseById(target.getId());
     }
 
     @Transactional
-    public void deletar(Long usuarioId) {
-        Usuario usuario = buscarOuFalharEntidadePorId(usuarioId);
+    public void delete(Long usuarioId) {
+        Usuario usuario = findOrFailEntityById(usuarioId);
         repository.delete(usuario);
     }
 
-    public Usuario buscarPorLoginESenha(String login, String senha) {
-        return repository.findByLoginAndSenha(login, senha);
-    }
 
-    @Override
-    public Usuario buscarPorLogin(String login) {
-        return repository.findByLogin(login)
-                .orElseThrow(() -> new NotFoundEntityException(String.format("Usuario com login %s não encontrado.", login)));
-    }
-
-    @Override
-    public UsuarioResponse buscarDadosPessoais(String login) {
-        return mapper.toResponse(buscarPorLogin(login));
-    }
 
     @Override
     @Transactional
-    public void alterarSenha(String login, SenhaDTO dto) {
-        Usuario usuario = buscarPorLogin(login);
+    public void updatePassword(String login, SenhaDTO dto) {
+        Usuario usuario = findByLogin(login);
 
         String senhaNova = hashService.getHashSenha(dto.senhaNova());
 
@@ -184,6 +159,44 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         usuario.setSenha(senhaNova);
+    }
+
+    @Override
+    @Transactional
+    public void addAdresses(String login, List<EnderecoForm> forms) {
+
+        forms.forEach(validator::validate);
+
+        Cliente cliente = (Cliente) findByLogin(login);
+
+        List<Endereco> enderecoLista = enderecoMapper.toEntityList(forms);
+
+        enderecoLista.forEach(cliente::addEndereco);
+
+        repository.persist(cliente);
+
+        cliente.setLevelAcessUser();
+    }
+
+    private void validateEmail(String email) {
+        Optional<Usuario> usuario = repository.buscarPorEmail(email);
+        if (usuario.isPresent()) {
+            throw new ConflictException("Email já cadastrado");
+        }
+    }
+
+    private void validateCpf(String cpf) {
+        Optional<Usuario> usuario = repository.buscarPorCpf(cpf);
+        if (usuario.isPresent()) {
+            throw new ConflictException("Cpf já cadastrado");
+        }
+    }
+
+    private void validateLogin(String login) {
+        Optional<Usuario> usuario = repository.findByLogin(login);
+        if (usuario.isPresent()) {
+            throw new ConflictException("Login já cadastrado");
+        }
     }
 
 }

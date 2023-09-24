@@ -1,6 +1,7 @@
 package br.unitins.ecommerce.dto.endereco;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ public class EnderecoForm {
     @NotBlank(message = "O campo cep não pode estar vazio")
     private  String cep;
 
+    @NotNull
     private Long municipio;
 
     private boolean principal;

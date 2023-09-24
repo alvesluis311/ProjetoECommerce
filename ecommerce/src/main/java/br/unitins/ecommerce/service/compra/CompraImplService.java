@@ -153,7 +153,6 @@ public class CompraImplService implements CompraService {
                 itemCompra.getGame().minusEstoque(itemCompra.getQuantidade());
         }
 
-        compra.setEndereco(compra.getUsuario().getEnderecoPrincipal());
 
         compra.setIfConcluida(true);
     }
@@ -166,11 +165,8 @@ public class CompraImplService implements CompraService {
         
         Compra compra = validar(usuario);
 
-        BoletoBancario pagamento = new BoletoBancario(compra.getTotalCompra(), compra.getUsuario().getNome(), compra.getUsuario().getCpf());
 
-        boletoBancarioRepository.persist(pagamento);
 
-        compra.setPagamento(pagamento);
 
         if (compra.getPagamento() == null)
             throw new NullPointerException("Não foi efetuado nenhum pagamento");
@@ -186,11 +182,7 @@ public class CompraImplService implements CompraService {
         
         Compra compra = validar(usuario);
 
-        Pix pagamento = new Pix(compra.getTotalCompra(), compra.getUsuario().getNome(), compra.getUsuario().getCpf());
 
-        pixRepository.persist(pagamento);
-
-        compra.setPagamento(pagamento);
 
         if (compra.getPagamento() == null)
             throw new NullPointerException("Não foi efetuado nenhum pagamento");
@@ -206,15 +198,6 @@ public class CompraImplService implements CompraService {
 
         Compra compra = validar(usuario);
 
-        CartaoCredito pagamento = new CartaoCredito(compra.getTotalCompra(),
-                                            cartaoCreditoDTO.numeroCartao(),
-                                            cartaoCreditoDTO.nomeImpressoCartao(),
-                                            usuario.getCpf(),
-                                            BandeiraCartao.valueOf(cartaoCreditoDTO.bandeiraCartao()));
-        
-        cartaoCreditoRepository.persist(pagamento);
-
-        compra.setPagamento(pagamento);
 
         if (compra.getPagamento() == null)
             throw new NullPointerException("Não foi efetuado nenhum pagamento");

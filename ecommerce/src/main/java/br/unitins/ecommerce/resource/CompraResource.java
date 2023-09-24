@@ -48,7 +48,7 @@ public class CompraResource {
 
         String login = tokenJwt.getSubject();
 
-        Usuario usuario = usuarioService.buscarPorLogin(login);
+        Usuario usuario = usuarioService.findByLogin(login);
 
         try {
             LOG.infof("Buscando histórico de compras para o usuário: " + usuario.getId());
@@ -70,7 +70,7 @@ public class CompraResource {
 
         String login = tokenJwt.getSubject();
 
-        Usuario usuario = usuarioService.buscarPorLogin(login);
+        Usuario usuario = usuarioService.findByLogin(login);
 
         try {
             LOG.infof("Buscando compra em andamento para o usuário: " + usuario.getId());
@@ -94,7 +94,7 @@ public class CompraResource {
 
             String login = tokenJwt.getSubject();
 
-            Usuario usuario = usuarioService.buscarPorLogin(login);
+            Usuario usuario = usuarioService.findByLogin(login);
 
             compraService.insertItemIntoCompra(usuario.getId(), itemCompraDTO);
 
@@ -119,7 +119,7 @@ public class CompraResource {
 
             String login = tokenJwt.getSubject();
 
-            Usuario usuario = usuarioService.buscarPorLogin(login);
+            Usuario usuario = usuarioService.findByLogin(login);
 
             compraService.removeItemCompra(usuario.getId(), idProduto);
 
@@ -144,7 +144,7 @@ public class CompraResource {
 
             String login = tokenJwt.getSubject();
 
-            Usuario usuario = usuarioService.buscarPorLogin(login);
+            Usuario usuario = usuarioService.findByLogin(login);
 
             compraService.cancelarCompra(usuario.getId());
 
@@ -168,7 +168,7 @@ public class CompraResource {
 
             String login = tokenJwt.getSubject();
 
-            Usuario usuario = usuarioService.buscarPorLogin(login);
+            Usuario usuario = usuarioService.findByLogin(login);
 
             compraService.efetuarPagamentoBoleto(usuario.getId());
 
@@ -194,7 +194,7 @@ public class CompraResource {
 
             String login = tokenJwt.getSubject();
 
-            Usuario usuario = usuarioService.buscarPorLogin(login);
+            Usuario usuario = usuarioService.findByLogin(login);
 
             compraService.efetuarPagamentoPix(usuario.getId());
 
@@ -218,7 +218,7 @@ public class CompraResource {
 
             String login = tokenJwt.getSubject();
 
-            Usuario usuario = usuarioService.buscarPorLogin(login);
+            Usuario usuario = usuarioService.findByLogin(login);
 
             compraService.efetuarPagamentoCartaoCredito(usuario.getId(), cartaoCreditoDTO);
 

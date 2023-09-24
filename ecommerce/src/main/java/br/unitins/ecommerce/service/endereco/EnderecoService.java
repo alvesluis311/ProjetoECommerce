@@ -9,15 +9,15 @@ import java.util.List;
 public interface EnderecoService {
     Endereco buscarOuFalharEntidadePorId(Long enderecoId);
 
-    EnderecoResponse buscarOuFalharResponseId(Long usuarioId, Long enderecoId);
+    EnderecoResponse findOrFailResponseByUsuarioIdAndEnderecoId(Long usuarioId, Long enderecoId);
 
-    List<EnderecoResponse> buscarListaEnderecoResponse(Long usuarioId);
+    List<EnderecoResponse> findAllEnderecosByUsuarioId(Long usuarioId);
 
-    List<EnderecoResponse> buscarListaEnderecoResponse(String login);
+    List<EnderecoResponse> findAllEnderecosByUsuarioId(String login);
 
-    EnderecoResponse cadastrar(Long usuarioId, EnderecoForm endereco);
+    EnderecoResponse add(Long usuarioId, EnderecoForm endereco);
 
-    EnderecoResponse atualizar(Long usuarioId, Long enderecoId, EnderecoForm form);
+    EnderecoResponse update(Long usuarioId, Long enderecoId, EnderecoForm form);
 
-    void deletar(Long usuarioId, Long enderecoId);
+    void delete(Long usuarioId, Long enderecoId);
 }

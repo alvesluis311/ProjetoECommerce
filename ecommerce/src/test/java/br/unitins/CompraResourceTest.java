@@ -31,7 +31,7 @@ public class CompraResourceTest {
     @Test
     public void getAllTest() {
 
-        Usuario usuario = usuarioService.buscarPorLogin("mfernanda");
+        Usuario usuario = usuarioService.findByLogin("mfernanda");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -46,7 +46,7 @@ public class CompraResourceTest {
     @Test
     public void getCompraEmAndamentoTest() {
 
-        Usuario usuario = usuarioService.buscarPorLogin("mfernanda");
+        Usuario usuario = usuarioService.findByLogin("mfernanda");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -67,7 +67,7 @@ public class CompraResourceTest {
 
         ItemCompraDTO itemCompraDTO = new ItemCompraDTO(1l, 10);
 
-        Usuario usuario = usuarioService.buscarPorLogin("mfernanda");
+        Usuario usuario = usuarioService.findByLogin("mfernanda");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -84,7 +84,7 @@ public class CompraResourceTest {
     @Test
     public void removeItemFromCarrinhoTest() {
 
-        Usuario usuario = usuarioService.buscarPorLogin("mfernanda");
+        Usuario usuario = usuarioService.findByLogin("mfernanda");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -103,7 +103,7 @@ public class CompraResourceTest {
     @Test
     public void cancelarCompraTest() {
 
-        Usuario usuario = usuarioService.buscarPorLogin("JoaoA");
+        Usuario usuario = usuarioService.findByLogin("JoaoA");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -122,7 +122,7 @@ public class CompraResourceTest {
     @Test
     public void pagarBoletoBancarioTest() {
 
-        Usuario usuario = usuarioService.buscarPorLogin("mfernanda");
+        Usuario usuario = usuarioService.findByLogin("mfernanda");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -141,7 +141,7 @@ public class CompraResourceTest {
     @Test
     public void pagarPixTest() {
 
-        Usuario usuario = usuarioService.buscarPorLogin("mfernanda");
+        Usuario usuario = usuarioService.findByLogin("mfernanda");
 
         String token = tokenService.generateJwt(usuario);
 
@@ -160,7 +160,7 @@ public class CompraResourceTest {
     @Test
     public void pagarCartaoCreditoTest() {
 
-        Usuario usuario = usuarioService.buscarPorLogin("mfernanda");
+        Usuario usuario = usuarioService.findByLogin("mfernanda");
 
         String token = tokenService.generateJwt(usuario);
 

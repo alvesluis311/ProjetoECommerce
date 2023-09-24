@@ -42,7 +42,7 @@ public class AuthResource {
         try {
 
             String hash = hashService.getHashSenha(authDTO.senha());
-            Usuario usuario = usuarioService.buscarPorLoginESenha(authDTO.login(), hash);
+            Usuario usuario = usuarioService.findByLoginAndSenha(authDTO.login(), hash);
 
             if (usuario == null) {
 

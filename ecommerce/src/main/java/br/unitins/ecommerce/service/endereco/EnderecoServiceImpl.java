@@ -7,7 +7,7 @@ import br.unitins.ecommerce.exception.NotFoundEntityException;
 import br.unitins.ecommerce.mapper.EnderecoMapper;
 import br.unitins.ecommerce.model.endereco.Endereco;
 import br.unitins.ecommerce.model.endereco.Municipio;
-import br.unitins.ecommerce.model.usuario.Usuario;
+import br.unitins.ecommerce.model.usuario.Cliente;
 import br.unitins.ecommerce.repository.EnderecoRepository;
 import br.unitins.ecommerce.service.muncipio.MunicipioService;
 import br.unitins.ecommerce.service.usuario.UsuarioService;
@@ -46,8 +46,8 @@ public class EnderecoServiceImpl implements EnderecoService {
         return mapper.toResponse(buscarOuFalharEntidadePorId(id));
     }
 
-    public EnderecoResponse buscarOuFalharResponseId(Long usuarioId, Long id) {
-        Usuario usuario = usuarioService.buscarOuFalharEntidadePorId(usuarioId);
+    public EnderecoResponse findOrFailResponseByUsuarioIdAndEnderecoId(Long usuarioId, Long id) {
+        Cliente usuario = (Cliente) usuarioService.findOrFailEntityById(usuarioId);
         Endereco endereco = buscarOuFalharEntidadePorId(id);
 
         if (!usuario.getListaEndereco().contains(endereco)) {
@@ -57,8 +57,8 @@ public class EnderecoServiceImpl implements EnderecoService {
         return mapper.toResponse(buscarOuFalharEntidadePorId(id));
     }
 
-    public List<EnderecoResponse> buscarListaEnderecoResponse(Long usuarioId) {
-        Usuario usuario = usuarioService.buscarOuFalharEntidadePorId(usuarioId);
+    public List<EnderecoResponse> findAllEnderecosByUsuarioId(Long usuarioId) {
+        Cliente usuario = (Cliente) usuarioService.findOrFailEntityById(usuarioId);
 
         return usuario.getListaEndereco().stream()
                 .map(mapper::toResponse)
@@ -66,8 +66,8 @@ public class EnderecoServiceImpl implements EnderecoService {
     }
 
     @Override
-    public List<EnderecoResponse> buscarListaEnderecoResponse(String login) {
-        Usuario usuario = usuarioService.buscarPorLogin(login);
+    public List<EnderecoResponse> findAllEnderecosByUsuarioId(String login) {
+        Cliente usuario = (Cliente) usuarioService.findByLogin(login);
 
         return usuario.getListaEndereco().stream()
                 .map(mapper::toResponse)
@@ -76,10 +76,10 @@ public class EnderecoServiceImpl implements EnderecoService {
 
 
     @Transactional
-    public EnderecoResponse cadastrar(Long usuarioId, EnderecoForm form) {
+    public EnderecoResponse add(Long usuarioId, EnderecoForm form) {
         validator.validate(form);
 
-        Usuario usuario = usuarioService.buscarOuFalharEntidadePorId(usuarioId);
+        Cliente cliente = (Cliente) usuarioService.findOrFailEntityById(usuarioId);
 
         Endereco endereco = mapper.toEntity(form);
 
@@ -89,16 +89,18 @@ public class EnderecoServiceImpl implements EnderecoService {
 
         repository.persist(endereco);
 
-        usuario.addEndereco(endereco);
+        cliente.addEndereco(endereco);
+
+        cliente.setLevelAcessUser();
 
         return buscarOuFalharResponseId(endereco.getId());
     }
 
     @Transactional
-    public EnderecoResponse atualizar(Long enderecoId, Long usuarioId, EnderecoForm form) {
+    public EnderecoResponse update(Long enderecoId, Long usuarioId, EnderecoForm form) {
         validator.validate(form);
 
-        Usuario usuario = usuarioService.buscarOuFalharEntidadePorId(usuarioId);
+        Cliente usuario = (Cliente) usuarioService.findOrFailEntityById(usuarioId);
 
         if (form.isPrincipal()) {
             usuario.getListaEndereco().forEach(e -> e.setPrincipal(false));
@@ -118,8 +120,8 @@ public class EnderecoServiceImpl implements EnderecoService {
     }
 
     @Transactional
-    public void deletar(Long id, Long usuarioId) {
-        Usuario usuario = usuarioService.buscarOuFalharEntidadePorId(usuarioId);
+    public void delete(Long id, Long usuarioId) {
+        Cliente usuario = (Cliente) usuarioService.findOrFailEntityById(usuarioId);
 
         Endereco endereco = buscarOuFalharEntidadePorId(id);
 
