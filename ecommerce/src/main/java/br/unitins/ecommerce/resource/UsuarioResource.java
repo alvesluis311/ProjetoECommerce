@@ -25,7 +25,7 @@ public class UsuarioResource {
 
     @GET
     public Response findUsers() {
-        List<UsuarioResponse> listaUsuario = usuarioService.findAllUsers();
+        List<UsuarioResponse> listaUsuario = usuarioService.findAll();
 
         return Response.status(listaUsuario.isEmpty() ? Response.Status.NO_CONTENT : Response.Status.OK)
                 .entity(listaUsuario)

@@ -23,7 +23,6 @@ public interface  UsuarioMapper {
     Usuario toEntity(UsuarioRequest request);
     Usuario toEntity(UsuarioPatch request);
 
-
     UsuarioResponse toResponse(Usuario usuario);
 
     DadosPessoaisResponse dadosPessoaisToResponse(Usuario usuario);
@@ -31,5 +30,5 @@ public interface  UsuarioMapper {
 
     List<UsuarioResponse> toListResponse(List<Usuario> listaUsuario);
 
-
+    List<ClienteResponse> toListClienteResponse(List<Cliente> listaCliente);
 }

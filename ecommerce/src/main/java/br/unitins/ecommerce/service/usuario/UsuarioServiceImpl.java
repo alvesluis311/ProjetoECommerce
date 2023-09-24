@@ -1,15 +1,11 @@
 package br.unitins.ecommerce.service.usuario;
 
-import br.unitins.ecommerce.dto.endereco.EnderecoForm;
 import br.unitins.ecommerce.dto.usuario.*;
 import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisResponse;
 import br.unitins.ecommerce.exception.ConflictException;
 import br.unitins.ecommerce.exception.NegocioException;
 import br.unitins.ecommerce.exception.NotFoundEntityException;
-import br.unitins.ecommerce.mapper.EnderecoMapper;
 import br.unitins.ecommerce.mapper.UsuarioMapper;
-import br.unitins.ecommerce.model.endereco.Endereco;
-import br.unitins.ecommerce.model.usuario.Cliente;
 import br.unitins.ecommerce.model.usuario.Perfil;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.UsuarioRepository;
@@ -24,15 +20,10 @@ import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
-//@Getter
-//@Setter
 public class UsuarioServiceImpl implements UsuarioService {
 
     @Inject
     UsuarioMapper mapper;
-
-    @Inject
-    EnderecoMapper enderecoMapper;
 
     @Inject
     RequestValidator validator;
@@ -69,8 +60,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         return mapper.toResponse(findOrFailEntityById(usuarioId));
     }
 
-    public List<UsuarioResponse> findAllUsers() {
+    public List<UsuarioResponse> findAll() {
         return mapper.toListResponse(repository.findAll().list());
+    }
+
+    public List<ClienteResponse> findAllClientes() {
+        return mapper.toListClienteResponse(repository.findAllClientes());
     }
 
     @Transactional
@@ -88,11 +83,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
 
-    private void formValidation(UsuarioForm form){
+    private void formValidation(UsuarioForm form) {
         validator.validate(form);
         validateLogin(form.getLogin());
         validateEmail(form.getEmail());
-        if (form instanceof ClienteForm clienteForm){
+        if (form instanceof ClienteForm clienteForm) {
             validateCpf(clienteForm.getCpf());
         }
     }
@@ -106,7 +101,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         perfis.forEach(p ->
                 usuario.addPerfil(Perfil.valueOf(p)));
     }
-
 
 
     @Transactional
@@ -146,7 +140,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
 
-
     @Override
     @Transactional
     public void updatePassword(String login, SenhaDTO dto) {
@@ -161,22 +154,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setSenha(senhaNova);
     }
 
-    @Override
-    @Transactional
-    public void addAdresses(String login, List<EnderecoForm> forms) {
-
-        forms.forEach(validator::validate);
-
-        Cliente cliente = (Cliente) findByLogin(login);
-
-        List<Endereco> enderecoLista = enderecoMapper.toEntityList(forms);
-
-        enderecoLista.forEach(cliente::addEndereco);
-
-        repository.persist(cliente);
-
-        cliente.setLevelAcessUser();
+    public void save(Usuario usuario) {
+        repository.persist(usuario);
     }
+
 
     private void validateEmail(String email) {
         Optional<Usuario> usuario = repository.buscarPorEmail(email);

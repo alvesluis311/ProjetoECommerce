@@ -15,6 +15,5 @@ public class UsuarioPatch {
 
     private String nome;
 
-    private String cpf;
 
 }

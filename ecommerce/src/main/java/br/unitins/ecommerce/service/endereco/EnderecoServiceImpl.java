@@ -8,6 +8,7 @@ import br.unitins.ecommerce.mapper.EnderecoMapper;
 import br.unitins.ecommerce.model.endereco.Endereco;
 import br.unitins.ecommerce.model.endereco.Municipio;
 import br.unitins.ecommerce.model.usuario.Cliente;
+import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.EnderecoRepository;
 import br.unitins.ecommerce.service.muncipio.MunicipioService;
 import br.unitins.ecommerce.service.usuario.UsuarioService;
@@ -46,7 +47,7 @@ public class EnderecoServiceImpl implements EnderecoService {
         return mapper.toResponse(buscarOuFalharEntidadePorId(id));
     }
 
-    public EnderecoResponse findOrFailResponseByUsuarioIdAndEnderecoId(Long usuarioId, Long id) {
+    public EnderecoResponse findOrFailResponseById(Long usuarioId, Long id) {
         Cliente usuario = (Cliente) usuarioService.findOrFailEntityById(usuarioId);
         Endereco endereco = buscarOuFalharEntidadePorId(id);
 
@@ -59,15 +60,6 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     public List<EnderecoResponse> findAllEnderecosByUsuarioId(Long usuarioId) {
         Cliente usuario = (Cliente) usuarioService.findOrFailEntityById(usuarioId);
-
-        return usuario.getListaEndereco().stream()
-                .map(mapper::toResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EnderecoResponse> findAllEnderecosByUsuarioId(String login) {
-        Cliente usuario = (Cliente) usuarioService.findByLogin(login);
 
         return usuario.getListaEndereco().stream()
                 .map(mapper::toResponse)
@@ -95,6 +87,26 @@ public class EnderecoServiceImpl implements EnderecoService {
 
         return buscarOuFalharResponseId(endereco.getId());
     }
+
+
+    @Override
+    @Transactional
+    public void addEnderecos(Long usuarioId, List<EnderecoForm> forms) {
+
+        forms.forEach(validator::validate);
+
+        Cliente cliente = (Cliente) usuarioService.findOrFailEntityById(usuarioId);
+
+        List<Endereco> enderecoLista = mapper.toEntityList(forms);
+
+        enderecoLista.forEach(cliente::addEndereco);
+
+        usuarioService.save(cliente);
+
+        cliente.setLevelAcessUser();
+    }
+
+
 
     @Transactional
     public EnderecoResponse update(Long enderecoId, Long usuarioId, EnderecoForm form) {

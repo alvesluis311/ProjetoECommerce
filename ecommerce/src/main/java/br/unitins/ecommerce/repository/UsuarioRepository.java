@@ -2,7 +2,9 @@ package br.unitins.ecommerce.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import br.unitins.ecommerce.model.usuario.Cliente;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import br.unitins.ecommerce.model.usuario.Usuario;
@@ -26,6 +28,17 @@ public class UsuarioRepository implements PanacheRepository<Usuario> {
 
         return find("login = ?1 AND senha = ?2 ", login, senha).firstResult();
     }
+
+
+    public List<Cliente> findAllClientes() {
+        return list("FROM Usuario")
+                .stream()
+                .filter(u -> u instanceof Cliente)
+                .map(u -> (Cliente) u)
+                .collect(Collectors.toList());
+    }
+
+
 
     public Optional<Usuario> findByLogin(String login) {
         return find("login = ?1 ", login)

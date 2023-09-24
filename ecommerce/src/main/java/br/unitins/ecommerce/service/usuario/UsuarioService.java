@@ -1,6 +1,7 @@
 package br.unitins.ecommerce.service.usuario;
 
 import br.unitins.ecommerce.dto.endereco.EnderecoForm;
+import br.unitins.ecommerce.dto.endereco.EnderecoResponse;
 import br.unitins.ecommerce.dto.usuario.*;
 import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisResponse;
 import br.unitins.ecommerce.model.usuario.Usuario;
@@ -12,7 +13,9 @@ public interface UsuarioService {
 
     UsuarioResponse findOrFailResponseById(Long usuarioId);
 
-    List<UsuarioResponse> findAllUsers();
+    List<UsuarioResponse> findAll();
+
+    List<ClienteResponse> findAllClientes();
 
     void add(UsuarioForm form);
 
@@ -33,5 +36,5 @@ public interface UsuarioService {
 
     void updatePassword(String login, SenhaDTO dto);
 
-    void addAdresses(String login, List<EnderecoForm> forms);
+    void save(Usuario usuario);
 }

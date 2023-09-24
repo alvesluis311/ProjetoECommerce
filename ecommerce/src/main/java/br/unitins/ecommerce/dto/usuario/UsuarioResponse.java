@@ -1,12 +1,13 @@
 package br.unitins.ecommerce.dto.usuario;
 
+import lombok.Getter;
+import lombok.Setter;
 
-public record UsuarioResponse(
-        Long id,
-        String nome,
-        String login,
-        String email,
-        String cpf,
-        String nomeImagem
-) {
+@Getter
+@Setter
+public class UsuarioResponse {
+    private Long id;
+    private String nome;
+    private String login;
+    private String email;
 }
