@@ -1,19 +1,22 @@
 package br.unitins.ecommerce.dto.usuario;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
-public class ClienteBasicForm extends UsuarioForm {
+public class SignUserForm extends UsuarioForm {
 
     @NotBlank
     private String nomeCompleto;
     @NotBlank
     private String cpf;
-    @NotNull
-    private TelefoneForm telefone;
+    @NotEmpty
+    private List<TelefoneForm> listaTelefone;
 
 }

@@ -5,17 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DadosPessoaisResponse {
-
+public class DadosUsuarioResponse {
     private String nome;
 
-    private String nomeCompleto;
+    private String login;
 
     private String email;
-
-    private String cpf;
-
-    private String dataNascimento;
-
-    private String sexo;
 }

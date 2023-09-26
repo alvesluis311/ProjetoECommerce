@@ -34,29 +34,22 @@ public class UsuarioResource {
 
     @POST
     public Response add(UsuarioForm form) {
-        usuarioService.add(form);
+        usuarioService.insert(form);
         return Response.status(Response.Status.CREATED).build();
-    }
-
-    @PATCH
-    @Path("/{id}/adicionar-perfis")
-    public Response addProfiles(@PathParam("id") Long id, List<Integer> perfil) {
-         usuarioService.addProfiles(id, perfil);
-        return Response.status(Response.Status.OK).build();
     }
 
     @PUT
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, UsuarioRequest request) {
-        UsuarioResponse response = usuarioService.update(id, request);
-        return Response.status(Response.Status.OK).entity(response).build();
+        usuarioService.update(id, request);
+        return Response.status(Response.Status.OK).build();
     }
 
     @PATCH
     @Path("/{id}")
     public Response merge(@PathParam("id") Long id, UsuarioPatch request) {
-        UsuarioResponse response = usuarioService.merge(id, request);
-        return Response.status(Response.Status.OK).entity(response).build();
+        usuarioService.merge(id, request);
+        return Response.status(Response.Status.OK).build();
     }
 
     @DELETE

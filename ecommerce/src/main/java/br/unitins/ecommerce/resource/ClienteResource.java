@@ -2,13 +2,8 @@ package br.unitins.ecommerce.resource;
 
 import br.unitins.ecommerce.dto.endereco.EnderecoForm;
 import br.unitins.ecommerce.dto.endereco.EnderecoResponse;
-import br.unitins.ecommerce.dto.usuario.ClienteForm;
-import br.unitins.ecommerce.dto.usuario.ClienteResponse;
-import br.unitins.ecommerce.dto.usuario.TelefoneForm;
-import br.unitins.ecommerce.dto.usuario.TelefoneResponse;
-import br.unitins.ecommerce.service.endereco.EnderecoService;
-import br.unitins.ecommerce.service.usuario.TelefoneService;
-import br.unitins.ecommerce.service.usuario.UsuarioService;
+import br.unitins.ecommerce.dto.usuario.*;
+import br.unitins.ecommerce.service.usuario.ClienteService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
@@ -19,36 +14,47 @@ import java.util.List;
 public class ClienteResource {
 
     @Inject
-    UsuarioService usuarioService;
-
-    @Inject
-    EnderecoService enderecoService;
-
-    @Inject
-    TelefoneService telefoneService;
-
-
-    @POST
-    //Acess admin
-    public Response add(ClienteForm form) {
-        usuarioService.add(form);
-        return Response.status(Response.Status.CREATED).build();
-    }
+    ClienteService clienteService;
 
 
     @GET
     public Response getAll() {
-       List<ClienteResponse> listaClientes = usuarioService.findAllClientes();
+        List<ClienteResponse> listaClientes = clienteService.findAll();
         return Response.status(listaClientes.isEmpty() ? Response.Status.NO_CONTENT : Response.Status.OK)
                 .entity(listaClientes)
                 .build();
     }
 
+    @GET
+    @Path("/{id}")
+    public Response get(@PathParam("id") Long id) {
+        ClienteResponse response = clienteService.findResponseById(id);
+        return Response.ok(response).build();
+    }
+
+    @POST
+    public Response insert(ClienteForm form) {
+        clienteService.insert(form);
+        return Response.status(Response.Status.CREATED).build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response update(@PathParam("id") Long id, ClienteUpdate form) {
+        clienteService.update(id, form);
+        return Response.status(Response.Status.CREATED).build();
+    }
+
+    @DELETE
+    public Response delete(Long id) {
+        clienteService.delete(id);
+        return Response.status(Response.Status.NO_CONTENT).build();
+    }
 
     @GET
     @Path("/{id}/enderecos/")
     public Response getAllEnderecos(@PathParam("id") Long id) {
-        List<EnderecoResponse> listaEndereco = enderecoService.findAllEnderecosByUsuarioId(id);
+        List<EnderecoResponse> listaEndereco = clienteService.findAllEnderecos(id);
 
         return Response.status(listaEndereco.isEmpty() ? Response.Status.NO_CONTENT : Response.Status.OK)
                 .entity(listaEndereco)
@@ -57,36 +63,38 @@ public class ClienteResource {
 
     @GET
     @Path("/{id}/enderecos/{enderecoId}")
-    public Response getEndereco(@PathParam("id") Long usuarioId, @PathParam("enderecoId") Long enderecoId) {
-        EnderecoResponse enderecoResponse = enderecoService.findOrFailResponseById(usuarioId, enderecoId);
+    public Response getEndereco(@PathParam("id") Long id, @PathParam("enderecoId") Long enderecoId) {
+        EnderecoResponse enderecoResponse = clienteService.findEndereco(id, enderecoId);
         return Response.ok(enderecoResponse).build();
     }
 
     @DELETE
     @Path("/{id}/enderecos/{enderecoId}")
     public Response deleteEndereco(@PathParam("id") Long usuarioId, @PathParam("enderecoId") Long enderecoId) {
-        enderecoService.delete(usuarioId, enderecoId);
+        clienteService.deleteEndereco(usuarioId, enderecoId);
         return Response.noContent().build();
     }
 
     @PUT
     @Path("/{id}/enderecos/{enderecoId}")
     public Response updateEndereco(@PathParam("id") Long usuarioId, @PathParam("enderecoId") Long enderecoId, EnderecoForm form) {
-        EnderecoResponse response = enderecoService.update(usuarioId, enderecoId, form);
-        return Response.ok(response).build();
+        clienteService.updateEndereco(usuarioId, enderecoId, form);
+        return Response.ok().build();
     }
 
     @POST
     @Path("/{id}/enderecos/")
-    public Response addEndereco(@PathParam("id") Long usuarioId, EnderecoForm form) {
-        EnderecoResponse response = enderecoService.add(usuarioId, form);
+    public Response insertEndereco(@PathParam("id") Long id, EnderecoForm form) {
+
+        clienteService.insertEndereco(id, form);
+
         return Response.status(Response.Status.CREATED).build();
     }
 
     @GET
     @Path("/{id}/telefones/")
-    public Response getTelefones(@PathParam("id") Long id) {
-        List<TelefoneResponse> listaTelefone = telefoneService.findTelefonesByUsuarioId(id);
+    public Response getAllTelefones(@PathParam("id") Long id) {
+        List<TelefoneResponse> listaTelefone = clienteService.findAllTelefones(id);
         return Response.status(listaTelefone.isEmpty() ? Response.Status.NO_CONTENT : Response.Status.OK)
                 .entity(listaTelefone)
                 .build();
@@ -95,28 +103,28 @@ public class ClienteResource {
     @GET
     @Path("/{id}/telefones/{telefoneId}")
     public Response getTelefone(@PathParam("id") Long id, @PathParam("telefoneId") Long telefoneId) {
-        TelefoneResponse telefoneResponse = telefoneService.findOrFailResponseById(id, telefoneId);
+        TelefoneResponse telefoneResponse = clienteService.findTelefone(id, telefoneId);
         return Response.ok(telefoneResponse).build();
     }
 
     @POST
     @Path("/{id}/telefones/")
     public Response addTelefone(@PathParam("id") Long id, TelefoneForm form) {
-        telefoneService.add(id, form);
+        clienteService.insertTelefone(id, form);
         return Response.status(Response.Status.CREATED).build();
     }
 
     @DELETE
     @Path("/{id}/telefones/{telefoneId}")
     public Response deleteTelefone(@PathParam("id") Long id, @PathParam("telefoneId") Long telefoneId) {
-        telefoneService.deletar(id, telefoneId);
+        clienteService.deleteTelefone(id, telefoneId);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @PUT
     @Path("/{id}/telefones/{telefoneId}")
     public Response updateTelefone(@PathParam("id") Long id, @PathParam("telefoneId") Long telefoneId, TelefoneForm form) {
-        telefoneService.atualizar(id, telefoneId, form);
+        clienteService.updateTelefone(id, telefoneId, form);
         return Response.ok().build();
     }
 }

@@ -24,7 +24,4 @@ public class UsuarioForm {
     @NotBlank
     private String nome;
 
-
-    private Set<Long> listaPerfil;
-
 }

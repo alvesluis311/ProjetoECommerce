@@ -5,11 +5,12 @@ import br.unitins.ecommerce.dto.endereco.EnderecoResponse;
 import br.unitins.ecommerce.dto.usuario.SenhaDTO;
 import br.unitins.ecommerce.dto.usuario.TelefoneForm;
 import br.unitins.ecommerce.dto.usuario.TelefoneResponse;
-import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisDTO;
+import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosClienteForm;
+import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosUsuarioForm;
+import br.unitins.ecommerce.model.usuario.Cliente;
 import br.unitins.ecommerce.model.usuario.Usuario;
-import br.unitins.ecommerce.service.endereco.EnderecoService;
 import br.unitins.ecommerce.service.file.FileService;
-import br.unitins.ecommerce.service.usuario.TelefoneService;
+import br.unitins.ecommerce.service.usuario.ClienteService;
 import br.unitins.ecommerce.service.usuario.UsuarioService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -32,10 +33,7 @@ public class UsuarioLogadoResource {
     UsuarioService usuarioService;
 
     @Inject
-    TelefoneService telefoneService;
-
-    @Inject
-    EnderecoService enderecoService;
+    ClienteService clienteService;
 
     @Inject
     JsonWebToken tokenJwt;
@@ -46,40 +44,44 @@ public class UsuarioLogadoResource {
     private static final Logger LOG = Logger.getLogger(UsuarioLogadoResource.class);
 
     @GET
-    @Path("/dados-pessoais")
     @RolesAllowed({"User", "User_Basic", "Admin"})
-    public Response getDadosPessoais() {
+    public Response getPersonalData() {
 
         String login = tokenJwt.getSubject();
 
-        return Response.ok(usuarioService.buscarDadosPessoais(login)).build();
+        var dadosPessoais = usuarioService.findPersonalData(login);
+
+        return Response.ok(dadosPessoais).build();
     }
 
 
-//        @PATCH
-//    @Path("/dados-pessoais")
-//    @RolesAllowed({"User"})
-//    public Response updateDadosPessoais(DadosPessoaisDTO dadosPessoaisDTO) {
-//
-//        try {
-//            String login = tokenJwt.getSubject();
-//
-//            Usuario usuario = usuarioService.buscarPorLogin(login);
-//
-//            usuarioService.atualizar(usuario.getId(), dadosPessoaisDTO);
-//            LOG.info("Dados pessoais atualizados com sucesso.");
-//
-//            return Response.status(Status.NO_CONTENT).build();
-//
-//        } catch (Exception e) {
-//            LOG.error("Erro ao atualizar dados pessoais do usuário.", e);
-//
-//            return Response
-//                    .status(Status.INTERNAL_SERVER_ERROR)
-//                    .build();
-//        }
-//    }
+    @PATCH
+    @Path("/dados-pessoais")
+    @RolesAllowed({"User", "User_Basic"})
+    public Response updatePersonalDataUser(DadosClienteForm form) {
 
+        String login = tokenJwt.getSubject();
+
+        Cliente cliente = clienteService.findByLogin(login);
+
+        usuarioService.merge(cliente.getId(), form);
+
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @PATCH
+    @Path("/dados-pessoais-admin")
+    @RolesAllowed({"Admin"})
+    public Response updatePersonalDataAdmin(DadosUsuarioForm form) {
+
+        String login = tokenJwt.getSubject();
+
+        Usuario usuario = usuarioService.findByLogin(login);
+
+        usuarioService.merge(usuario.getId(), form);
+
+        return Response.status(Status.NO_CONTENT).build();
+    }
 
 
     @GET
@@ -88,9 +90,9 @@ public class UsuarioLogadoResource {
     public Response getEndereco(@PathParam("id") Long id) {
         String login = tokenJwt.getSubject();
 
-        Usuario usuario = usuarioService.findByLogin(login);
+        Cliente cliente = clienteService.findByLogin(login);
 
-        EnderecoResponse response = enderecoService.findOrFailResponseById(usuario.getId(), id);
+        EnderecoResponse response = clienteService.findEndereco(cliente.getId(), id);
 
         return Response.status(Status.OK).entity(response).build();
     }
@@ -102,9 +104,9 @@ public class UsuarioLogadoResource {
     public Response getAllEnderecos() {
         String login = tokenJwt.getSubject();
 
-        Usuario usuario = usuarioService.findByLogin(login);
+        Cliente cliente = clienteService.findByLogin(login);
 
-        List<EnderecoResponse> listaEndereco = enderecoService.findAllEnderecosByUsuarioId(usuario.getId());
+        List<EnderecoResponse> listaEndereco = clienteService.findAllEnderecos(cliente.getId());
 
         return Response.status(listaEndereco.isEmpty() ? Response.Status.NO_CONTENT : Response.Status.OK)
                 .entity(listaEndereco)
@@ -115,12 +117,12 @@ public class UsuarioLogadoResource {
     @POST
     @Path("/enderecos")
     @RolesAllowed({"User_Basic", "User"})
-    public Response addEnderecos(List<EnderecoForm> forms) {
+    public Response addEndereco(EnderecoForm form) {
         String login = tokenJwt.getSubject();
 
-        Usuario usuario = usuarioService.findByLogin(login);
+        Cliente cliente = clienteService.findByLogin(login);
 
-        enderecoService.addEnderecos(usuario.getId(), forms);
+        clienteService.insertEndereco(cliente.getId(), form);
 
         return Response.status(Status.CREATED).build();
     }
@@ -132,9 +134,9 @@ public class UsuarioLogadoResource {
     public Response updateEndereco(@PathParam("id") Long id, EnderecoForm form) {
         String login = tokenJwt.getSubject();
 
-        Usuario usuario = usuarioService.findByLogin(login);
+        Cliente cliente = clienteService.findByLogin(login);
 
-        enderecoService.update(usuario.getId(), id, form);
+        clienteService.updateEndereco(cliente.getId(), id, form);
 
         return Response.status(Status.OK).build();
     }
@@ -145,9 +147,9 @@ public class UsuarioLogadoResource {
     public Response deleteEndereco(@PathParam("id") Long id) {
         String login = tokenJwt.getSubject();
 
-        Usuario usuario = usuarioService.findByLogin(login);
+        Cliente cliente = clienteService.findByLogin(login);
 
-        enderecoService.delete(usuario.getId(), id);
+        clienteService.deleteEndereco(cliente.getId(), id);
 
         return Response.status(Status.NO_CONTENT).build();
     }
@@ -158,9 +160,9 @@ public class UsuarioLogadoResource {
     @RolesAllowed({"User_Basic", "User"})
     public Response getTelefones() {
         String login = tokenJwt.getSubject();
-        Usuario usuario = usuarioService.findByLogin(login);
+        Cliente cliente = clienteService.findByLogin(login);
 
-        List<TelefoneResponse> listaTelefone = telefoneService.findTelefonesByUsuarioId(usuario.getId());
+        List<TelefoneResponse> listaTelefone = clienteService.findAllTelefones(cliente.getId());
 
         return Response.status(listaTelefone.isEmpty() ? Response.Status.NO_CONTENT : Response.Status.OK)
                 .entity(listaTelefone)
@@ -173,9 +175,9 @@ public class UsuarioLogadoResource {
     @RolesAllowed({"User_Basic", "User"})
     public Response getTelefone(@PathParam("id") Long id) {
         String login = tokenJwt.getSubject();
-        Usuario usuario = usuarioService.findByLogin(login);
+        Cliente cliente = clienteService.findByLogin(login);
 
-        TelefoneResponse telefoneResponse = telefoneService.findOrFailResponseById(usuario.getId(), id);
+        TelefoneResponse telefoneResponse = clienteService.findTelefone(cliente.getId(), id);
         return Response.ok(telefoneResponse).build();
     }
 
@@ -184,9 +186,9 @@ public class UsuarioLogadoResource {
     @RolesAllowed({"User_Basic", "User"})
     public Response addTelefone(TelefoneForm form) {
         String login = tokenJwt.getSubject();
-        Usuario usuario = usuarioService.findByLogin(login);
+        Cliente cliente = clienteService.findByLogin(login);
 
-        telefoneService.add(usuario.getId(), form);
+        clienteService.insertTelefone(cliente.getId(), form);
         return Response.status(Response.Status.CREATED).build();
     }
 
@@ -195,9 +197,9 @@ public class UsuarioLogadoResource {
     @RolesAllowed({"User_Basic", "User"})
     public Response deleteTelefone(@PathParam("id") Long id) {
         String login = tokenJwt.getSubject();
-        Usuario usuario = usuarioService.findByLogin(login);
+        Cliente cliente = clienteService.findByLogin(login);
 
-        telefoneService.deletar(usuario.getId(), id);
+        clienteService.deleteTelefone(cliente.getId(), id);
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
@@ -206,12 +208,10 @@ public class UsuarioLogadoResource {
     @RolesAllowed({"User_Basic", "User"})
     public Response updateTelefone(@PathParam("id") Long id, TelefoneForm form) {
         String login = tokenJwt.getSubject();
-        Usuario usuario = usuarioService.findByLogin(login);
-        telefoneService.atualizar(usuario.getId(), id, form);
+        Cliente cliente = clienteService.findByLogin(login);
+        clienteService.updateTelefone(cliente.getId(), id, form);
         return Response.ok().build();
     }
-
-
 
 
     @GET
@@ -239,17 +239,13 @@ public class UsuarioLogadoResource {
     }
 
 
-
-
     @PATCH
     @Path("/senha")
     @RolesAllowed({"User_Basic", "User", "Admin"})
     public Response updateSenha(SenhaDTO senhaDTO) {
         String login = tokenJwt.getSubject();
         usuarioService.updatePassword(login, senhaDTO);
-
         return Response.status(Status.NO_CONTENT).build();
-
     }
 
 

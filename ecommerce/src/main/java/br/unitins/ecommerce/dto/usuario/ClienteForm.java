@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -19,11 +20,11 @@ public class ClienteForm extends UsuarioForm {
     @NotBlank
     private String cpf;
 
-    @NotBlank
-    private String dataNascimento;
-
     @NotNull
     private Sexo sexo;
+
+    @NotNull
+    private LocalDate dataNascimento;
 
     @NotEmpty
     private List<TelefoneForm> listaTelefone;

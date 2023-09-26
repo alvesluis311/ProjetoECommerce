@@ -1,12 +1,14 @@
 package br.unitins.ecommerce.service.usuario;
 
 import br.unitins.ecommerce.dto.usuario.*;
-import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosPessoaisResponse;
+import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosClienteForm;
+import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosUsuarioForm;
+import br.unitins.ecommerce.dto.usuario.dadospessoais.DadosUsuarioResponse;
 import br.unitins.ecommerce.exception.ConflictException;
 import br.unitins.ecommerce.exception.NegocioException;
 import br.unitins.ecommerce.exception.NotFoundEntityException;
 import br.unitins.ecommerce.mapper.UsuarioMapper;
-import br.unitins.ecommerce.model.usuario.Perfil;
+import br.unitins.ecommerce.model.usuario.Cliente;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.UsuarioRepository;
 import br.unitins.ecommerce.service.hash.HashService;
@@ -31,6 +33,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Inject
     UsuarioRepository repository;
 
+
     @Inject
     HashService hashService;
 
@@ -45,9 +48,14 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .orElseThrow(() -> new NotFoundEntityException(String.format("Usuario com login %s não encontrado.", login)));
     }
 
-    @Override
-    public DadosPessoaisResponse buscarDadosPessoais(String login) {
-        return mapper.dadosPessoaisToResponse(findByLogin(login));
+    public DadosUsuarioResponse findPersonalData(String login) {
+        Usuario usuario = findByLogin(login);
+
+        if (usuario instanceof Cliente cliente) {
+            return mapper.dadosPessoaisToResponse(cliente);
+        }
+        return mapper.dadosPessoaisToResponse(usuario);
+
     }
 
 
@@ -64,12 +72,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         return mapper.toListResponse(repository.findAll().list());
     }
 
-    public List<ClienteResponse> findAllClientes() {
-        return mapper.toListClienteResponse(repository.findAllClientes());
-    }
 
     @Transactional
-    public void add(UsuarioForm form) {
+    public void insert(UsuarioForm form) {
         formValidation(form);
 
         Usuario usuario = mapper.toEntity(form);
@@ -79,7 +84,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setLevelAcessUser();
 
         repository.persist(usuario);
-
     }
 
 
@@ -87,24 +91,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         validator.validate(form);
         validateLogin(form.getLogin());
         validateEmail(form.getEmail());
-        if (form instanceof ClienteForm clienteForm) {
-            validateCpf(clienteForm.getCpf());
-        }
-    }
-
-
-    @Override
-    @Transactional
-    public void addProfiles(Long id, List<Integer> perfis) {
-        Usuario usuario = findOrFailEntityById(id);
-
-        perfis.forEach(p ->
-                usuario.addPerfil(Perfil.valueOf(p)));
     }
 
 
     @Transactional
-    public UsuarioResponse update(Long usuarioId, UsuarioRequest request) {
+    public void update(Long usuarioId, UsuarioRequest request) {
 
         validator.validate(request);
         Usuario source = mapper.toEntity(request);
@@ -115,11 +106,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         target.setSenha(hashService.getHashSenha(request.getSenha()));
 
-        return findOrFailResponseById(target.getId());
     }
 
     @Transactional
-    public UsuarioResponse merge(Long usuarioId, UsuarioPatch patch) {
+    public void merge(Long usuarioId, UsuarioPatch patch) {
         validator.validateNonNullProperties(patch);
         Usuario source = mapper.toEntity(patch);
         Usuario target = findOrFailEntityById(usuarioId);
@@ -130,7 +120,31 @@ public class UsuarioServiceImpl implements UsuarioService {
             target.setSenha(hashService.getHashSenha(patch.getSenha()));
         }
 
-        return findOrFailResponseById(target.getId());
+    }
+
+    @Transactional
+    public void merge(Long usuarioId, DadosUsuarioForm form) {
+        validator.validateNonNullProperties(form);
+        Usuario source = mapper.dadosPessoaisToEntity(form);
+
+        Usuario target = findOrFailEntityById(usuarioId);
+
+        BeanUtil.copyNonNullProperties(source, target);
+
+    }
+
+    @Transactional
+    public void merge(Long usuarioId, DadosClienteForm form) {
+        validator.validateNonNullProperties(form);
+
+
+        Cliente source = mapper.dadosPessoaisToEntity(form);
+
+        Usuario cliente = findOrFailEntityById(usuarioId);
+
+        if (cliente instanceof Cliente target) {
+            BeanUtil.copyNonNullProperties(source, target);
+        }
     }
 
     @Transactional
@@ -154,22 +168,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setSenha(senhaNova);
     }
 
-    public void save(Usuario usuario) {
-        repository.persist(usuario);
-    }
-
 
     private void validateEmail(String email) {
         Optional<Usuario> usuario = repository.buscarPorEmail(email);
         if (usuario.isPresent()) {
             throw new ConflictException("Email já cadastrado");
-        }
-    }
-
-    private void validateCpf(String cpf) {
-        Optional<Usuario> usuario = repository.buscarPorCpf(cpf);
-        if (usuario.isPresent()) {
-            throw new ConflictException("Cpf já cadastrado");
         }
     }
 

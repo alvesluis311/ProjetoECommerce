@@ -19,6 +19,8 @@ public abstract class TelefoneMapper {
 
     public abstract List<Telefone> toEntityList(List<TelefoneForm> forms);
 
+    public abstract List<TelefoneResponse> toResponseList(List<Telefone> listaTelefone);
+
     @AfterMapping
     protected void setTelefonePrincipal(List<TelefoneForm> telefoneDTOs, @MappingTarget List<Telefone> telefones) {
         telefones.forEach(telefone -> {
