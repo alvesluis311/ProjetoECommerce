@@ -2,20 +2,23 @@ package br.unitins.ecommerce.service.plataforma;
 
 import java.util.List;
 
-import br.unitins.ecommerce.dto.plataforma.PlataformaDTO;
-import br.unitins.ecommerce.dto.plataforma.PlataformaResponseDTO;
+import br.unitins.ecommerce.dto.plataforma.PlataformaForm;
+import br.unitins.ecommerce.dto.plataforma.PlataformaResponse;
+import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
 
 public interface PlataformaService {
 
     // Metodos basicos
-    
-    List<PlataformaResponseDTO> getAll();
 
-    PlataformaResponseDTO getById(Long id);
+    List<PlataformaResponse> getAll();
 
-    PlataformaResponseDTO create(PlataformaDTO plataformaDTO);
+    Plataforma findOrFailEntityById(Long usuarioId);
 
-    PlataformaResponseDTO update(Long id, PlataformaDTO plataformaDTO);
+    PlataformaResponse finResponseById(Long id);
+
+    void create(PlataformaForm form);
+
+    void update(Long id, PlataformaForm form);
 
     void delete(Long id);
 
@@ -23,6 +26,6 @@ public interface PlataformaService {
 
     // Metodos extras
 
-    List<PlataformaResponseDTO> findByNome(String nome);
+    List<PlataformaResponse> findByNome(String nome);
 
 }

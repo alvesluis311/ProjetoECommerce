@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import br.unitins.ecommerce.dto.fabricante.FabricanteResponseDTO;
 import br.unitins.ecommerce.dto.fabricante.FabricanteDTO;
+import br.unitins.ecommerce.exception.ConflictException;
+import br.unitins.ecommerce.exception.EntidadeEmUsoException;
 import br.unitins.ecommerce.model.produto.plataforma.Fabricante;
 import br.unitins.ecommerce.repository.FabricanteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -76,6 +78,10 @@ public class FabricanteServiceImpl implements FabricanteService {
             throw new IllegalArgumentException("Número inválido");
 
         Fabricante fabricante = fabricanteRepository.findById(id);
+
+        if (fabricanteRepository.fabricanteEmUso(id)){
+            throw new ConflictException("Fabricante em uso.");
+        }
 
         if (fabricanteRepository.isPersistent(fabricante))
             fabricanteRepository.deleteById(id);

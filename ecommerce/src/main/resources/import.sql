@@ -40,73 +40,24 @@ values('PlayStation 5', 'O PS5 é a mais recente versão do console de jogos da 
 apresenta melhorias em relação ao seu antecessor.', 2020, 1); -- 2
 
 insert into plataforma(nome, descricao, anolancamento, id_fabricante)
-values('Xbox One', 'O Xbox One é um console de jogos da Microsoft, que competiu diretamente com o PS4 da Sony. 
-Apresentou uma grande melhoria em relação ao Xbox 360,', 2013, 2); -- 3
+values('Xbox One', 'O Xbox One é um console de jogos da Microsoft, que competiu diretamente com o PS4 da Sony.
+Apresentou uma grande melhoria em relação ao Xbox 360,', '2013-11-22', 2);
 
-insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
+insert into plataforma(nome, descricao, anolancamento, id_fabricante)
 values('Xbox Series S', 'O Xbox Series S é um console de jogos da Microsoft. É uma versão mais acessível do console
-Xbox Serie X, projetado para jogadores que desejam jogar jogos de próxima geração sem gastar tanto dinheiro', 2020, 2); --4
+Xbox Serie X, projetado para jogadores que desejam jogar jogos de próxima geração sem gastar tanto dinheiro', '2020-11-10', 2);
 
-insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
+insert into plataforma(nome, descricao, anolancamento, id_fabricante)
 values('Xbox Series X', 'O Xbox Series X é um console de jogos da Microsoft, juntamente com o Xbox Series S. É a versão mais
-poderosa do console, projetada para jogadores que desejam desempenho máximo e gráficos de última geração.', 2020, 2); --5
+poderosa do console, projetada para jogadores que desejam desempenho máximo e gráficos de última geração.', '2020-11-10', 2);
 
-insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
-values('Nintendo Switch', 'O Nintendo Switch é um console de jogos híbrido criado pela Nintendo. É um console versátil 
-que pode ser jogado tanto no modo de TV quanto no modo portátil.', 2017, 3); -- 6
+insert into plataforma(nome, descricao, anolancamento, id_fabricante)
+values('Nintendo Switch', 'O Nintendo Switch é um console de jogos híbrido criado pela Nintendo. É um console versátil
+que pode ser jogado tanto no modo de TV quanto no modo portátil.', '2017-03-03', 3);
 
-insert into plataforma(nome, descricao, id_fabricante)  
-values('PC', 'O Windows é uma das plataformas de jogos mais populares no mundo dos games. Ele oferece uma grande 
-variedade de jogos, incluindo jogos de diferentes gêneros.', 2); -- 7
-
-
-
-insert into genero(nome)
-values('Ação'); -- 1
-insert into genero(nome)
-values('Aventura'); -- 2
-insert into genero(nome)
-values('RPG'); -- 3
-insert into genero(nome)
-values('Estratégia'); -- 4
-insert into genero(nome)
-values('Simulação'); -- 5
-insert into genero(nome)
-values('Puzzle'); -- 6
-insert into genero(nome)
-values('Esportes'); -- 7
-insert into genero(nome)
-values('Corrida'); -- 8
-insert into genero(nome)
-values('Luta'); -- 9
-insert into genero(nome)
-values('Tiro'); -- 10
-insert into genero(nome)
-values('Plataforma'); -- 11
-insert into genero(nome)
-values('Sobrevivência'); -- 12
-insert into genero(nome)
-values('Horror'); -- 13
-insert into genero(nome)
-values('Mundo Aberto'); -- 14
-insert into genero(nome)
-values('Música'); -- 15
-insert into genero(nome)
-values('Souslike'); -- 16
-insert into genero(nome)
-values('Exploração'); -- 17
-insert into genero(nome)
-values('Mistério'); -- 18
-insert into genero(nome)
-values('Metroidvania'); -- 19
-insert into genero(nome)
-values('Roguelike'); -- 20
-
-
-
-insert into game(nome, descricao, preco, estoque, diretor, anolancamento, id_developer)
-values('Elden Ring', 'RPG de ação desenvolvido pela FromSoftware em parceria com George R.R. Martin.
- Exploração de um vasto mundo aberto com sistema de habilidades, combate intenso e chefes desafiadores.', 279.99, 30, 'Hidetaka Miyazaki', 2022, 1);
+insert into plataforma(nome, descricao, anolancamento, id_fabricante)
+values('PC', 'O Windows é uma das plataformas de jogos mais populares no mundo dos games. Ele oferece uma grande
+variedade de jogos, incluindo jogos de diferentes gêneros.', '2015-07-29', 2);
 
 insert into game(nome, descricao, preco, estoque, diretor, anolancamento, id_developer)
 values('God of War Ragnarok', 'Sequência do aclamado jogo de ação da Sony Santa Monica. Continuação da história

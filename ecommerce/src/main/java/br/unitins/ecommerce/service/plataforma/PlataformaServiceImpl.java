@@ -1,107 +1,91 @@
 package br.unitins.ecommerce.service.plataforma;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import br.unitins.ecommerce.dto.plataforma.PlataformaResponseDTO;
-import br.unitins.ecommerce.dto.plataforma.PlataformaDTO;
+import br.unitins.ecommerce.dto.plataforma.PlataformaForm;
+import br.unitins.ecommerce.dto.plataforma.PlataformaResponse;
+import br.unitins.ecommerce.exception.NotFoundEntityException;
+import br.unitins.ecommerce.mapper.PlataformaMapper;
 import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
-import br.unitins.ecommerce.repository.FabricanteRepository;
 import br.unitins.ecommerce.repository.PlataformaRepository;
+import br.unitins.ecommerce.utils.BeanUtil;
+import br.unitins.ecommerce.utils.RequestValidator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validator;
-import jakarta.ws.rs.NotFoundException;
+
+import java.util.List;
 
 @ApplicationScoped
 public class PlataformaServiceImpl implements PlataformaService {
 
     @Inject
-    PlataformaRepository plataformaRepository;
+    PlataformaRepository repository;
+
 
     @Inject
-    FabricanteRepository fabricanteRepository;
+    PlataformaMapper mapper;
 
     @Inject
-    Validator validator;
+    RequestValidator requestValidator;
 
     @Override
-    public List<PlataformaResponseDTO> getAll() {
-        List<Plataforma> list = plataformaRepository.listAll();
-        return list.stream().map(PlataformaResponseDTO::new).collect(Collectors.toList());
+    public List<PlataformaResponse> getAll() {
+        List<Plataforma> list = repository.listAll();
+        return mapper.toList(list);
     }
 
+    public Plataforma findOrFailEntityById(Long usuarioId) {
+        return repository.buscarPorId(usuarioId)
+                .orElseThrow(() -> new NotFoundEntityException(String.format("Plataforma de id %d não encontrado.", usuarioId)));
+    }
+
+
     @Override
-    public PlataformaResponseDTO getById(Long id) {
-        Plataforma plataforma = plataformaRepository.findById(id);
-        if (plataforma == null)
-            throw new NotFoundException("Plataforma não encontrado.");
-        return new PlataformaResponseDTO(plataforma);
+    public PlataformaResponse finResponseById(Long id) {
+        Plataforma plataforma = findOrFailEntityById(id);
+        return mapper.toResponse(plataforma);
     }
 
     @Override
     @Transactional
-    public PlataformaResponseDTO create(PlataformaDTO plataformaDTO) throws ConstraintViolationException {
-        validar(plataformaDTO);
+    public void create(PlataformaForm form) {
 
-        Plataforma entity = new Plataforma();
-        entity.setNome(plataformaDTO.nome());
-        entity.setDescricao(plataformaDTO.descricao());
-        entity.setAnoLancamento(plataformaDTO.anoLancamento());
-        entity.setFabricante(fabricanteRepository.findById(plataformaDTO.idFabricante()));
-      
-        plataformaRepository.persist(entity);
+        requestValidator.validateNonNullProperties(form);
 
-        return new PlataformaResponseDTO(entity);
+        Plataforma plataforma = mapper.toEntity(form);
+
+        repository.persist(plataforma);
     }
 
     @Override
     @Transactional
-    public PlataformaResponseDTO update(Long id, PlataformaDTO plataformaDTO) throws ConstraintViolationException{
-        validar(plataformaDTO);
-   
-        Plataforma entity = plataformaRepository.findById(id);
-       entity.setNome(plataformaDTO.nome());
-        entity.setDescricao(plataformaDTO.descricao());
-        entity.setAnoLancamento(plataformaDTO.anoLancamento());
-        entity.setFabricante(fabricanteRepository.findById(plataformaDTO.idFabricante()));
+    public void update(Long id, PlataformaForm form) {
+        requestValidator.validateNonNullProperties(form);
+        Plataforma target = findOrFailEntityById(id);
 
-        return new PlataformaResponseDTO(entity);
+        Plataforma source = mapper.toEntity(form);
+
+        BeanUtil.copyNonNullProperties(source, target);
+
     }
 
-    private void validar(PlataformaDTO plataformaDTO) throws ConstraintViolationException {
-        Set<ConstraintViolation<PlataformaDTO>> violations = validator.validate(plataformaDTO);
-        if (!violations.isEmpty())
-            throw new ConstraintViolationException(violations);
-    }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        if (id == null)
-            throw new IllegalArgumentException("Número inválido");
+        Plataforma plataforma = findOrFailEntityById(id);
 
-        Plataforma plataforma = plataformaRepository.findById(id);
-
-        if (plataformaRepository.isPersistent(plataforma))
-            plataformaRepository.deleteById(id);
+        repository.delete(plataforma);
     }
 
     @Override
-    public List<PlataformaResponseDTO> findByNome(String nome) {
-        List<Plataforma> list = plataformaRepository.findByNome(nome);
-        return list.stream().map(PlataformaResponseDTO::new).collect(Collectors.toList());
+    public List<PlataformaResponse> findByNome(String nome) {
+        List<Plataforma> list = repository.findByNome(nome);
+        return mapper.toList(list);
     }
 
     @Override
     public long count() {
-        return plataformaRepository.count();
+        return repository.count();
     }
-
-    
 
 }

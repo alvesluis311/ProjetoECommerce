@@ -16,4 +16,8 @@ public class FabricanteRepository implements PanacheRepository<Fabricante> {
         return find("UPPER(nome) LIKE ?1 ", "%"+nome.toUpperCase()+"%").list();
     }
 
+    public boolean fabricanteEmUso(Long id) {
+        return find("SELECT f FROM Plataforma p Join p.fabricante f where f.id = ?1", id).stream().findAny().isPresent();
+    }
+
 }
