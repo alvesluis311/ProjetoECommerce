@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
+
 public record GameDTO (
 
     @NotBlank(message = "O campo nome deve ser informado.")
@@ -21,7 +22,7 @@ public record GameDTO (
 
     @NotNull
     @Min(0)
-    Integer estoque,
+    Integer qtdDisponivel,
 
     String diretor,
 

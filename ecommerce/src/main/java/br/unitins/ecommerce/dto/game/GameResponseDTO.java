@@ -27,7 +27,7 @@ public record GameResponseDTO(
             game.getDescricao(),
             game.getNomeImagem(),
             game.getPreco(),
-            game.getEstoque(),
+            game.getEstoque().getQtdDisponivel(),
             game.getDiretor(),
             game.getAnoLancamento(),
             game.getDeveloper().getNome(),
@@ -59,4 +59,3 @@ public record GameResponseDTO(
         return listaGeneros;
     }
 }
-

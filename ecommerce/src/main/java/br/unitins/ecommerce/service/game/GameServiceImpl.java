@@ -15,9 +15,11 @@ import jakarta.ws.rs.NotFoundException;
 import br.unitins.ecommerce.dto.game.GameDTO;
 import br.unitins.ecommerce.dto.game.GameResponseDTO;
 import br.unitins.ecommerce.model.produto.game.Developer;
+import br.unitins.ecommerce.model.produto.game.Estoque;
 import br.unitins.ecommerce.model.produto.game.Game;
 import br.unitins.ecommerce.model.produto.game.Genero;
 import br.unitins.ecommerce.repository.DeveloperRepository;
+import br.unitins.ecommerce.repository.EstoqueRepository;
 import br.unitins.ecommerce.repository.GameRepository;
 import br.unitins.ecommerce.repository.GeneroRepository;
 import br.unitins.ecommerce.repository.PlataformaRepository;
@@ -35,6 +37,9 @@ public class GameServiceImpl implements GameService {
 
     @Inject
     GeneroRepository generoRepository;
+
+    @Inject
+    EstoqueRepository estoqueRepository;
 
     @Inject
     DeveloperRepository developerRepository;
@@ -71,7 +76,16 @@ public class GameServiceImpl implements GameService {
         entity.setNome(gameDTO.nome());
         entity.setDescricao(gameDTO.descricao());
         entity.setPreco(gameDTO.preco());
-        entity.setEstoque(gameDTO.estoque());
+        Estoque estoque = new Estoque();
+        estoque.setQtdDisponivel(gameDTO.qtdDisponivel());
+        estoque.setQtdVendida(0);
+        if (estoque.getQtdDisponivel() > 0){
+        estoque.setDisponivel(true);
+        }else{
+            estoque.setDisponivel(false);
+        }
+        estoqueRepository.persist(estoque);
+        entity.setEstoque(estoque);
         entity.setDiretor(gameDTO.diretor());
         entity.setAnoLancamento(gameDTO.anoLancamento());
         entity.setDeveloper(developerRepository.findById(gameDTO.idDeveloper()));
@@ -94,7 +108,16 @@ public class GameServiceImpl implements GameService {
         entity.setNome(gameDTO.nome());
         entity.setDescricao(gameDTO.descricao());
         entity.setPreco(gameDTO.preco());
-        entity.setEstoque(gameDTO.estoque());
+        Estoque estoque = new Estoque();
+        estoque.setQtdDisponivel(gameDTO.qtdDisponivel());
+        estoque.setQtdVendida(0);
+        if (estoque.getQtdDisponivel() > 0){
+        estoque.setDisponivel(true);
+        }else{
+            estoque.setDisponivel(false);
+        }
+        estoqueRepository.persist(estoque);
+        entity.setEstoque(estoque);
         entity.setDiretor(gameDTO.diretor());
         entity.setAnoLancamento(gameDTO.anoLancamento());
         entity.setDeveloper(developerRepository.findById(gameDTO.idDeveloper()));

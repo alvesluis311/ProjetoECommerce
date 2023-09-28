@@ -10,6 +10,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import br.unitins.ecommerce.model.DefaultEntity;
 import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
 
@@ -27,8 +28,9 @@ public class Game extends DefaultEntity {
     @Column(nullable = false)
     private Double preco;
 
-    @Column(nullable = false)
-    private Integer estoque;
+    @OneToOne
+    @JoinColumn(name = "id_estoque", unique = true)
+    private Estoque estoque;
 
     @Column(nullable = false, length = 120)
     private String diretor;
@@ -84,19 +86,6 @@ public class Game extends DefaultEntity {
         this.preco = preco;
     }
 
-    public Integer getEstoque() {
-        return estoque;
-    }
-
-    public void setEstoque(Integer estoque) {
-        this.estoque = estoque;
-    }
-
-    public void minusEstoque(Integer estoque) {
-
-        this.estoque -= estoque;
-    }
-
     public String getDiretor() {
         return diretor;
     }
@@ -135,6 +124,14 @@ public class Game extends DefaultEntity {
 
     public void setGeneros(List<Genero> generos) {
         this.generos = generos;
+    }
+
+    public Estoque getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Estoque estoque) {
+        this.estoque = estoque;
     }
 
 

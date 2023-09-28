@@ -146,11 +146,11 @@ public class CompraImplService implements CompraService {
 
         for (ItemCompra itemCompra : compra.getItemCompra()) {
 
-            if (itemCompra.getGame().getEstoque() < itemCompra.getQuantidade())
+            if (itemCompra.getGame().getEstoque().getQtdDisponivel() < itemCompra.getQuantidade())
                 throw new NullPointerException("quantidade em estoque insuficiente para a quantidade requisitada. Não é possível finalizar a compra");
 
             else
-                itemCompra.getGame().minusEstoque(itemCompra.getQuantidade());
+                itemCompra.getGame().getEstoque().minusEstoque(itemCompra.getQuantidade());
         }
 
 
@@ -250,7 +250,7 @@ public class CompraImplService implements CompraService {
 
         Game game = gameRepository.findById(itemCompraDTO.idGame());
 
-        if (game.getEstoque() > itemCompraDTO.quantidade())
+        if (game.getEstoque().getQtdDisponivel() > itemCompraDTO.quantidade())
             return game;
 
         else
