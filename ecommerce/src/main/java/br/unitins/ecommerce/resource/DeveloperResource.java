@@ -5,7 +5,7 @@ import java.util.List;
 import org.jboss.logging.Logger;
 
 import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
+//import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -55,7 +55,8 @@ public class DeveloperResource {
     }
 
     @POST
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    //@RolesAllowed({"Admin"})
     public Response insert(DeveloperDTO developerDto) {
         LOG.infof("Inserindo um developer: %s", developerDto.nome());
         Result result = null;
@@ -84,7 +85,8 @@ public class DeveloperResource {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    //@RolesAllowed({"Admin"})
     public Response update(@PathParam("id") Long id, DeveloperDTO developerDto) {
         Result result = null;
         try {
@@ -114,7 +116,8 @@ public class DeveloperResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    //@RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
         try {
             developerService.delete(id);
@@ -132,7 +135,8 @@ public class DeveloperResource {
 
     @GET
     @Path("/count")
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    //@RolesAllowed({"Admin"})
     public Long count() {
         LOG.info("Contando todos os developers.");
         LOG.debug("ERRO DE DEBUG.");

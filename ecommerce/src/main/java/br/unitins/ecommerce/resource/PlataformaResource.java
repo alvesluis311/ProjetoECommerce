@@ -5,7 +5,7 @@ import java.util.List;
 import org.jboss.logging.Logger;
 
 import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
+//import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -54,7 +54,8 @@ public class PlataformaResource {
     }
 
     @POST
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    // @RolesAllowed({"Admin"})
     public Response insert(PlataformaDTO plataformaDto) {
         LOG.infof("Inserindo uma plataforma: %s", plataformaDto.nome());
         Result result = null;
@@ -83,7 +84,8 @@ public class PlataformaResource {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    // @RolesAllowed({"Admin"})
     public Response update(@PathParam("id") Long id, PlataformaDTO plataformaDto) {
         Result result = null;
         try {
@@ -113,7 +115,8 @@ public class PlataformaResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    //@RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
         try {
             plataformaService.delete(id);
@@ -131,7 +134,8 @@ public class PlataformaResource {
 
     @GET
     @Path("/count")
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    // @RolesAllowed({"Admin"})
     public Long count() {
         LOG.info("Contando todos os plataformas.");
         LOG.debug("ERRO DE DEBUG.");

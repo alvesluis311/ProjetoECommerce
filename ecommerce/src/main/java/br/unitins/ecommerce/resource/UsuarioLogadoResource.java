@@ -12,7 +12,8 @@ import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.service.file.FileService;
 import br.unitins.ecommerce.service.usuario.ClienteService;
 import br.unitins.ecommerce.service.usuario.UsuarioService;
-import jakarta.annotation.security.RolesAllowed;
+import jakarta.annotation.security.PermitAll;
+//import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -44,7 +45,8 @@ public class UsuarioLogadoResource {
     private static final Logger LOG = Logger.getLogger(UsuarioLogadoResource.class);
 
     @GET
-    @RolesAllowed({"User", "User_Basic", "Admin"})
+    @PermitAll
+    //@RolesAllowed({"User", "User_Basic", "Admin"})
     public Response getPersonalData() {
 
         String login = tokenJwt.getSubject();
@@ -57,7 +59,8 @@ public class UsuarioLogadoResource {
 
     @PATCH
     @Path("/dados-pessoais")
-    @RolesAllowed({"User", "User_Basic"})
+    @PermitAll
+    //@RolesAllowed({"User", "User_Basic"})
     public Response updatePersonalDataUser(DadosClienteForm form) {
 
         String login = tokenJwt.getSubject();
@@ -71,7 +74,8 @@ public class UsuarioLogadoResource {
 
     @PATCH
     @Path("/dados-pessoais-admin")
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    //@RolesAllowed({"Admin"})
     public Response updatePersonalDataAdmin(DadosUsuarioForm form) {
 
         String login = tokenJwt.getSubject();
@@ -86,7 +90,8 @@ public class UsuarioLogadoResource {
 
     @GET
     @Path("/enderecos/{id}")
-    @RolesAllowed({"User"})
+    @PermitAll
+    //@RolesAllowed({"User"})
     public Response getEndereco(@PathParam("id") Long id) {
         String login = tokenJwt.getSubject();
 
@@ -100,7 +105,8 @@ public class UsuarioLogadoResource {
 
     @GET
     @Path("/enderecos")
-    @RolesAllowed({"User"})
+    @PermitAll
+    // @RolesAllowed({"User"})
     public Response getAllEnderecos() {
         String login = tokenJwt.getSubject();
 
@@ -116,7 +122,8 @@ public class UsuarioLogadoResource {
 
     @POST
     @Path("/enderecos")
-    @RolesAllowed({"User_Basic", "User"})
+    @PermitAll
+    //@RolesAllowed({"User_Basic", "User"})
     public Response addEndereco(EnderecoForm form) {
         String login = tokenJwt.getSubject();
 
@@ -130,7 +137,8 @@ public class UsuarioLogadoResource {
 
     @PUT
     @Path("/enderecos/{id}")
-    @RolesAllowed({"User"})
+    @PermitAll
+    // @RolesAllowed({"User"})
     public Response updateEndereco(@PathParam("id") Long id, EnderecoForm form) {
         String login = tokenJwt.getSubject();
 
@@ -143,7 +151,8 @@ public class UsuarioLogadoResource {
 
     @DELETE
     @Path("/enderecos/{id}")
-    @RolesAllowed({"User"})
+    @PermitAll
+    // @RolesAllowed({"User"})
     public Response deleteEndereco(@PathParam("id") Long id) {
         String login = tokenJwt.getSubject();
 
@@ -157,7 +166,8 @@ public class UsuarioLogadoResource {
 
     @GET
     @Path("/telefones")
-    @RolesAllowed({"User_Basic", "User"})
+    @PermitAll
+    // @RolesAllowed({"User_Basic", "User"})
     public Response getTelefones() {
         String login = tokenJwt.getSubject();
         Cliente cliente = clienteService.findByLogin(login);
@@ -172,7 +182,8 @@ public class UsuarioLogadoResource {
 
     @GET
     @Path("/telefones/{id}/")
-    @RolesAllowed({"User_Basic", "User"})
+    @PermitAll
+    //@RolesAllowed({"User_Basic", "User"})
     public Response getTelefone(@PathParam("id") Long id) {
         String login = tokenJwt.getSubject();
         Cliente cliente = clienteService.findByLogin(login);
@@ -183,7 +194,8 @@ public class UsuarioLogadoResource {
 
     @POST
     @Path("/telefones")
-    @RolesAllowed({"User_Basic", "User"})
+    @PermitAll
+    //@RolesAllowed({"User_Basic", "User"})
     public Response addTelefone(TelefoneForm form) {
         String login = tokenJwt.getSubject();
         Cliente cliente = clienteService.findByLogin(login);
@@ -194,7 +206,8 @@ public class UsuarioLogadoResource {
 
     @DELETE
     @Path("/telefones/{id}")
-    @RolesAllowed({"User_Basic", "User"})
+    @PermitAll
+    //@RolesAllowed({"User_Basic", "User"})
     public Response deleteTelefone(@PathParam("id") Long id) {
         String login = tokenJwt.getSubject();
         Cliente cliente = clienteService.findByLogin(login);
@@ -205,7 +218,8 @@ public class UsuarioLogadoResource {
 
     @PUT
     @Path("/telefones/{id}")
-    @RolesAllowed({"User_Basic", "User"})
+    @PermitAll
+    //@RolesAllowed({"User_Basic", "User"})
     public Response updateTelefone(@PathParam("id") Long id, TelefoneForm form) {
         String login = tokenJwt.getSubject();
         Cliente cliente = clienteService.findByLogin(login);
@@ -216,7 +230,8 @@ public class UsuarioLogadoResource {
 
     @GET
     @Path("/download/{nomeImagem}")
-    @RolesAllowed({"Admin", "User"})
+    @PermitAll
+    // @RolesAllowed({"Admin", "User"})
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response download(@PathParam("nomeImagem") String nomeImagem) {
 
@@ -241,7 +256,8 @@ public class UsuarioLogadoResource {
 
     @PATCH
     @Path("/senha")
-    @RolesAllowed({"User_Basic", "User", "Admin"})
+    @PermitAll
+    //@RolesAllowed({"User_Basic", "User", "Admin"})
     public Response updateSenha(SenhaDTO senhaDTO) {
         String login = tokenJwt.getSubject();
         usuarioService.updatePassword(login, senhaDTO);

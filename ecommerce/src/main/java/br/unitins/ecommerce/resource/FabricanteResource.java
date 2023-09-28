@@ -5,7 +5,7 @@ import java.util.List;
 import org.jboss.logging.Logger;
 
 import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
+//import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -55,7 +55,8 @@ public class FabricanteResource {
     }
 
     @POST
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    //@RolesAllowed({"Admin"})
     public Response insert(FabricanteDTO fabricanteDto) {
         LOG.infof("Inserindo um gênero: %s", fabricanteDto.nome());
         Result result = null;
@@ -84,7 +85,8 @@ public class FabricanteResource {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    //@RolesAllowed({"Admin"})
     public Response update(@PathParam("id") Long id, FabricanteDTO fabricanteDto) {
         Result result = null;
         try {
@@ -114,7 +116,8 @@ public class FabricanteResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    //@RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
         try {
             fabricanteService.delete(id);
@@ -132,7 +135,8 @@ public class FabricanteResource {
 
     @GET
     @Path("/count")
-    @RolesAllowed({"Admin"})
+    @PermitAll
+    //@RolesAllowed({"Admin"})
     public Long count() {
         LOG.info("Contando todos os fabricantes.");
         LOG.debug("ERRO DE DEBUG.");

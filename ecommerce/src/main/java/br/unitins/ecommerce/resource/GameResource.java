@@ -8,7 +8,7 @@ import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
+//import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -65,7 +65,8 @@ public class GameResource {
 
     @GET
     @Path("/download/{nomeImagem}")
-    @RolesAllowed({ "Admin", "User" })
+    @PermitAll
+    //@RolesAllowed({ "Admin", "User" })
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response download(@PathParam("nomeImagem") String nomeImagem) {
 
@@ -86,7 +87,8 @@ public class GameResource {
     }
 
     @POST
-    @RolesAllowed({ "Admin" })
+    @PermitAll
+    //@RolesAllowed({ "Admin" })
     public Response insert(GameDTO gameDto) {
         LOG.infof("Inserindo um produto: %s", gameDto.nome());
         Result result = null;
@@ -115,7 +117,8 @@ public class GameResource {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed({ "Admin" })
+    @PermitAll
+    //@RolesAllowed({ "Admin" })
     public Response update(@PathParam("id") Long id, GameDTO gameDto) {
         Result result = null;
         try {
@@ -144,7 +147,8 @@ public class GameResource {
 
     @PATCH
     @Path("/atualizar-imagem/{id}")
-    @RolesAllowed({ "Admin" })
+    @PermitAll
+    //@RolesAllowed({ "Admin" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response salvarImagem(@MultipartForm ImageForm form, @PathParam("id") Long id) {
 
@@ -170,7 +174,8 @@ public class GameResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed({ "Admin" })
+    @PermitAll
+    //@RolesAllowed({ "Admin" })
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
         try {
             gameService.delete(id);
@@ -188,7 +193,8 @@ public class GameResource {
 
     @GET
     @Path("/count")
-    @RolesAllowed({ "Admin" })
+    @PermitAll
+    //@RolesAllowed({ "Admin" })
     public Long count() {
         LOG.info("Contando todos os produtos.");
         LOG.debug("ERRO DE DEBUG.");

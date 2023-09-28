@@ -5,7 +5,7 @@ import java.util.List;
 import org.jboss.logging.Logger;
 
 import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
+//import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -55,7 +55,7 @@ public class GeneroResource {
     }
 
     @POST
-    @RolesAllowed({"Admin"})
+    @PermitAll
     public Response insert(GeneroDTO generoDto) {
         LOG.infof("Inserindo um gênero: %s", generoDto.nome());
         Result result = null;
@@ -84,7 +84,7 @@ public class GeneroResource {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @PermitAll
     public Response update(@PathParam("id") Long id, GeneroDTO generoDto) {
         Result result = null;
         try {
@@ -114,7 +114,7 @@ public class GeneroResource {
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
+    @PermitAll
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
         try {
             generoService.delete(id);
@@ -132,7 +132,7 @@ public class GeneroResource {
 
     @GET
     @Path("/count")
-    @RolesAllowed({"Admin"})
+    @PermitAll
     public Long count() {
         LOG.info("Contando todos os gêneros.");
         LOG.debug("ERRO DE DEBUG.");
