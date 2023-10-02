@@ -33,52 +33,116 @@ values('Nintendo');
 
 insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
 values('PlayStation 4', 'O PS4  é um console de jogos da Sony, que foi um grande sucesso e vendeu mais de 
-115 milhões de unidades em todo o mundo. Apresentou um grande salto em relação ao PS3', 2013, 1); -- 1
+115 milhões de unidades em todo o mundo. Apresentou um grande salto em relação ao PS3', '2013-11-15', 1); -- 1
 
 insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
 values('PlayStation 5', 'O PS5 é a mais recente versão do console de jogos da Sony é o sucessor do PS4 e 
-apresenta melhorias em relação ao seu antecessor.', 2020, 1); -- 2
+apresenta melhorias em relação ao seu antecessor.', '2020-11-12', 1); -- 2
 
 insert into plataforma(nome, descricao, anolancamento, id_fabricante)
-values('Xbox One', 'O Xbox One é um console de jogos da Microsoft, que competiu diretamente com o PS4 da Sony.
-Apresentou uma grande melhoria em relação ao Xbox 360,', '2013-11-22', 2);
+values('Xbox One', 'O Xbox One é um console de jogos da Microsoft, que competiu diretamente com o PS4 da Sony. 
+Apresentou uma grande melhoria em relação ao Xbox 360,', '2013-11-22', 2); -- 3
 
-insert into plataforma(nome, descricao, anolancamento, id_fabricante)
+insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
 values('Xbox Series S', 'O Xbox Series S é um console de jogos da Microsoft. É uma versão mais acessível do console
-Xbox Serie X, projetado para jogadores que desejam jogar jogos de próxima geração sem gastar tanto dinheiro', '2020-11-10', 2);
+Xbox Serie X, projetado para jogadores que desejam jogar jogos de próxima geração sem gastar tanto dinheiro', '2020-11-10', 2); --4
 
-insert into plataforma(nome, descricao, anolancamento, id_fabricante)
+insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
 values('Xbox Series X', 'O Xbox Series X é um console de jogos da Microsoft, juntamente com o Xbox Series S. É a versão mais
-poderosa do console, projetada para jogadores que desejam desempenho máximo e gráficos de última geração.', '2020-11-10', 2);
+poderosa do console, projetada para jogadores que desejam desempenho máximo e gráficos de última geração.', '2020-11-10', 2); --5
 
-insert into plataforma(nome, descricao, anolancamento, id_fabricante)
-values('Nintendo Switch', 'O Nintendo Switch é um console de jogos híbrido criado pela Nintendo. É um console versátil
-que pode ser jogado tanto no modo de TV quanto no modo portátil.', '2017-03-03', 3);
+insert into plataforma(nome, descricao, anolancamento, id_fabricante) 
+values('Nintendo Switch', 'O Nintendo Switch é um console de jogos híbrido criado pela Nintendo. É um console versátil 
+que pode ser jogado tanto no modo de TV quanto no modo portátil.', '2017-03-03', 3); -- 6
 
-insert into plataforma(nome, descricao, anolancamento, id_fabricante)
-values('PC', 'O Windows é uma das plataformas de jogos mais populares no mundo dos games. Ele oferece uma grande
-variedade de jogos, incluindo jogos de diferentes gêneros.', '2015-07-29', 2);
+insert into plataforma(nome, descricao, id_fabricante)  
+values('PC', 'O Windows é uma das plataformas de jogos mais populares no mundo dos games. Ele oferece uma grande 
+variedade de jogos, incluindo jogos de diferentes gêneros.', 2); -- 7
 
-insert into game(nome, descricao, preco, estoque, diretor, anolancamento, id_developer)
+
+
+insert into genero(nome)
+values('Ação'); -- 1
+insert into genero(nome)
+values('Aventura'); -- 2
+insert into genero(nome)
+values('RPG'); -- 3
+insert into genero(nome)
+values('Estratégia'); -- 4
+insert into genero(nome)
+values('Simulação'); -- 5
+insert into genero(nome)
+values('Puzzle'); -- 6
+insert into genero(nome)
+values('Esportes'); -- 7
+insert into genero(nome)
+values('Corrida'); -- 8
+insert into genero(nome)
+values('Luta'); -- 9
+insert into genero(nome)
+values('Tiro'); -- 10
+insert into genero(nome)
+values('Plataforma'); -- 11
+insert into genero(nome)
+values('Sobrevivência'); -- 12
+insert into genero(nome)
+values('Horror'); -- 13
+insert into genero(nome)
+values('Mundo Aberto'); -- 14
+insert into genero(nome)
+values('Música'); -- 15
+insert into genero(nome)
+values('Souslike'); -- 16
+insert into genero(nome)
+values('Exploração'); -- 17
+insert into genero(nome)
+values('Mistério'); -- 18
+insert into genero(nome)
+values('Metroidvania'); -- 19
+insert into genero(nome)
+values('Roguelike'); -- 20
+
+
+
+insert into estoque(disponivel, qtdDisponivel, qtdVendida)
+values(true, 30, 0);
+insert into estoque(disponivel, qtdDisponivel, qtdVendida)
+values(true, 30, 0);
+insert into estoque(disponivel, qtdDisponivel, qtdVendida)
+values(true, 30, 0);
+insert into estoque(disponivel, qtdDisponivel, qtdVendida)
+values(true, 30, 0);
+insert into estoque(disponivel, qtdDisponivel, qtdVendida)
+values(true, 30, 0);
+insert into estoque(disponivel, qtdDisponivel, qtdVendida)
+values(true, 30, 0);
+
+
+
+insert into game(nome, descricao, preco, id_estoque, diretor, anolancamento, id_developer)
+values('Elden Ring', 'RPG de ação desenvolvido pela FromSoftware em parceria com George R.R. Martin.
+ Exploração de um vasto mundo aberto com sistema de habilidades, combate intenso e chefes desafiadores.', 279.99, 1, 'Hidetaka Miyazaki', 2022, 1);
+
+insert into game(nome, descricao, preco, id_estoque, diretor, anolancamento, id_developer)
 values('God of War Ragnarok', 'Sequência do aclamado jogo de ação da Sony Santa Monica. Continuação da história
- de Kratos e Atreus em Midgard, com batalhas épicas, novo sistema de equipamentos e progressão de personagem.', 299.99, 30, 'Eric Williams', 2022, 2);
+ de Kratos e Atreus em Midgard, com batalhas épicas, novo sistema de equipamentos e progressão de personagem.', 299.99, 2, 'Eric Williams', 2022, 2);
 
-insert into game(nome, descricao, preco, estoque, diretor, anolancamento, id_developer)
+insert into game(nome, descricao, preco, id_estoque, diretor, anolancamento, id_developer)
 values('GRIS', 'Jogo Indie de plataforma e quebra-cabeça com belos visuais e trilha sonora emocional. A jornada de uma jovem 
-garota através de um mundo surreal e catártico em busca da superação de suas próprias dificuldades emocionais.', 84.50, 30, 'Conrad Roset', 2018, 3);
+garota através de um mundo surreal e catártico em busca da superação de suas próprias dificuldades emocionais.', 84.50, 3, 'Conrad Roset', 2018, 3);
 
-insert into game(nome, descricao, preco, estoque, diretor, anolancamento, id_developer)
+insert into game(nome, descricao, preco, id_estoque, diretor, anolancamento, id_developer)
 values('The Last of Us Part II', 'Continuação da premiada saga pós-apocalíptica da Naughty Dog. História emocionalmente 
 intensa de Ellie e sua jornada em um mundo infectado por um fungo, com ênfase no combate furtivo e decisões morais difíceis
-.', 199.99, 30, 'Neil Druckmann', 2020, 4);
+.', 199.99, 4, 'Neil Druckmann', 2020, 4);
 
-insert into game(nome, descricao, preco, estoque, diretor, anolancamento, id_developer)
+insert into game(nome, descricao, preco, id_estoque, diretor, anolancamento, id_developer)
 values('Outer Wilds', 'Jogo indie de exploração espacial com elementos de mistério e quebra-cabeça. Um universo vivo e interativo,
-com uma mecânica de "loop temporal" que desvenda os segredos de um sistema solar em constante evolução.', 124.50, 30, 'Alex Beachum', 2019, 5);
+com uma mecânica de "loop temporal" que desvenda os segredos de um sistema solar em constante evolução.', 124.50, 5, 'Alex Beachum', 2019, 5);
 
-insert into game(nome, descricao, preco, estoque, diretor, anolancamento, id_developer)
+insert into game(nome, descricao, preco, id_estoque, diretor, anolancamento, id_developer)
 values('Hollow Knight', 'Jogo indie de plataforma e ação com atmosfera sombria e desafiadora. Exploração de um vasto mundo
- interconectado, com combate preciso, chefes desafiadores e uma história rica em lore.', 62.50, 30, 'Christopher Larkin', 2017, 6);
+ interconectado, com combate preciso, chefes desafiadores e uma história rica em lore.', 62.50, 6, 'Christopher Larkin', 2017, 6);
 
 
 
@@ -260,8 +324,8 @@ insert into municipio (nome, id_estado) values ('Goiânia', 3);
 -- insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 13', 'Setor Bueno', 'lote 18', '77903-029', 1);
 -- insert into endereco (logradouro, bairro, numero, cep, id_municipio) values ('alameda 5', 'Quadra 201 Norte', 'numero 12', '77010-840', 2);
 
--- insert into usuario (login, senha, id_telefone_opcional)
--- values (1, 'JoaoA', 'ZXChMgzI4VI5Jx+KKCL0AnuRaug9sWorJdV7iCDgWIDNVms7vyhaZeXP+5x26q6uDWKJmyQySZzE8hvoncjgCA==', 1, 2, 1);
+insert into usuario (login, senha, email, nome)
+values ('JoaoA', 'ZXChMgzI4VI5Jx+KKCL0AnuRaug9sWorJdV7iCDgWIDNVms7vyhaZeXP+5x26q6uDWKJmyQySZzE8hvoncjgCA==', 'joao@gmail.com', 'Joao Aguiar');
 
 -- insert into usuario (id_pessoa_fisica, login, senha, id_endereco, id_telefone_principal)
 -- values (2, 'mfernanda', 'x6JkviFo/CZc/dYoTsn+KjkyXu9rqbOwZ89vC1horO3B+ZT2N9nhquEvkFxm2WZahBpo5wgui91vSF00c1BYPA==', 3, 3);
@@ -288,11 +352,10 @@ insert into municipio (nome, id_estado) values ('Goiânia', 3);
 -- -- -- mrnprr45
 -- -- -- JohnDev
 -- --
--- insert into perfis (usuario_id, perfil)
--- values (1, 'Admin');
--- insert into perfis (usuario_id, perfil)
--- values (1, 'User');
--- insert into perfis (id_usuario, perfil) values (1, 'User');
+insert into perfis (usuario_id, perfil)
+values (1, 'Admin');
+insert into perfis (usuario_id, perfil)
+values (1, 'User');
 -- insert into perfis (id_usuario, perfil) values (2, 'User');
 -- insert into perfis (id_usuario, perfil) values (3, 'User');
 -- insert into perfis (id_usuario, perfil) values (4, 'User');
@@ -352,4 +415,3 @@ insert into municipio (nome, id_estado) values ('Goiânia', 3);
 -- insert into itemCompra (id_compra, quantidade, precoUnitario, id_game) values (2, 15, 34.95, 1);
 -- insert into itemCompra (id_compra, quantidade, precoUnitario, id_game) values (2, 2, 29.00, 3);
 -- insert into itemCompra (id_compra, quantidade, precoUnitario, id_game) values (2, 20, 32.30, 2);
-

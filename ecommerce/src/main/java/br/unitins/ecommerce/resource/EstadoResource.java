@@ -10,6 +10,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
@@ -17,6 +18,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -38,53 +40,45 @@ public class EstadoResource {
 
     @GET
     @PermitAll
-    //@PermitAll
-    public List<EstadoResponseDTO> getAll() {
-        LOG.infof("Buscando todos os estados");
+    public List<EstadoResponseDTO> getAll(
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("pageSize") @DefaultValue("10") int pageSize) {
+
+
+        LOG.info("Buscando todos os estados.");
         LOG.debug("ERRO DE DEBUG.");
-        return estadoService.getAll();
+        return estadoService.getAll(page, pageSize);
     }
 
     @GET
     @Path("/{id}")
     @PermitAll
     //@RolesAllowed({"Admin"})
-    public EstadoResponseDTO getById(@PathParam("id") Long id) throws NotFoundException {
+    public EstadoResponseDTO findById(@PathParam("id") Long id) throws NotFoundException {
         LOG.infof("Buscando estados por ID. ", id);
         LOG.debug("ERRO DE DEBUG.");
-        return estadoService.getById(id);
+        return estadoService.findById(id);
     }
 
     @POST
-    @PermitAll
-    //@RolesAllowed({"Admin"})
-    public Response insert(EstadoDTO estadoDto) {
-        LOG.infof("Inserindo um estado: %s", estadoDto.nome());
+    public Response insert(EstadoDTO dto) {
+        LOG.infof("Inserindo um estado: %s", dto.nome());
         Result result = null;
         try {
-            LOG.infof("Produto inserido na lista Desejo.");
-
-            return Response
-                    .status(Status.CREATED) // 201
-                    .entity(estadoService.insert(estadoDto))
-                    .build();
-
-        } catch (ConstraintViolationException e) {
+            EstadoResponseDTO estado = estadoService.create(dto);
+            LOG.infof("Estado (%d) criado com sucesso.", estado.id());
+            return Response.status(Status.CREATED).entity(estado).build();
+        } catch(ConstraintViolationException e) {
             LOG.error("Erro ao incluir um estado.");
             LOG.debug(e.getMessage());
             result = new Result(e.getConstraintViolations());
-
         } catch (Exception e) {
             LOG.fatal("Erro sem identificacao: " + e.getMessage());
             result = new Result(e.getMessage(), false);
-
         }
-        return Response
-                .status(Status.NOT_FOUND)
-                .entity(result)
-                .build();
+        return Response.status(Status.NOT_FOUND).entity(result).build();
 
-    }
+    }    
 
     @PUT
     @Path("/{id}")
@@ -135,6 +129,14 @@ public class EstadoResource {
     }
 
     @GET
+    @Path("/search/{nome}/count")
+    public long count(@PathParam("nome") String nome){
+         LOG.infof("Contando todos os estados por nome");
+        LOG.debug("ERRO DE DEBUG.");
+        return estadoService.countByNome(nome);
+    }
+
+    @GET
     @Path("/count")
     @PermitAll
     //@RolesAllowed({"Admin"})
@@ -145,20 +147,12 @@ public class EstadoResource {
     }
 
     @GET
-    @Path("/searchByNome/{nome}")
-    @PermitAll
-    public List<EstadoResponseDTO> getByNome(@PathParam("nome") String nome) throws NullPointerException {
-        LOG.infof("Buscando estado pelo  nome. ", nome);
-        LOG.debug("ERRO DE DEBUG.");
-        return estadoService.getByNome(nome);
-    }
-
-    @GET
-    @Path("/searchBySigla/{sigla}")
-    @PermitAll
-    public List<EstadoResponseDTO> getBySigla(@PathParam("sigla") String sigla) throws NullPointerException {
-        LOG.infof("Buscando estado pela sigla. ", sigla);
-        LOG.debug("ERRO DE DEBUG.");
-        return estadoService.getBySigla(sigla);
+    @Path("/search/{nome}")
+    public List<EstadoResponseDTO> search(
+            @PathParam("nome") String nome,
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("pageSize") @DefaultValue("10") int pageSize) {
+        return estadoService.getByNome(nome, page, pageSize);
+        
     }
 }
