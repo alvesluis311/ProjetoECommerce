@@ -10,6 +10,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
@@ -17,6 +18,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -34,15 +36,15 @@ public class DeveloperResource {
     @Inject
     DeveloperService developerService;
 
-
     private static final Logger LOG = Logger.getLogger(DeveloperResource.class);
 
     @GET
     @PermitAll
-    public List<DeveloperResponseDTO> getAll() {
+    public List<DeveloperResponseDTO> getAll(@QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("pageSize") @DefaultValue("10") int pageSize) {
         LOG.info("Buscando todos os developers");
         LOG.debug("ERRO DE DEBUG.");
-        return developerService.getAll();
+        return developerService.getAll(page, pageSize);
     }
 
     @GET
@@ -56,7 +58,7 @@ public class DeveloperResource {
 
     @POST
     @PermitAll
-    //@RolesAllowed({"Admin"})
+    // @RolesAllowed({"Admin"})
     public Response insert(DeveloperDTO developerDto) {
         LOG.infof("Inserindo um developer: %s", developerDto.nome());
         Result result = null;
@@ -78,15 +80,15 @@ public class DeveloperResource {
 
         }
         return Response
-        .status(Status.NOT_FOUND)
-        .entity(result)
-        .build();
+                .status(Status.NOT_FOUND)
+                .entity(result)
+                .build();
     }
 
     @PUT
     @Path("/{id}")
     @PermitAll
-    //@RolesAllowed({"Admin"})
+    // @RolesAllowed({"Admin"})
     public Response update(@PathParam("id") Long id, DeveloperDTO developerDto) {
         Result result = null;
         try {
@@ -113,11 +115,10 @@ public class DeveloperResource {
                 .build();
     }
 
-
     @DELETE
     @Path("/{id}")
     @PermitAll
-    //@RolesAllowed({"Admin"})
+    // @RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
         try {
             developerService.delete(id);
@@ -134,9 +135,17 @@ public class DeveloperResource {
     }
 
     @GET
+    @Path("/search/{nome}/count")
+    public long count(@PathParam("nome") String nome){
+         LOG.infof("Contando todos os developers por nome");
+        LOG.debug("ERRO DE DEBUG.");
+        return developerService.countByNome(nome);
+    }
+
+    @GET
     @Path("/count")
     @PermitAll
-    //@RolesAllowed({"Admin"})
+    // @RolesAllowed({"Admin"})
     public Long count() {
         LOG.info("Contando todos os developers.");
         LOG.debug("ERRO DE DEBUG.");
@@ -146,10 +155,13 @@ public class DeveloperResource {
     @GET
     @Path("/searchByNome/{nome}")
     @PermitAll
-    public List<DeveloperResponseDTO> getByNome(@PathParam("nome") String nome) {
+    public List<DeveloperResponseDTO> getByNome(
+        @PathParam("nome") String nome,
+        @QueryParam("page") @DefaultValue("0") int page,
+        @QueryParam("pageSize") @DefaultValue("10") int pageSize) {
         LOG.infof("Buscando developer pelo nome. ", nome);
         LOG.debug("ERRO DE DEBUG.");
-        return developerService.findByNome(nome);
+        return developerService.findByNome(nome, page, pageSize);
     }
 
 }

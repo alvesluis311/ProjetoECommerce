@@ -20,8 +20,8 @@ public record GameResponseDTO(
     List<String> generos,
     List<String> plataformas
 ) {
-    public GameResponseDTO(Game game) {
-        this(
+    public static GameResponseDTO valueOf(Game game) {
+        return new GameResponseDTO(
             game.getId(),
             game.getNome(),
             game.getDescricao(),

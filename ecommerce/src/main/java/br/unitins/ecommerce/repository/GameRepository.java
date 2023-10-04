@@ -3,7 +3,7 @@ package br.unitins.ecommerce.repository;
 import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
-
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import br.unitins.ecommerce.model.produto.game.Developer;
 import br.unitins.ecommerce.model.produto.game.Game;
@@ -13,10 +13,10 @@ import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
 @ApplicationScoped
 public class GameRepository implements PanacheRepository<Game> {
 
-    public List<Game> findByNome(String nome) {
+    public PanacheQuery<Game> findByNome(String nome) {
         if (nome == null)
             return null;
-        return find("UPPER(nome) LIKE ?1 ", "%" + nome.toUpperCase() + "%").list();
+        return find("UPPER(nome) LIKE ?1 ", "%" + nome.toUpperCase() + "%");
     }
 
     public List<Game> findByPlataforma(Plataforma plataforma) {

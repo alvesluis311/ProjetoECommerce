@@ -8,8 +8,8 @@ public record DeveloperResponseDTO(
     Integer fundacao
     
 ) {
-    public DeveloperResponseDTO(Developer developer) {
-        this(
+    public static DeveloperResponseDTO valueOf(Developer developer) {
+        return new DeveloperResponseDTO(
             developer.getId(),
             developer.getNome(),
             developer.getFundacao());

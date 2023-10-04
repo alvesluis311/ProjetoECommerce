@@ -97,4 +97,6 @@ public class EstadoImplService implements EstadoService {
     public long countByNome(String nome) {
         return estadoRepository.findByNome(nome).count();
     }
+
+    
 }
