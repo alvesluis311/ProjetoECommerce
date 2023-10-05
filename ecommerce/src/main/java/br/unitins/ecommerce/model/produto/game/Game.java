@@ -2,6 +2,7 @@ package br.unitins.ecommerce.model.produto.game;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
@@ -28,9 +29,8 @@ public class Game extends DefaultEntity {
     @Column(nullable = false)
     private Double preco;
 
-    @OneToOne
-    @JoinColumn(name = "id_estoque", unique = true)
-    private Estoque estoque;
+    @Column(nullable = false)
+    private Integer estoque;
 
     @Column(nullable = false, length = 120)
     private String diretor;
@@ -126,13 +126,15 @@ public class Game extends DefaultEntity {
         this.generos = generos;
     }
 
-    public Estoque getEstoque() {
+    public Integer getEstoque() {
         return estoque;
     }
 
-    public void setEstoque(Estoque estoque) {
+    public void setEstoque(Integer estoque) {
         this.estoque = estoque;
     }
+
+    
 
 
 }

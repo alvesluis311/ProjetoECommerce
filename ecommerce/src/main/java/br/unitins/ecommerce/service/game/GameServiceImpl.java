@@ -2,9 +2,9 @@ package br.unitins.ecommerce.service.game;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.Bean;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
@@ -12,6 +12,7 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import jakarta.ws.rs.NotFoundException;
 import br.unitins.ecommerce.dto.game.GameResponseDTO;
+import br.unitins.ecommerce.mapper.GameMapper;
 import br.unitins.ecommerce.dto.game.GameDTO;
 import br.unitins.ecommerce.model.produto.game.Developer;
 import br.unitins.ecommerce.model.produto.game.Estoque;
@@ -24,6 +25,7 @@ import br.unitins.ecommerce.repository.GeneroRepository;
 import br.unitins.ecommerce.repository.PlataformaRepository;
 import br.unitins.ecommerce.service.avaliacao.AvaliacaoService;
 import br.unitins.ecommerce.service.usuario.UsuarioService;
+import br.unitins.ecommerce.utils.BeanUtil;
 
 @ApplicationScoped
 public class GameServiceImpl implements GameService {
@@ -52,10 +54,13 @@ public class GameServiceImpl implements GameService {
     @Inject
     AvaliacaoService avaliacaoService;
 
+    @Inject
+    GameMapper gameMapper;
+
     @Override
     public List<GameResponseDTO> getAll(int page, int pageSize) {
         List<Game> list = gameRepository.findAll().page(page, pageSize).list();
-        return list.stream().map(e -> GameResponseDTO.valueOf(e)).collect(Collectors.toList());
+        return gameMapper.toListResponse(list);
     }
 
     @Override
@@ -63,7 +68,7 @@ public class GameServiceImpl implements GameService {
         Game game = gameRepository.findById(id);
         if (game == null)
             throw new NotFoundException("Game não encontrado.");
-        return GameResponseDTO.valueOf(game);
+        return gameMapper.toResponse(game);
     }
 
     @Override
@@ -71,31 +76,13 @@ public class GameServiceImpl implements GameService {
     public GameResponseDTO create(GameDTO gameDTO) throws ConstraintViolationException {
         validar(gameDTO);
 
-        Game entity = new Game();
-        entity.setNome(gameDTO.nome());
-        entity.setDescricao(gameDTO.descricao());
-        entity.setPreco(gameDTO.preco());
-        Estoque estoque = new Estoque();
-        estoque.setQtdDisponivel(gameDTO.qtdDisponivel());
-        estoque.setQtdVendida(0);
-        if (estoque.getQtdDisponivel() > 0){
-        estoque.setDisponivel(true);
-        }else{
-            estoque.setDisponivel(false);
-        }
-        estoqueRepository.persist(estoque);
-        entity.setEstoque(estoque);
-        entity.setDiretor(gameDTO.diretor());
-        entity.setAnoLancamento(gameDTO.anoLancamento());
-        entity.setDeveloper(developerRepository.findById(gameDTO.idDeveloper()));
-        entity.setGeneros(generoRepository
-        .findById(gameDTO.idGeneros()));
-        entity.setPlataformas(plataformaRepository
-        .findById(gameDTO.idPlataformas()));
+        Game entity = gameMapper.toEntity(gameDTO);
 
         gameRepository.persist(entity);
+        System.out.println();
+        gameDTO.generos().forEach(g -> System.out.println(g.getId()));
 
-        return GameResponseDTO.valueOf(entity);
+        return gameMapper.toResponse(entity);
     }
 
     @Override
@@ -103,27 +90,11 @@ public class GameServiceImpl implements GameService {
     public GameResponseDTO update(Long id, GameDTO gameDTO) throws ConstraintViolationException{
         validar(gameDTO);
    
-        Game entity = gameRepository.findById(id);
-        entity.setNome(gameDTO.nome());
-        entity.setDescricao(gameDTO.descricao());
-        entity.setPreco(gameDTO.preco());
-        Estoque estoque = new Estoque();
-        estoque.setQtdDisponivel(gameDTO.qtdDisponivel());
-        estoque.setQtdVendida(0);
-        if (estoque.getQtdDisponivel() > 0){
-        estoque.setDisponivel(true);
-        }else{
-            estoque.setDisponivel(false);
-        }
-        estoqueRepository.persist(estoque);
-        entity.setEstoque(estoque);
-        entity.setDiretor(gameDTO.diretor());
-        entity.setAnoLancamento(gameDTO.anoLancamento());
-        entity.setDeveloper(developerRepository.findById(gameDTO.idDeveloper()));
-        entity.setGeneros(generoRepository.findById(gameDTO.idGeneros()));
-        entity.setPlataformas(plataformaRepository.findById(gameDTO.idPlataformas()));
+        Game target = gameRepository.findById(id);
+        Game source = gameMapper.toEntity(gameDTO);
+        BeanUtil.copyNonNullProperties(source, target);
 
-        return GameResponseDTO.valueOf(entity);
+        return gameMapper.toResponse(target);
     }
 
     private void validar(GameDTO gameDTO) throws ConstraintViolationException {
@@ -162,7 +133,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public List<GameResponseDTO> findByNome(String nome, int page, int pageSize) {
         List<Game> list = gameRepository.findByNome(nome).page(page, pageSize).list();
-        return list.stream().map(e -> GameResponseDTO.valueOf(e)).collect(Collectors.toList());
+        return gameMapper.toListResponse(list);
     }
 
     @Override
@@ -175,9 +146,7 @@ public class GameServiceImpl implements GameService {
 
         List<Game> list = gameRepository.findByDeveloper(developer);
 
-        return list.stream()
-                .map(game -> GameResponseDTO.valueOf(game))
-                .collect(Collectors.toList());
+        return gameMapper.toListResponse(list);
     }
 
     @Override
@@ -190,9 +159,7 @@ public class GameServiceImpl implements GameService {
 
         List<Game> list = gameRepository.findByGenero(genero);
 
-        return list.stream()
-                .map(game -> GameResponseDTO.valueOf(game))
-                .collect(Collectors.toList());
+        return gameMapper.toListResponse(list);
     }
 
     @Override
@@ -213,9 +180,7 @@ public class GameServiceImpl implements GameService {
         if (list == null)
             throw new NullPointerException("Nenhum game encontrado");
 
-        return list.stream()
-                    .map(game -> GameResponseDTO.valueOf(game))
-                    .collect(Collectors.toList());
+        return gameMapper.toListResponse(list);
     }
 
     @Override
@@ -226,9 +191,7 @@ public class GameServiceImpl implements GameService {
         if (list == null)
             throw new NullPointerException("Nenhum Café encontrada");
 
-        return list.stream()
-                    .map(game -> GameResponseDTO.valueOf(game))
-                    .collect(Collectors.toList());
+        return gameMapper.toListResponse(list);
     }
 
     @Override
@@ -239,9 +202,7 @@ public class GameServiceImpl implements GameService {
         if (list == null)
             throw new NullPointerException("Nenhum Café encontrada");
 
-        return list.stream()
-                    .map(game -> GameResponseDTO.valueOf(game))
-                    .collect(Collectors.toList());
+        return gameMapper.toListResponse(list);
     }
 
     

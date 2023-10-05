@@ -1,10 +1,9 @@
 package br.unitins.ecommerce.dto.game;
 
-import br.unitins.ecommerce.model.produto.game.Game;
-import br.unitins.ecommerce.model.produto.game.Genero;
-import br.unitins.ecommerce.model.produto.plataforma.Plataforma;
+import br.unitins.ecommerce.dto.developer.DeveloperInfo;
+import br.unitins.ecommerce.dto.genero.GeneroInfo;
+import br.unitins.ecommerce.dto.plataforma.PlataformaInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public record GameResponseDTO(
@@ -16,46 +15,9 @@ public record GameResponseDTO(
     Integer estoque,
     String diretor,
     Integer anoLancamento,
-    String developer,
-    List<String> generos,
-    List<String> plataformas
+    DeveloperInfo developer,
+    List<GeneroInfo> generos,
+    List<PlataformaInfo> plataformas
 ) {
-    public static GameResponseDTO valueOf(Game game) {
-        return new GameResponseDTO(
-            game.getId(),
-            game.getNome(),
-            game.getDescricao(),
-            game.getNomeImagem(),
-            game.getPreco(),
-            game.getEstoque().getQtdDisponivel(),
-            game.getDiretor(),
-            game.getAnoLancamento(),
-            game.getDeveloper().getNome(),
-            viewGeneros(game.getGeneros()),
-            viewPlataformas(game.getPlataformas()));
-    }
-
-    private static List<String> viewPlataformas (List<Plataforma> lista) {
-
-        List<String> listaPlataformas = new ArrayList<>();
-
-        for (Plataforma plataformas : lista) {
-
-            listaPlataformas.add(plataformas.getNome());
-        }
-
-        return listaPlataformas;
-    }
-
-    private static List<String> viewGeneros (List<Genero> lista) {
-
-        List<String> listaGeneros = new ArrayList<>();
-
-        for (Genero generos : lista) {
-
-            listaGeneros.add(generos.getNome());
-        }
-
-        return listaGeneros;
-    }
+    
 }
