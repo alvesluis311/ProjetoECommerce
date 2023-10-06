@@ -57,7 +57,7 @@ public class GeneroServiceImpl implements GeneroService {
     public GeneroResponseDTO update(Long id, GeneroDTO generoDTO) throws ConstraintViolationException{
         validar(generoDTO);
    
-        Genero entity = new Genero();
+        Genero entity = generoRepository.findById(id);
         entity.setNome(generoDTO.nome());
 
         return GeneroResponseDTO.valueOf(entity);

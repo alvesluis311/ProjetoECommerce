@@ -214,7 +214,7 @@ public class GameResource {
     }
 
     @GET
-    @Path("/searchByNome/{nome}")
+    @Path("/search/{nome}")
     @PermitAll
     public List<GameResponseDTO> getByNome(@PathParam("nome") String nome,
             @QueryParam("page") @DefaultValue("0") int page,

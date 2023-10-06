@@ -153,7 +153,7 @@ public class DeveloperResource {
     }
 
     @GET
-    @Path("/searchByNome/{nome}")
+    @Path("/search/{nome}")
     @PermitAll
     public List<DeveloperResponseDTO> getByNome(
         @PathParam("nome") String nome,

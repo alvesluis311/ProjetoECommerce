@@ -150,7 +150,7 @@ public class GeneroResource {
     }
 
     @GET
-    @Path("/searchByNome/{nome}")
+    @Path("/search/{nome}")
     @PermitAll
     public List<GeneroResponseDTO> getByNome(@PathParam("nome") String nome,
             @QueryParam("page") @DefaultValue("0") int page,
