@@ -3,6 +3,8 @@ package br.unitins.ecommerce.exception;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
@@ -11,19 +13,18 @@ import org.jboss.logging.Logger;
 import java.util.stream.Collectors;
 
 @Provider
-public class ApiExceptionMapper implements ExceptionMapper<Exception> {
+@ApplicationScoped
+public class ApiExceptionMapper implements ExceptionMapper<RuntimeException> {
     private static final Logger LOG = Logger.getLogger(ApiExceptionMapper.class);
 
     @Override
-    public Response toResponse(Exception exception) {
+    public Response toResponse(RuntimeException exception) {
         if (exception instanceof NotFoundEntityException) {
             return handleNotFoundException((NotFoundEntityException) exception);
         } else if (exception instanceof ConflictException) {
             return handleConflictException((ConflictException) exception);
         } else if (exception instanceof BadRequestException) {
             return handleBadRequestException((BadRequestException) exception);
-        } else if (exception instanceof JsonProcessingException) {
-            return handleJsonProcessingException((JsonProcessingException) exception);
         } else if (exception instanceof ForbiddenException) {
             return handleForbiddenException((ForbiddenException) exception);
         }
@@ -42,6 +43,7 @@ public class ApiExceptionMapper implements ExceptionMapper<Exception> {
                 .entity(apiError)
                 .build();
     }
+
 
     private Response handleInvalidFormatException(InvalidFormatException exception) {
         LOG.fatal("Mensagem incompreensível: " + exception.getMessage());
