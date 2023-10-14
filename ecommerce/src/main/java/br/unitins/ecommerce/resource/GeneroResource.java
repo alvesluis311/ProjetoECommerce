@@ -10,6 +10,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
@@ -17,6 +18,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -34,15 +36,16 @@ public class GeneroResource {
     @Inject
     GeneroService generoService;
 
-
     private static final Logger LOG = Logger.getLogger(GeneroResource.class);
 
     @GET
     @PermitAll
-    public List<GeneroResponseDTO> getAll() {
+    public List<GeneroResponseDTO> getAll(
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("pageSize") @DefaultValue("10") int pageSize) {
         LOG.info("Buscando todas os gêneros");
         LOG.debug("ERRO DE DEBUG.");
-        return generoService.getAll();
+        return generoService.getAll(page, pageSize);
     }
 
     @GET
@@ -77,9 +80,9 @@ public class GeneroResource {
 
         }
         return Response
-        .status(Status.NOT_FOUND)
-        .entity(result)
-        .build();
+                .status(Status.NOT_FOUND)
+                .entity(result)
+                .build();
     }
 
     @PUT
@@ -111,7 +114,6 @@ public class GeneroResource {
                 .build();
     }
 
-
     @DELETE
     @Path("/{id}")
     @PermitAll
@@ -131,6 +133,14 @@ public class GeneroResource {
     }
 
     @GET
+    @Path("/search/{nome}/count")
+    public long count(@PathParam("nome") String nome) {
+        LOG.infof("Contando todos os gêneros por nome");
+        LOG.debug("ERRO DE DEBUG.");
+        return generoService.countByNome(nome);
+    }
+
+    @GET
     @Path("/count")
     @PermitAll
     public Long count() {
@@ -140,12 +150,14 @@ public class GeneroResource {
     }
 
     @GET
-    @Path("/searchByNome/{nome}")
+    @Path("/search/{nome}")
     @PermitAll
-    public List<GeneroResponseDTO> getByNome(@PathParam("nome") String nome) {
-        LOG.infof("Buscando gênero pelo nome. ", nome);
+    public List<GeneroResponseDTO> getByNome(@PathParam("nome") String nome,
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("pageSize") @DefaultValue("10") int pageSize) {
+        LOG.infof("Buscando gênero pelo nome: ", nome);
         LOG.debug("ERRO DE DEBUG.");
-        return generoService.findByNome(nome);
+        return generoService.findByNome(nome, page, pageSize);
     }
 
 }

@@ -26,17 +26,17 @@ public class GeneroServiceImpl implements GeneroService {
     Validator validator;
 
     @Override
-    public List<GeneroResponseDTO> getAll() {
-        List<Genero> list = generoRepository.listAll();
-        return list.stream().map(GeneroResponseDTO::new).collect(Collectors.toList());
+    public List<GeneroResponseDTO> getAll(int page, int pageSize) {
+        List<Genero> list = generoRepository.findAll().page(page, pageSize).list();
+        return list.stream().map(e -> GeneroResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
     @Override
     public GeneroResponseDTO getById(Long id) {
-        Genero genero = generoRepository.findById(id);
+         Genero genero = generoRepository.findById(id);
         if (genero == null)
             throw new NotFoundException("Genero não encontrado.");
-        return new GeneroResponseDTO(genero);
+        return GeneroResponseDTO.valueOf(genero);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class GeneroServiceImpl implements GeneroService {
 
         generoRepository.persist(entity);
 
-        return new GeneroResponseDTO(entity);
+        return GeneroResponseDTO.valueOf(entity);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class GeneroServiceImpl implements GeneroService {
         Genero entity = generoRepository.findById(id);
         entity.setNome(generoDTO.nome());
 
-        return new GeneroResponseDTO(entity);
+        return GeneroResponseDTO.valueOf(entity);
     }
 
     private void validar(GeneroDTO generoDTO) throws ConstraintViolationException {
@@ -82,9 +82,9 @@ public class GeneroServiceImpl implements GeneroService {
     }
 
     @Override
-    public List<GeneroResponseDTO> findByNome(String nome) {
-        List<Genero> list = generoRepository.findByNome(nome);
-        return list.stream().map(GeneroResponseDTO::new).collect(Collectors.toList());
+    public List<GeneroResponseDTO> findByNome(String nome, int page, int pageSize) {
+        List<Genero> list = generoRepository.findByNome(nome).page(page, pageSize).list();
+        return list.stream().map(e -> GeneroResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
     @Override
@@ -92,6 +92,9 @@ public class GeneroServiceImpl implements GeneroService {
         return generoRepository.count();
     }
 
-    
+    @Override
+    public long countByNome(String nome) {
+        return generoRepository.findByNome(nome).count();
+    }
 
 }

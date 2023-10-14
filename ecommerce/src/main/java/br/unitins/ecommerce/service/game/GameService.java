@@ -9,7 +9,7 @@ public interface GameService {
 
     // Metodos basicos
     
-    List<GameResponseDTO> getAll();
+    List<GameResponseDTO> getAll(int page, int pageSize);
 
     GameResponseDTO getById(Long id);
 
@@ -25,7 +25,7 @@ public interface GameService {
 
     // Metodos extras
 
-    List<GameResponseDTO> findByNome(String nome);
+    List<GameResponseDTO> findByNome(String nome, int page, int pageSize);
 
     List<GameResponseDTO> getByDeveloper(Long id);
 
@@ -38,6 +38,8 @@ public interface GameService {
     List<GameResponseDTO> filterByPrecoMax(Double preco);
 
     List<GameResponseDTO> filterByEntrePreco(Double precoMin, Double precoMax);
+
+    long countByNome(String nome);
 
 
 }

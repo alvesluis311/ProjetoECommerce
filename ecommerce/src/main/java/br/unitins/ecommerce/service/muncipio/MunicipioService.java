@@ -28,7 +28,7 @@ public interface MunicipioService {
 
     List<MunicipioResponseDTO> getByNome(String nome);
 
-    List<MunicipioResponseDTO> getByNomeEstado(String nomeEstado);
+   // List<MunicipioResponseDTO> getByNomeEstado(String nomeEstado);
 
     List<MunicipioResponseDTO> getBySiglaEstado(String siglaEstado);
 }

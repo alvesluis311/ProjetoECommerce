@@ -13,6 +13,7 @@ import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.PATCH;
@@ -21,6 +22,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
@@ -48,10 +50,12 @@ public class GameResource {
 
     @GET
     @PermitAll
-    public List<GameResponseDTO> getAll() {
+    public List<GameResponseDTO> getAll(
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("pageSize") @DefaultValue("10") int pageSize) {
         LOG.info("Buscando todas os produtos");
         LOG.debug("ERRO DE DEBUG.");
-        return gameService.getAll();
+        return gameService.getAll(page, pageSize);
     }
 
     @GET
@@ -66,7 +70,7 @@ public class GameResource {
     @GET
     @Path("/download/{nomeImagem}")
     @PermitAll
-    //@RolesAllowed({ "Admin", "User" })
+    // @RolesAllowed({ "Admin", "User" })
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response download(@PathParam("nomeImagem") String nomeImagem) {
 
@@ -88,7 +92,7 @@ public class GameResource {
 
     @POST
     @PermitAll
-    //@RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Response insert(GameDTO gameDto) {
         LOG.infof("Inserindo um produto: %s", gameDto.nome());
         Result result = null;
@@ -118,7 +122,7 @@ public class GameResource {
     @PUT
     @Path("/{id}")
     @PermitAll
-    //@RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Response update(@PathParam("id") Long id, GameDTO gameDto) {
         Result result = null;
         try {
@@ -148,7 +152,7 @@ public class GameResource {
     @PATCH
     @Path("/atualizar-imagem/{id}")
     @PermitAll
-    //@RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response salvarImagem(@MultipartForm ImageForm form, @PathParam("id") Long id) {
 
@@ -175,7 +179,7 @@ public class GameResource {
     @DELETE
     @Path("/{id}")
     @PermitAll
-    //@RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
         try {
             gameService.delete(id);
@@ -192,9 +196,17 @@ public class GameResource {
     }
 
     @GET
+    @Path("/search/{nome}/count")
+    public long count(@PathParam("nome") String nome){
+         LOG.infof("Contando todos os games por nome");
+        LOG.debug("ERRO DE DEBUG.");
+        return gameService.countByNome(nome);
+    }
+
+    @GET
     @Path("/count")
     @PermitAll
-    //@RolesAllowed({ "Admin" })
+    // @RolesAllowed({ "Admin" })
     public Long count() {
         LOG.info("Contando todos os produtos.");
         LOG.debug("ERRO DE DEBUG.");
@@ -202,12 +214,14 @@ public class GameResource {
     }
 
     @GET
-    @Path("/searchByNome/{nome}")
+    @Path("/search/{nome}")
     @PermitAll
-    public List<GameResponseDTO> getByNome(@PathParam("nome") String nome) {
+    public List<GameResponseDTO> getByNome(@PathParam("nome") String nome,
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("pageSize") @DefaultValue("10") int pageSize) {
         LOG.infof("Buscando produto pelo nome. ", nome);
         LOG.debug("ERRO DE DEBUG.");
-        return gameService.findByNome(nome);
+        return gameService.findByNome(nome, page, pageSize);
     }
 
     @GET
@@ -229,8 +243,6 @@ public class GameResource {
         LOG.debug("ERRO DE DEBUG.");
         return gameService.getByGenero(id);
     }
-
-    
 
     @GET
     @Path("/filterByPrecoMin/{precoMin}")

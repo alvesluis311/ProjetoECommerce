@@ -26,9 +26,9 @@ public class DeveloperServiceImpl implements DeveloperService {
     Validator validator;
 
     @Override
-    public List<DeveloperResponseDTO> getAll() {
-        List<Developer> list = developerRepository.listAll();
-        return list.stream().map(DeveloperResponseDTO::new).collect(Collectors.toList());
+    public List<DeveloperResponseDTO> getAll(int page, int pageSize) {
+        List<Developer> list = developerRepository.findAll().page(page, pageSize).list();
+        return list.stream().map(e -> DeveloperResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
     @Override
@@ -36,7 +36,7 @@ public class DeveloperServiceImpl implements DeveloperService {
         Developer developer = developerRepository.findById(id);
         if (developer == null)
             throw new NotFoundException("Developer não encontrado.");
-        return new DeveloperResponseDTO(developer);
+        return DeveloperResponseDTO.valueOf(developer);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 
         developerRepository.persist(entity);
 
-        return new DeveloperResponseDTO(entity);
+        return DeveloperResponseDTO.valueOf(entity);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class DeveloperServiceImpl implements DeveloperService {
         entity.setNome(developerDTO.nome());
         entity.setFundacao(developerDTO.fundacao());
 
-        return new DeveloperResponseDTO(entity);
+        return DeveloperResponseDTO.valueOf(entity);
     }
 
     private void validar(DeveloperDTO developerDTO) throws ConstraintViolationException {
@@ -84,9 +84,9 @@ public class DeveloperServiceImpl implements DeveloperService {
     }
 
     @Override
-    public List<DeveloperResponseDTO> findByNome(String nome) {
-        List<Developer> list = developerRepository.findByNome(nome);
-        return list.stream().map(DeveloperResponseDTO::new).collect(Collectors.toList());
+    public List<DeveloperResponseDTO> findByNome(String nome, int page, int pageSize) {
+        List<Developer> list = developerRepository.findByNome(nome).page(page, pageSize).list();
+        return list.stream().map(e -> DeveloperResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
     @Override
@@ -94,6 +94,9 @@ public class DeveloperServiceImpl implements DeveloperService {
         return developerRepository.count();
     }
 
-    
+    @Override
+    public long countByNome(String nome) {
+        return developerRepository.findByNome(nome).count();
+    }
 
 }

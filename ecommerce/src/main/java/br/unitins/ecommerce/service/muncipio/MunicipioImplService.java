@@ -127,23 +127,23 @@ public class MunicipioImplService implements MunicipioService {
     }
 
 
-    @Override
-    public List<MunicipioResponseDTO> getByNomeEstado(String nomeEstado) throws NullPointerException {
+    // @Override
+    // public List<MunicipioResponseDTO> getByNomeEstado(String nomeEstado) throws NullPointerException {
         
-        List<Estado> estados = estadoRepository.findByNome(nomeEstado);
+    //     List<Estado> estados = estadoRepository.findByNome(nomeEstado);
 
-        if (estados == null)
-            throw new NullPointerException("nenhum estado com esse nome encontrado");
+    //     if (estados == null)
+    //         throw new NullPointerException("nenhum estado com esse nome encontrado");
 
-        List<Municipio> list = municipioRepository.findByEstado(estados.get(0));
+    //     List<Municipio> list = municipioRepository.findByEstado(estados.get(0));
 
-        if (list == null)
-            throw new NullPointerException("nenhum municipio encontrado");
+    //     if (list == null)
+    //         throw new NullPointerException("nenhum municipio encontrado");
         
-        return list.stream()
-                    .map(MunicipioResponseDTO::new)
-                    .collect(Collectors.toList());
-    }
+    //     return list.stream()
+    //                 .map(MunicipioResponseDTO::new)
+    //                 .collect(Collectors.toList());
+    // }
 
     @Override
     public List<MunicipioResponseDTO> getBySiglaEstado(String siglaEstado) throws NullPointerException {

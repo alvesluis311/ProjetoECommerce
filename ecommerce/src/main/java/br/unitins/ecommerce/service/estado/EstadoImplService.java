@@ -27,97 +27,64 @@ public class EstadoImplService implements EstadoService {
     Validator validator;
 
     @Override
-    public List<EstadoResponseDTO> getAll() {
+    public List<EstadoResponseDTO> getAll(int page, int pageSize) {
 
-        return estadoRepository.findAll()
-                                .stream()
-                                .map(EstadoResponseDTO::new)
-                                .collect(Collectors.toList());
+        List<Estado> list = estadoRepository.findAll().page(page, pageSize).list();
+        return list.stream().map(e -> EstadoResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
     @Override
-    public EstadoResponseDTO getById(Long id) throws NotFoundException {
-
+    public EstadoResponseDTO findById(Long id) {
         Estado estado = estadoRepository.findById(id);
-
         if (estado == null)
-            throw new NotFoundException("Não encontrado");
-
-        return new EstadoResponseDTO(estado);
+            throw new NotFoundException("Estado não encontrado.");
+        return EstadoResponseDTO.valueOf(estado);
     }
 
     @Override
     @Transactional
-    public EstadoResponseDTO insert(EstadoDTO estadoDto) throws ConstraintViolationException {
-
-        validar(estadoDto);
+    public EstadoResponseDTO create(EstadoDTO estadoDTO) throws ConstraintViolationException {
+        validar(estadoDTO);
 
         Estado entity = new Estado();
-
-        entity.setNome(estadoDto.nome());
-
-        entity.setSigla(estadoDto.sigla().toUpperCase());
+        entity.setNome(estadoDTO.nome());
+        entity.setSigla(estadoDTO.sigla());
 
         estadoRepository.persist(entity);
 
-        return new EstadoResponseDTO(entity);
+        return EstadoResponseDTO.valueOf(entity);
     }
 
     @Override
     @Transactional
-    public EstadoResponseDTO update(Long id, EstadoDTO estadoDto) throws ConstraintViolationException {
-
-        validar(estadoDto);
-
+    public EstadoResponseDTO update(Long id, EstadoDTO estadoDTO) throws ConstraintViolationException{
+        validar(estadoDTO);
+   
         Estado entity = estadoRepository.findById(id);
 
-        entity.setNome(estadoDto.nome());
+        entity.setNome(estadoDTO.nome());
+        entity.setSigla(estadoDTO.sigla());
 
-        entity.setSigla(estadoDto.sigla().toUpperCase());
+        return EstadoResponseDTO.valueOf(entity);
+    }
 
-        return new EstadoResponseDTO(entity);
+    private void validar(EstadoDTO estadoDTO) throws ConstraintViolationException {
+        Set<ConstraintViolation<EstadoDTO>> violations = validator.validate(estadoDTO);
+        if (!violations.isEmpty())
+            throw new ConstraintViolationException(violations);
+
     }
 
     @Override
     @Transactional
-    public void delete(Long id) throws IllegalArgumentException, NotFoundException {
-
-        if (id == null)
-            throw new IllegalArgumentException("Número inválido");
-
-        Estado estado = estadoRepository.findById(id);
-
-        if (estadoRepository.isPersistent(estado))
-            estadoRepository.delete(estado);
-
-        else
-            throw new NotFoundException("Nenhum estado encontrado");
+    public void delete(Long id) {
+        estadoRepository.deleteById(id);
     }
 
     @Override
-    public List<EstadoResponseDTO> getByNome(String nome) throws NullPointerException {
-
-        List<Estado> list = estadoRepository.findByNome(nome);
-
-        if (list == null)
-            throw new NullPointerException("nenhum Estado encontrado");
-
-        return list.stream()
-                    .map(EstadoResponseDTO::new)
-                    .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<EstadoResponseDTO> getBySigla(String sigla) throws NullPointerException {
-        
-        List<Estado> list = estadoRepository.findBySigla(sigla);
-
-        if (list == null)
-            throw new NullPointerException("nenhum Estado encontrado");
-
-        return list.stream()
-                    .map(EstadoResponseDTO::new)
-                    .collect(Collectors.toList());
+    public List<EstadoResponseDTO> getByNome(String nome, int page, int pageSize) {
+        List<Estado> list = estadoRepository.findByNome(nome).page(page, pageSize).list();
+        return list.stream().map(e -> EstadoResponseDTO.valueOf(e)).collect(Collectors.toList());
     }
 
     @Override
@@ -126,12 +93,10 @@ public class EstadoImplService implements EstadoService {
         return estadoRepository.count();
     }
 
-    private void validar(EstadoDTO estadoDTO) throws ConstraintViolationException {
-
-        Set<ConstraintViolation<EstadoDTO>> violations = validator.validate(estadoDTO);
-
-        if (!violations.isEmpty())
-            throw new ConstraintViolationException(violations);
-
+    @Override
+    public long countByNome(String nome) {
+        return estadoRepository.findByNome(nome).count();
     }
+
+    
 }

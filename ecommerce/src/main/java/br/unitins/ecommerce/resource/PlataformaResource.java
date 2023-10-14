@@ -80,7 +80,7 @@ public class PlataformaResource {
     }
 
     @GET
-    @Path("/searchByNome/{nome}")
+    @Path("/search/{nome}")
     @PermitAll
     public Response getByNome(@PathParam("nome") String nome) {
         List<PlataformaResponse> responseList = plataformaService.findByNome(nome);

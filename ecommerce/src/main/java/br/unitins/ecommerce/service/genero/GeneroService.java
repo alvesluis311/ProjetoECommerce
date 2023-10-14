@@ -9,7 +9,7 @@ public interface GeneroService {
 
     // Metodos basicos
     
-    List<GeneroResponseDTO> getAll();
+    List<GeneroResponseDTO> getAll(int page, int pageSize);
 
     GeneroResponseDTO getById(Long id);
 
@@ -23,6 +23,8 @@ public interface GeneroService {
 
     // Metodos extras
 
-    List<GeneroResponseDTO> findByNome(String nome);
+    List<GeneroResponseDTO> findByNome(String nome, int page, int pageSize);
+
+    long countByNome(String nome);
 
 }

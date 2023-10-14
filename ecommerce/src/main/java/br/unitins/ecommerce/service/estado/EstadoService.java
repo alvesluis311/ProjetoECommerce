@@ -6,22 +6,22 @@ import br.unitins.ecommerce.dto.estado.EstadoDTO;
 import br.unitins.ecommerce.dto.estado.EstadoResponseDTO;
 
 public interface EstadoService {
-    
-    List<EstadoResponseDTO> getAll();
-    
-    EstadoResponseDTO getById(Long id);
 
-    EstadoResponseDTO insert(EstadoDTO estadoDto);
+    List<EstadoResponseDTO> getAll(int page, int pageSize);
 
-    EstadoResponseDTO update(Long id, EstadoDTO estadoDto);
+    EstadoResponseDTO findById(Long id);
+
+    EstadoResponseDTO create(EstadoDTO dto);
+
+    EstadoResponseDTO update(Long id, EstadoDTO dto);
 
     void delete(Long id);
 
-    // Metodos extras
+    // recursos extras
 
-    List<EstadoResponseDTO> getByNome(String nome);
-
-    List<EstadoResponseDTO> getBySigla(String sigla);
+    List<EstadoResponseDTO> getByNome(String nome, int page, int pageSize);
 
     Long count();
+
+    long countByNome(String nome);
 }

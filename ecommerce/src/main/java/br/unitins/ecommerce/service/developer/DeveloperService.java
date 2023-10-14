@@ -9,7 +9,7 @@ public interface DeveloperService {
 
     // Metodos basicos
     
-    List<DeveloperResponseDTO> getAll();
+    List<DeveloperResponseDTO> getAll(int page, int pageSize);
 
     DeveloperResponseDTO getById(Long id);
 
@@ -23,6 +23,8 @@ public interface DeveloperService {
 
     // Metodos extras
 
-    List<DeveloperResponseDTO> findByNome(String nome);
+    List<DeveloperResponseDTO> findByNome(String nome, int page, int pageSize);
+
+    long countByNome(String nome);
 
 }

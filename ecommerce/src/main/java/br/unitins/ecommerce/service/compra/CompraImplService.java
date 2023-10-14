@@ -51,7 +51,7 @@ public class CompraImplService implements CompraService {
 
     @Override
     public List<CompraResponseDTO> getAll(Long idUsuario) {
-        
+
         List<Compra> list = compraRepository.findByUsuarioWhereIsFinished(usuarioRepository.findById(idUsuario));
 
         if (list == null)
@@ -62,7 +62,7 @@ public class CompraImplService implements CompraService {
 
     @Override
     public CompraResponseDTO getCompraEmAndamento(Long idUsuario) {
-        
+
         Compra compra = compraRepository.findByUsuarioWhereIsNotFinished(usuarioRepository.findById(idUsuario));
 
         if (compra == null)
@@ -74,7 +74,7 @@ public class CompraImplService implements CompraService {
     @Override
     @Transactional
     public void insertItemIntoCompra(Long idUsuario, ItemCompraDTO itemCompraDTO) throws NullPointerException {
-        
+
         Game game = validar(itemCompraDTO);
 
         Compra compra = validar(idUsuario);
@@ -107,7 +107,7 @@ public class CompraImplService implements CompraService {
     @Override
     @Transactional
     public void removeItemCompra(Long idUsuario, Long idGame) {
-        
+
         Compra compra = compraRepository.findByUsuarioWhereIsNotFinished(usuarioRepository.findById(idUsuario));
 
         if (compra == null)
@@ -123,7 +123,7 @@ public class CompraImplService implements CompraService {
     @Override
     @Transactional
     public void cancelarCompra(Long idUsuario) {
-        
+
         Compra compra = compraRepository.findByUsuarioWhereIsNotFinished(usuarioRepository.findById(idUsuario));
 
         if (compra == null)
@@ -140,33 +140,31 @@ public class CompraImplService implements CompraService {
     @Override
     public void finishCompra(Long idCompra) throws NullPointerException {
 
-        Compra compra = compraRepository.findById(idCompra);
+        // Compra compra = compraRepository.findById(idCompra);
 
-        compra.setDataCompra(LocalDate.now());
+        // compra.setDataCompra(LocalDate.now());
 
-        for (ItemCompra itemCompra : compra.getItemCompra()) {
+        // for (ItemCompra itemCompra : compra.getItemCompra()) {
 
-            if (itemCompra.getGame().getEstoque().getQtdDisponivel() < itemCompra.getQuantidade())
-                throw new NullPointerException("quantidade em estoque insuficiente para a quantidade requisitada. Não é possível finalizar a compra");
+        // if (itemCompra.getGame().getEstoque().getQtdDisponivel() <
+        // itemCompra.getQuantidade())
+        // throw new NullPointerException("quantidade em estoque insuficiente para a
+        // quantidade requisitada. Não é possível finalizar a compra");
 
-            else
-                itemCompra.getGame().getEstoque().minusEstoque(itemCompra.getQuantidade());
-        }
+        // else
+        // itemCompra.getGame().getEstoque().minusEstoque(itemCompra.getQuantidade());
+        // }
 
-
-        compra.setIfConcluida(true);
+        // compra.setIfConcluida(true);
     }
 
     @Override
     @Transactional
     public void efetuarPagamentoBoleto(Long idUsuario) throws NullPointerException {
-        
+
         Usuario usuario = usuarioRepository.findById(idUsuario);
-        
+
         Compra compra = validar(usuario);
-
-
-
 
         if (compra.getPagamento() == null)
             throw new NullPointerException("Não foi efetuado nenhum pagamento");
@@ -177,12 +175,10 @@ public class CompraImplService implements CompraService {
     @Override
     @Transactional
     public void efetuarPagamentoPix(Long idUsuario) {
-        
+
         Usuario usuario = usuarioRepository.findById(idUsuario);
-        
+
         Compra compra = validar(usuario);
-
-
 
         if (compra.getPagamento() == null)
             throw new NullPointerException("Não foi efetuado nenhum pagamento");
@@ -193,11 +189,10 @@ public class CompraImplService implements CompraService {
     @Override
     @Transactional
     public void efetuarPagamentoCartaoCredito(Long idUsuario, CartaoCreditoDTO cartaoCreditoDTO) {
-        
+
         Usuario usuario = usuarioRepository.findById(idUsuario);
 
         Compra compra = validar(usuario);
-
 
         if (compra.getPagamento() == null)
             throw new NullPointerException("Não foi efetuado nenhum pagamento");
@@ -221,7 +216,7 @@ public class CompraImplService implements CompraService {
     private Integer validar(Game game, List<ItemCompra> listaItens) {
 
         for (int i = 0; i < listaItens.size(); i++) {
-            
+
             if (listaItens.get(i).contains(game))
                 return i;
         }
@@ -249,11 +244,12 @@ public class CompraImplService implements CompraService {
     private Game validar(ItemCompraDTO itemCompraDTO) throws NullPointerException {
 
         Game game = gameRepository.findById(itemCompraDTO.idGame());
+        return game;
+        // if (game.getEstoque().getQtdDisponivel() > itemCompraDTO.quantidade())
+        // return game;
 
-        if (game.getEstoque().getQtdDisponivel() > itemCompraDTO.quantidade())
-            return game;
-
-        else
-            throw new NullPointerException("quantidade em estoque insuficiente para a quantidade requisitada");
+        // else
+        // throw new NullPointerException("quantidade em estoque insuficiente para a
+        // quantidade requisitada");
     }
 }

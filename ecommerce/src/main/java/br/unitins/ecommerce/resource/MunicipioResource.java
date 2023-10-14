@@ -152,14 +152,14 @@ public class MunicipioResource {
         return municipioService.getByNome(nome);
     }
 
-    @GET
-    @Path("/searchByNomeEstado/{nomeEstado}")
-    @PermitAll
-    public List<MunicipioResponseDTO> getByNomeEstado(@PathParam("nomeEstado") String nomeEstado) throws NullPointerException {
-        LOG.infof("Buscando município por nome do estado.", nomeEstado);
-        LOG.debug("ERRO DE DEBUG.");
-        return municipioService.getByNomeEstado(nomeEstado);
-    }
+    // @GET
+    // @Path("/searchByNomeEstado/{nomeEstado}")
+    // @PermitAll
+    // public List<MunicipioResponseDTO> getByNomeEstado(@PathParam("nomeEstado") String nomeEstado) throws NullPointerException {
+    //     LOG.infof("Buscando município por nome do estado.", nomeEstado);
+    //     LOG.debug("ERRO DE DEBUG.");
+    //     return municipioService.getByNomeEstado(nomeEstado);
+    // }
 
     @GET
     @PermitAll

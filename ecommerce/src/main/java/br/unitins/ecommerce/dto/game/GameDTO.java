@@ -2,10 +2,15 @@ package br.unitins.ecommerce.dto.game;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import br.unitins.ecommerce.dto.Input;
 
 
 public record GameDTO (
@@ -21,8 +26,7 @@ public record GameDTO (
     Double preco,
 
     @NotNull
-    @Min(0)
-    Integer qtdDisponivel,
+    Integer estoque,
 
     String diretor,
 
@@ -30,13 +34,13 @@ public record GameDTO (
     Integer anoLancamento,
 
     @NotNull
-    Long idDeveloper,
+    Input developer,
     
-    @NotNull
-    List<Long> idGeneros,
+    @NotEmpty
+    List<Input> generos,
 
-    @NotNull
-    List<Long> idPlataformas
+    @NotEmpty
+    List<Input> plataformas
     )
     {
 
